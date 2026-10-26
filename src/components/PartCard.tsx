@@ -44,12 +44,12 @@ export function PartCard({
       className={cn(
         'group relative flex min-w-0 flex-col rounded-2xl border p-3.5 transition-all duration-[var(--dur-fast)] ease-(--ease-emerge) sm:p-4',
         selected
-          ? 'border-brand-500/45 bg-brand-500/[0.055] shadow-[0_0_0_1px_rgba(16,185,129,0.08)] translate-y-[-2px]'
+          ? 'border-brand-500/45 bg-brand-500/[0.055] shadow-[0_0_0_1px_rgba(16,185,129,0.08)]'
           : 'border-white/[0.065] bg-white/[0.022] hover:-translate-y-0.5 hover:border-white/15 hover:bg-white/[0.04]',
       )}
     >
       {selected ? (
-        <span className="animate-check-pop absolute -right-1.5 -top-1.5 grid size-6 place-items-center rounded-full bg-brand-500 text-ink-950 shadow-lg shadow-brand-950/40">
+        <span className="absolute -right-1.5 -top-1.5 grid size-6 place-items-center rounded-full bg-brand-500 text-ink-950 shadow-lg shadow-brand-950/40">
           <Check className="size-3.5" strokeWidth={3} aria-hidden />
         </span>
       ) : null}
@@ -120,7 +120,7 @@ export function PartCard({
           className={cn(
             'btn min-h-10 min-w-24 px-3 text-xs',
             confirming
-              ? 'animate-add-confirm pointer-events-none border border-brand-500/40 bg-brand-500 text-ink-950'
+              ? 'pointer-events-none border border-brand-500/40 bg-brand-500 text-ink-950'
               : selected
                 ? 'border border-white/10 bg-white/[0.04] text-slate-300 hover:border-rose-500/30 hover:bg-rose-500/10 hover:text-rose-200'
                 : 'bg-brand-500 text-ink-950 hover:bg-brand-400',
@@ -131,7 +131,7 @@ export function PartCard({
               <Check className="size-3.5" strokeWidth={3} aria-hidden /> Agregado
             </>
           ) : selected ? (
-            <span className="animate-fade inline-flex items-center gap-1.5">
+            <span className="inline-flex items-center gap-1.5">
               <X className="size-3.5" aria-hidden /> Quitar
             </span>
           ) : (
