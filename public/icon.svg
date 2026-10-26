@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#0b0d13"/>
+  <rect x="1" y="1" width="510" height="6" fill="#10b981" opacity="0.9"/>
+  <!-- chip central -->
+  <rect x="156" y="156" width="200" height="200" rx="28" fill="none" stroke="#10b981" stroke-width="14"/>
+  <rect x="216" y="216" width="80" height="80" rx="12" fill="#10b981"/>
+  <!-- pines -->
+  <g stroke="#34d399" stroke-width="14" stroke-linecap="round">
+    <line x1="196" y1="120" x2="196" y2="146"/>
+    <line x1="256" y1="120" x2="256" y2="146"/>
+    <line x1="316" y1="120" x2="316" y2="146"/>
+    <line x1="196" y1="366" x2="196" y2="392"/>
+    <line x1="256" y1="366" x2="256" y2="392"/>
+    <line x1="316" y1="366" x2="316" y2="392"/>
+    <line x1="120" y1="196" x2="146" y2="196"/>
+    <line x1="120" y1="256" x2="146" y2="256"/>
+    <line x1="120" y1="316" x2="146" y2="316"/>
+    <line x1="366" y1="196" x2="392" y2="196"/>
+    <line x1="366" y1="256" x2="392" y2="256"/>
+    <line x1="366" y1="316" x2="392" y2="316"/>
+  </g>
+</svg>

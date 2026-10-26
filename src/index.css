@@ -1,0 +1,374 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', monospace;
+
+  /* Sistema de movimiento: una sola fuente de verdad para duraciones y easing. */
+  --ease-emerge: cubic-bezier(0.22, 1, 0.36, 1);
+  --color-ink-950: #07080c;
+  --color-ink-900: #0b0d13;
+  --color-ink-850: #0e1118;
+  --color-ink-800: #131722;
+  --color-ink-700: #1b2130;
+
+  --color-brand-300: #6ee7b7;
+  --color-brand-400: #34d399;
+  --color-brand-500: #10b981;
+  --color-brand-600: #059669;
+
+  /* Escala tipográfica semántica. Sin line-height propio para que el
+     comportamiento sea idéntico al text-[Npx] que reemplaza. */
+  --text-micro: 0.625rem; /* 10px: etiquetas y micro-datos */
+  --text-caption: 0.6875rem; /* 11px: hints, contadores y metadatos */
+  --text-metric: 0.9375rem; /* 15px: títulos de tarjeta y métricas destacadas */
+}
+
+@layer base {
+  :root {
+    --dur-fast: 160ms;
+    --dur-med: 280ms;
+  }
+
+  html {
+    color-scheme: dark;
+    scrollbar-color: #2a3142 transparent;
+  }
+
+  body {
+    @apply bg-ink-950 font-sans text-slate-300 antialiased;
+    background-image:
+      radial-gradient(900px 520px at 10% -8%, rgba(16, 185, 129, 0.13), transparent 62%),
+      radial-gradient(760px 480px at 96% 2%, rgba(56, 189, 248, 0.09), transparent 58%),
+      linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+    background-size: auto, auto, 48px 48px, 48px 48px;
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background: rgba(16, 185, 129, 0.32);
+    color: #ecfdf5;
+  }
+
+  :focus-visible {
+    outline: 2px solid rgba(52, 211, 153, 0.7);
+    outline-offset: 2px;
+  }
+
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type='number'] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+}
+
+@layer components {
+  .panel {
+    @apply rounded-2xl border border-white/[0.07] bg-ink-900/75 backdrop-blur-sm;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.035),
+      0 24px 60px -36px rgba(0, 0, 0, 0.95);
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-45;
+  }
+
+  .btn-primary {
+    @apply bg-brand-500 text-ink-950 hover:bg-brand-400;
+  }
+
+  .btn-ghost {
+    @apply border border-white/10 bg-white/[0.03] text-slate-200 hover:border-white/20 hover:bg-white/[0.06];
+  }
+
+  .btn-subtle {
+    @apply text-slate-400 hover:bg-white/5 hover:text-white;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-md border border-white/[0.07] bg-white/[0.03] px-1.5 py-0.5 text-caption leading-5 text-slate-400;
+  }
+
+  /* Colores de estado para chips, reutilizables junto a .chip o .badge. */
+  .chip-ok {
+    @apply border-emerald-500/20 text-emerald-300;
+  }
+
+  .chip-warn {
+    @apply border-amber-500/25 text-amber-300;
+  }
+
+  .chip-bad {
+    @apply border-rose-500/25 text-rose-300;
+  }
+
+  .chip-brand {
+    @apply border-brand-500/20 text-brand-300;
+  }
+
+  /* Colores de estado para badges con fondo (pills de compatibilidad). */
+  .badge-ok {
+    @apply border-emerald-500/25 bg-emerald-500/10 text-emerald-300;
+  }
+
+  .badge-warn {
+    @apply border-amber-500/25 bg-amber-500/10 text-amber-300;
+  }
+
+  .badge-bad {
+    @apply border-rose-500/25 bg-rose-500/10 text-rose-300;
+  }
+
+  .badge-brand {
+    @apply border-brand-500/30 bg-brand-500/10 text-brand-300;
+  }
+
+  .badge-neutral {
+    @apply border-white/10 bg-white/[0.04] text-slate-400;
+  }
+
+  /* Cajas de aviso dentro de diálogos y paneles. Combinar con .note. */
+  .note {
+    @apply rounded-xl border px-3 py-2.5 text-xs leading-5;
+  }
+
+  .note-ok {
+    @apply border-emerald-500/15 bg-emerald-500/[0.05] text-emerald-300/90;
+  }
+
+  .note-warn {
+    @apply border-amber-500/20 bg-amber-500/[0.06] text-amber-200;
+  }
+
+  .note-bad {
+    @apply border-rose-500/20 bg-rose-500/[0.06] text-rose-200;
+  }
+
+  .note-info {
+    @apply border-sky-500/15 bg-sky-500/[0.06] text-sky-200/90;
+  }
+
+  .field {
+    @apply w-full rounded-xl border border-white/10 bg-ink-950/70 px-3 py-2 text-sm text-slate-100 placeholder:text-slate-600 focus:border-brand-500/60 focus:outline-none;
+  }
+
+  .label {
+    @apply text-caption font-semibold uppercase tracking-[0.14em] text-slate-400;
+  }
+
+  .scroll-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #2a3142 transparent;
+  }
+
+  .scroll-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scroll-thin::-webkit-scrollbar-thumb {
+    background: #2a3142;
+    border-radius: 999px;
+  }
+
+  .scroll-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Confirmación al agregar: el botón se convierte en tilde, sube y se desvanece. */
+@keyframes add-confirm {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  25% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.06);
+  }
+  75% {
+    opacity: 0.85;
+    transform: translateY(-4px) scale(1.06);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.9);
+    max-height: 0;
+    padding: 0;
+  }
+}
+
+@keyframes check-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.4) rotate(-10deg);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.18) rotate(4deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+
+.animate-rise {
+  animation: rise var(--dur-med) var(--ease-emerge) both;
+}
+
+.animate-toast {
+  animation: toast-in 0.22s ease-out both;
+}
+
+/* Se usa con key={activeCategory} para que el cambio de categoría entre suave. */
+.animate-fade {
+  animation: fade-in var(--dur-fast) var(--ease-emerge) both;
+}
+
+.animate-add-confirm {
+  animation: add-confirm 480ms var(--ease-emerge) both;
+}
+
+.animate-check-pop {
+  animation: check-pop 320ms var(--ease-emerge) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise,
+  .animate-toast,
+  .animate-fade,
+  .animate-add-confirm,
+  .animate-check-pop {
+    animation: none;
+  }
+}
+
+/* -------------------------------------------------------------------- */
+/* Impresión (Ctrl+P): al aire una lista limpia de la build para PDF o   */
+/* papel. Todo se resuelve con CSS: no hace falta botón dedicado.        */
+/* -------------------------------------------------------------------- */
+@media print {
+  :root {
+    --dur-fast: 1ms;
+    --dur-med: 1ms;
+  }
+
+  html {
+    color-scheme: light;
+    background: #ffffff;
+  }
+
+  body {
+    background: #ffffff !important;
+  }
+
+  /* Header sticky, footer y diálogos abiertos no van al papel. */
+  header,
+  footer,
+  [role='dialog'],
+  article {
+    display: none !important;
+  }
+
+  /* Todos los controles desaparecen: queda solo el contenido. */
+  button,
+  input,
+  select,
+  button[hidden] {
+    display: none !important;
+  }
+
+  .sticky {
+    position: static !important;
+  }
+
+  .scroll-thin {
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  main {
+    max-width: none !important;
+    padding: 0 !important;
+  }
+
+  main > div {
+    display: block !important;
+    gap: 0 !important;
+  }
+
+  aside {
+    display: block !important;
+    margin-bottom: 1.5rem !important;
+    break-inside: avoid;
+  }
+
+  .panel {
+    background: #ffffff !important;
+    box-shadow: none !important;
+    break-inside: avoid;
+  }
+
+  main,
+  main * {
+    color: #0f172a !important;
+    text-shadow: none !important;
+    border-color: #e2e8f0 !important;
+  }
+
+  .chip,
+  .badge-brand,
+  .badge-ok,
+  .note,
+  .note-ok,
+  .note-info {
+    background: transparent !important;
+  }
+
+  /* Los iconos decorativos lucide no aportan info en papel. */
+  svg[aria-hidden='true'][class*='size-'] {
+    display: none !important;
+  }
+}

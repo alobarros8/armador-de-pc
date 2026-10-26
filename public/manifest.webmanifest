@@ -1,0 +1,25 @@
+{
+  "name": "Armador de PC · AMD & Intel",
+  "short_name": "Armador PC",
+  "description": "Armá tu PC componente por componente. Catálogo AMD e Intel con validación de compatibilidad, precios en pesos y sugerencias por presupuesto.",
+  "lang": "es",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#07080c",
+  "theme_color": "#08090d",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

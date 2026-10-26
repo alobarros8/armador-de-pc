@@ -1,0 +1,758 @@
+{
+  "version": 1,
+  "source": "https://compragamer.com",
+  "downloaded": "2026-10-26",
+  "images": {
+    "hdd-2tb": {
+      "cgId": 21579,
+      "file": "56525_Disco_Rigido_WD_2TB_Purple_64MB_SATA_5400RPM._b1b75de4-grn.jpg",
+      "name": "Disco Rigido WD 2TB Purple 64MB SATA 5400RPM."
+    },
+    "hdd-4tb": {
+      "cgId": 21391,
+      "file": "56073_Disco_Rigido_WD_4TB_Purple_256MB_SATA_5400RPM_9a2cb540-grn.jpg",
+      "name": "Disco Rigido WD 4TB Purple 256MB SATA 5400RPM"
+    },
+    "sata-1tb": {
+      "cgId": 22285,
+      "file": "59425_Disco_S__lido_SSD_Sandisk_1TB_Plus_SATA_545MB_s_eeddaef8-grn.jpg",
+      "name": "Disco Sólido SSD Sandisk 1TB Plus SATA 545MB/s"
+    },
+    "extra-chair": {
+      "cgId": 21501,
+      "file": "56361_Silla_Gamer_ADATA_XPG_Nexus_Tela_Impermeable_Black_2D__Peso_MAX._125kg__e3db16d7-grn.jpg",
+      "name": "Silla Gamer ADATA XPG Nexus Tela Impermeable Black 2D (Peso MAX. 125kg)"
+    },
+    "mouse-deathadder": {
+      "cgId": 16418,
+      "file": "42348_Mouse_Razer_DeathAdder_Essential_Ergonomic_Black_ed172a63-grn.jpg",
+      "name": "Mouse Razer DeathAdder Essential Ergonomic Black"
+    },
+    "xyz-airone-70": {
+      "cgId": 21833,
+      "file": "57794_Gabinete_XYZ_Airone_70_Mesh_Black_4x120mm_ARGB_Fans_USB-C_Vidrio_Templado_16f876fc-grn.jpg",
+      "name": "Gabinete XYZ Airone 70 Mesh Black 4x120mm ARGB Fans USB-C Vidrio Templado"
+    },
+    "antec-flux": {
+      "cgId": 21773,
+      "file": "57581_Gabinete_Antec_Flux_Rear_3x140mm_ARGB_PWM_Fans_2x120mm_PWM_fans_Mesh_Vidrio_Templado_Wood_b675812a-grn.jpg",
+      "name": "Gabinete Antec Flux Rear 3x140mm ARGB PWM Fans 2x120mm PWM fans Mesh Vidrio Templado Wood"
+    },
+    "extra-mousepad": {
+      "cgId": 14025,
+      "file": "34309_Mouse_Pad_Redragon_Flick_L_P031_400x450mm_02ef993a-grn.jpg",
+      "name": "Mouse Pad Redragon Flick L P031 400x450mm"
+    },
+    "headset-stinger2": {
+      "cgId": 15913,
+      "file": "40775_Auriculares_HyperX_Cloud_Stinger_2_Black_fbf24d33-grn.jpg",
+      "name": "Auriculares HyperX Cloud Stinger 2 Black"
+    },
+    "headset-nova7": {
+      "cgId": 19254,
+      "file": "50095_Auriculares_SteelSeries_Arctis_Nova_7_Gen_2_Wireless_2.4Ghz_Bluetooth_5.0_ClearCast_Gen_2_50Hs_ba2835f6-grn.jpg",
+      "name": "Auriculares SteelSeries Arctis Nova 7 Gen 2 Wireless 2.4Ghz Bluetooth 5.0 ClearCast Gen 2 50Hs"
+    },
+    "ddr5-16-5600": {
+      "cgId": 16112,
+      "file": "41240_Memoria_Corsair_DDR5_16GB_5600MHz_Vengeance_CL40_Intel_XMP_3.0_f0d6626c-grn.jpg",
+      "name": "Memoria Corsair DDR5 16GB 5600MHz Vengeance CL40 Intel XMP 3.0"
+    },
+    "asus-1200-gold": {
+      "cgId": 22310,
+      "file": "59437_Fuente_ASUS_TUF_Gaming_1200W_EVO_80_Plus_Gold_1200G_Full_Modular_ATX_3.1_PCIe_5.1__6343f4b0-grn.jpg",
+      "name": "Fuente ASUS TUF Gaming 1200W EVO 80 Plus Gold 1200G Full Modular ATX 3.1 PCIe 5.1 "
+    },
+    "mouse-superlight": {
+      "cgId": 15655,
+      "file": "39713_Mouse_Logitech_G_PRO_X_Superlight_2_Lightspeed_Hero_2_8000Hz_White_44K_60g_95Hs_bf371059-grn.jpg",
+      "name": "Mouse Logitech G PRO X Superlight 2 Lightspeed Hero 2 8000Hz White 44K 60g 95Hs"
+    },
+    "ddr4-16-3600-kit": {
+      "cgId": 17293,
+      "file": "44801_Memoria_Patriot_Viper_DDR4_16GB__2x8GB__3600MHz_Steel_CL17_dad5460c-grn.jpg",
+      "name": "Memoria Patriot Viper DDR4 16GB (2x8GB) 3600MHz Steel CL17"
+    },
+    "ddr5-16-6000": {
+      "cgId": 21429,
+      "file": "56278_Memoria_KLEVV_DDR5_16GB_6000MHz_FIT_V_CL30_9aa0dca4-grn.jpg",
+      "name": "Memoria KLEVV DDR5 16GB 6000MHz FIT V CL30"
+    },
+    "ddr5-16-6000-kit": {
+      "cgId": 21752,
+      "file": "57475_Memoria_KLEVV_DDR5_16GB__2x8GB__6000MHz_FIT_V_CL30_Black_c40e7a02-grn.jpg",
+      "name": "Memoria KLEVV DDR5 16GB (2x8GB) 6000MHz FIT V CL30 Black"
+    },
+    "ddr5-32-6000-kit": {
+      "cgId": 20201,
+      "file": "53141_Memoria_KLEVV_DDR5_32GB__2x16GB__6000MHz_FIT_V_CL30_IC_Hynix_8c21f35a-grn.jpg",
+      "name": "Memoria KLEVV DDR5 32GB (2x16GB) 6000MHz FIT V CL30 IC Hynix"
+    },
+    "ddr5-32-6400-kit": {
+      "cgId": 21283,
+      "file": "55992_Memoria_Patriot_DDR5_32GB__2x16GB__6400MHz_Viper_Venom_CL32_00139bfd-grn.jpg",
+      "name": "Memoria Patriot DDR5 32GB (2x16GB) 6400MHz Viper Venom CL32"
+    },
+    "ddr5-48-6000-kit": {
+      "cgId": 21859,
+      "file": "59395_Memoria_KLEVV_DDR5_48GB__2X24GB__6000MHz_URBANE_V_RGB_CL30_9d6d105c-grn.jpg",
+      "name": "Memoria KLEVV DDR5 48GB (2X24GB) 6000MHz URBANE V RGB CL30"
+    },
+    "ddr5-64-6000-kit": {
+      "cgId": 21432,
+      "file": "56282_Memoria_KLEVV_DDR5_64GB__2X32GB__6000MHz_BOLT_V_CL30_18325e9a-grn.jpg",
+      "name": "Memoria KLEVV DDR5 64GB (2X32GB) 6000MHz BOLT V CL30"
+    },
+    "asrock-750-gold": {
+      "cgId": 18173,
+      "file": "47331_Fuente_Asrock_750W_80_Plus_Gold_Steel_Legend_Full_Modular_ATX_3.1_PCIe_5.1_Cybenetics_Platinum_31ace62b-grn.jpg",
+      "name": "Fuente Asrock 750W 80 Plus Gold Steel Legend Full Modular ATX 3.1 PCIe 5.1 Cybenetics Platinum"
+    },
+    "asrock-850-gold": {
+      "cgId": 18172,
+      "file": "47335_Fuente_Asrock_850W_80_Plus_Gold_Steel_Legend_Full_Modular_ATX_3.1_PCIe_5.1_Cybenetics_Platinum_008f9b8f-grn.jpg",
+      "name": "Fuente Asrock 850W 80 Plus Gold Steel Legend Full Modular ATX 3.1 PCIe 5.1 Cybenetics Platinum"
+    },
+    "asrock-1000-gold": {
+      "cgId": 18171,
+      "file": "47339_Fuente_Asrock_1000W_80_Plus_Gold_Steel_Legend_Full_Modular_ATX_3.1_PCIe_5.1_Cybenetics_Platinum_edaae5d0-grn.jpg",
+      "name": "Fuente Asrock 1000W 80 Plus Gold Steel Legend Full Modular ATX 3.1 PCIe 5.1 Cybenetics Platinum"
+    },
+    "mon-27-fhd-180": {
+      "cgId": 18136,
+      "file": "47255_Monitor_Gamer_AsRock_Phantom_PG27FFT1A_27__FHD_IPS_180Hz_FreeSync_dc63bbf7-grn.jpg",
+      "name": "Monitor Gamer AsRock Phantom PG27FFT1A 27\" FHD IPS 180Hz FreeSync"
+    },
+    "mon-27-qhd-180": {
+      "cgId": 18702,
+      "file": "49083_Monitor_Gamer_Samsung_Odyssey_OLED_G5_G50SF_27__QHD_QD-OLED_180Hz_0.03ms_FreeSync_G-SYNC_Compatible_HDR10_LS27FG500SLXZB_378eb8c5-grn.jpg",
+      "name": "Monitor Gamer Samsung Odyssey OLED G5 G50SF 27\" QHD QD-OLED 180Hz 0.03ms FreeSync G-SYNC Compatible HDR10 LS27FG500SLXZB"
+    },
+    "extra-ups-800": {
+      "cgId": 13471,
+      "file": "47234_UPS_con_Estabilizador_Lyonn_Ctb_800ap_800v_Display_Lcd_5b9713ba-grn.jpg",
+      "name": "UPS con Estabilizador Lyonn Ctb 800ap 800v Display Lcd"
+    },
+    "extra-ups-1500": {
+      "cgId": 14563,
+      "file": "36530_UPS_con_Estabilizador_Lyonn_Ctb_1500ap_1500v_Display_Lcd_66c750a9-grn.jpg",
+      "name": "UPS con Estabilizador Lyonn Ctb 1500ap 1500v Display Lcd"
+    },
+    "ddr4-8-3200": {
+      "cgId": 13905,
+      "file": "33872_Memoria_Team_DDR4_8GB_3200MHz_T-Force_Vulcan_Z_Grey_CL16_07ea04cc-grn.jpg",
+      "name": "Memoria Team DDR4 8GB 3200MHz T-Force Vulcan Z Grey CL16"
+    },
+    "ddr4-16-3200": {
+      "cgId": 21696,
+      "file": "57420_Memoria_G.Skill_DDR4_16GB_3200MHz_RIPJAWS_V_CL16_XMP_2.0_e5356d65-grn.jpg",
+      "name": "Memoria G.Skill DDR4 16GB 3200MHz RIPJAWS V CL16 XMP 2.0"
+    },
+    "ddr4-16-3200-kit": {
+      "cgId": 18365,
+      "file": "47875_Memoria_G.Skill_DDR4_16GB__2x8GB__3200MHz_RIPJAWS_V_Black_CL16_XMP_2.0_2d95206e-grn.jpg",
+      "name": "Memoria G.Skill DDR4 16GB (2x8GB) 3200MHz RIPJAWS V Black CL16 XMP 2.0"
+    },
+    "ddr4-32-3200-kit": {
+      "cgId": 18368,
+      "file": "47871_Memoria_G.Skill_DDR4_32GB__2x16GB__3200MHz_RIPJAWS_V_Black_CL16_XMP_2.0_2d95206e-grn.jpg",
+      "name": "Memoria G.Skill DDR4 32GB (2x16GB) 3200MHz RIPJAWS V Black CL16 XMP 2.0"
+    },
+    "ddr4-32-3600-kit": {
+      "cgId": 17674,
+      "file": "46232_Memoria_G.Skill_DDR4_32GB__2x16GB__3600MHz_RIPJAWS_V_CL18_XMP_2.0_2d95206e-grn.jpg",
+      "name": "Memoria G.Skill DDR4 32GB (2x16GB) 3600MHz RIPJAWS V CL18 XMP 2.0"
+    },
+    "antec-650-bronze": {
+      "cgId": 18257,
+      "file": "47517_Fuente_Antec_650W_80_Plus_Bronze_ATX_3.1_PCIe_5.1_CSK650DC_AR_2cc20379-grn.jpg",
+      "name": "Fuente Antec 650W 80 Plus Bronze ATX 3.1 PCIe 5.1 CSK650DC AR"
+    },
+    "antec-750-bronze": {
+      "cgId": 18258,
+      "file": "47510_Fuente_Antec_750W_80_Plus_Bronze_ATX_3.1_PCIe_5.1_CSK750DC_AR_b4da5399-grn.jpg",
+      "name": "Fuente Antec 750W 80 Plus Bronze ATX 3.1 PCIe 5.1 CSK750DC AR"
+    },
+    "antec-vx310": {
+      "cgId": 18607,
+      "file": "49032_Gabinete_Antec_VX310_RGB_Black_4x120mm_Vidrio_Templado__31172fec-grn.jpg",
+      "name": "Gabinete Antec VX310 RGB Black 4x120mm Vidrio Templado "
+    },
+    "kb-alloy-origins": {
+      "cgId": 9362,
+      "file": "39196_Teclado_Mecanico_HyperX_Alloy_Origins_Core_RGB_Switch_Red_US_5dfa8f9a-grn.jpg",
+      "name": "Teclado Mecanico HyperX Alloy Origins Core RGB Switch Red US"
+    },
+    "mouse-m170": {
+      "cgId": 6708,
+      "file": "9651_Mouse_Logitech_M170_Wireless_Black_6cd1946e-grn.jpg",
+      "name": "Mouse Logitech M170 Wireless Black"
+    },
+    "asus-tuf-b650-plus-wifi": {
+      "cgId": 14568,
+      "file": "36564_Mother_ASUS_TUF_B650M-PLUS_WIFI_cc9762ae-grn.jpg",
+      "name": "Mother ASUS TUF B650M-PLUS WIFI"
+    },
+    "asrock-h610m-hdv": {
+      "cgId": 16446,
+      "file": "42084_Mother_Asrock_H610M-HDV_M2_R2.0_DDR4_S1700_accfa6d4-grn.jpg",
+      "name": "Mother Asrock H610M-HDV/M2 R2.0 DDR4 S1700"
+    },
+    "asus-a21": {
+      "cgId": 15635,
+      "file": "39644_Gabinete_ASUS_A21_Mesh_Vidrio_Templado_Black_95bb4d1f-grn.jpg",
+      "name": "Gabinete ASUS A21 Mesh Vidrio Templado Black"
+    },
+    "antec-a35": {
+      "cgId": 21780,
+      "file": "57636_Cooler_CPU_Antec_A35_FRGB_PWM_Silent_Fan_21fbe8b7-grn.jpg",
+      "name": "Cooler CPU Antec A35 FRGB PWM Silent Fan"
+    },
+    "kb-k509": {
+      "cgId": 8619,
+      "file": "33398_Teclado_Redragon_K509_Dyaus_Espa__ol_Retroiluminado_7_Colores_8b303511-grn.jpg",
+      "name": "Teclado Redragon K509 Dyaus Español Retroiluminado 7 Colores"
+    },
+    "kb-k617": {
+      "cgId": 17186,
+      "file": "59363_Teclado_MagneticoMecanico_Redragon_K617_Fizz_60__Rapid_Trigger_8K_Hz_Black_RGB_a74c95ee-grn.jpg",
+      "name": "Teclado MagneticoMecanico Redragon K617 Fizz 60% Rapid Trigger 8K Hz Black RGB"
+    },
+    "kb-k552": {
+      "cgId": 7353,
+      "file": "8903_Teclado_Mecanico_Redragon_Kumara_K552_RGB_Outemu_Red_ESP_2e7c11dd-grn.jpg",
+      "name": "Teclado Mecanico Redragon Kumara K552 RGB Outemu Red ESP"
+    },
+    "mouse-g305": {
+      "cgId": 7738,
+      "file": "10585_Mouse_Logitech_G305_Wireless_2.4Ghz_Lightspeed_Hero_Black_99g_250Hs_a0fa0a4d-grn.jpg",
+      "name": "Mouse Logitech G305 Wireless 2.4Ghz Lightspeed Hero Black 99g 250Hs"
+    },
+    "mouse-g502": {
+      "cgId": 12787,
+      "file": "38052_Mouse_Logitech_G502_Gaming_High_Performance_LightSync_Hero_25K_121g_RGB_2f8a1691-grn.jpg",
+      "name": "Mouse Logitech G502 Gaming High Performance LightSync Hero 25K 121g RGB"
+    },
+    "headset-h120": {
+      "cgId": 7913,
+      "file": "11163_Auriculares_Redragon_Ares_H120_PC_978c684a-grn.jpg",
+      "name": "Auriculares Redragon Ares H120 PC"
+    },
+    "headset-h320": {
+      "cgId": 9844,
+      "file": "17681_Auriculares_Redragon_Lamia_H320_RGB_7.1_Black_49c998dc-grn.jpg",
+      "name": "Auriculares Redragon Lamia H320 RGB 7.1 Black"
+    },
+    "headset-stinger-wireless": {
+      "cgId": 11590,
+      "file": "24258_Auriculares_HyperX_Cloud_Stinger_Core_Wireless_2.4Ghz_White_PC_PS_17Hs_617a97b1-grn.jpg",
+      "name": "Auriculares HyperX Cloud Stinger Core Wireless 2.4Ghz White PC/PS 17Hs"
+    },
+    "extra-fans": {
+      "cgId": 19098,
+      "file": "50008_Cooler_Fan_ID-Cooling_XF-120-ARGB-K_30086c3b-grn.jpg",
+      "name": "Cooler Fan ID-Cooling XF-120-ARGB-K"
+    },
+    "extra-speakers": {
+      "cgId": 13810,
+      "file": "33485_Parlante_Barra_de_Sonido_Redragon_GS570_Darknet_RGB_7de1cdbd-grn.jpg",
+      "name": "Parlante Barra de Sonido Redragon GS570 Darknet RGB"
+    },
+    "amd-r3-3200g": {
+      "cgId": 8647,
+      "file": "16752_Procesador_AMD_Ryzen_3_3200G_4.0GHz_Turbo___Radeon_Vega_8_AM4___Wraith_Stealth_Cooler_f414a507-grn.jpg",
+      "name": "Procesador AMD Ryzen 3 3200G 4.0GHz Turbo + Radeon Vega 8 AM4 + Wraith Stealth Cooler"
+    },
+    "amd-r5-5500": {
+      "cgId": 13359,
+      "file": "31696_Procesador_AMD_Ryzen_5_5500_4.2GHz_Turbo_AM4___Wraith_Stealth_Cooler_ca9fc7de-grn.jpg",
+      "name": "Procesador AMD Ryzen 5 5500 4.2GHz Turbo AM4 + Wraith Stealth Cooler"
+    },
+    "amd-r5-5600gt": {
+      "cgId": 15739,
+      "file": "39930_Procesador_AMD_Ryzen_5_5600GT_4.6GHz_Turbo_AM4___Wraith_Stealth_Cooler_edcf5ff4-grn.jpg",
+      "name": "Procesador AMD Ryzen 5 5600GT 4.6GHz Turbo AM4 + Wraith Stealth Cooler"
+    },
+    "amd-r7-5700x": {
+      "cgId": 13355,
+      "file": "31690_Procesador_AMD_Ryzen_7_5700X_4.6GHz_Turbo_AM4_-_No_incluye_Cooler_df22f6d7-grn.jpg",
+      "name": "Procesador AMD Ryzen 7 5700X 4.6GHz Turbo AM4 - No incluye Cooler"
+    },
+    "amd-r7-5700g": {
+      "cgId": 12369,
+      "file": "49114_Procesador_AMD_Ryzen_7_5700G_4.6GHz_Turbo_AM4___Wraith_Stealth_Cooler_cb33e4fa-grn.jpg",
+      "name": "Procesador AMD Ryzen 7 5700G 4.6GHz Turbo AM4 + Wraith Stealth Cooler"
+    },
+    "amd-r7-5800x3d": {
+      "cgId": 21020,
+      "file": "55494_Procesador_AMD_Ryzen_7_5800X3D_4.5GHz_Turbo_AM4_10th_Anniversary_Edition_c4f9572a-grn.jpg",
+      "name": "Procesador AMD Ryzen 7 5800X3D 4.5GHz Turbo AM4 10th Anniversary Edition"
+    },
+    "amd-r5-8500g": {
+      "cgId": 15473,
+      "file": "49129_Procesador_AMD_Ryzen_5_8500G_5.0GHz_Turbo_AM5___Wraith_Stealth_Cooler_f1bd9500-grn.jpg",
+      "name": "Procesador AMD Ryzen 5 8500G 5.0GHz Turbo AM5 + Wraith Stealth Cooler"
+    },
+    "amd-r5-8600g": {
+      "cgId": 15206,
+      "file": "49127_Procesador_AMD_Ryzen_5_8600G_5.0GHz_Turbo_AM5___Wraith_Stealth_Cooler_f1bd9500-grn.jpg",
+      "name": "Procesador AMD Ryzen 5 8600G 5.0GHz Turbo AM5 + Wraith Stealth Cooler"
+    },
+    "amd-r5-7600x": {
+      "cgId": 14066,
+      "file": "34349_Procesador_AMD_Ryzen_5_7600X_5.3GHz_Turbo_AM5_-_No_incluye_Cooler_-_C_VIDEO_cf0124c7-grn.jpg",
+      "name": "Procesador AMD Ryzen 5 7600X 5.3GHz Turbo AM5 - No incluye Cooler - C/VIDEO"
+    },
+    "amd-r5-9600x": {
+      "cgId": 16099,
+      "file": "41015_Procesador_AMD_Ryzen_5_9600X_5.4GHz_Turbo_AM5_-_No_Incluye_Cooler_92cb3eb1-grn.jpg",
+      "name": "Procesador AMD Ryzen 5 9600X 5.4GHz Turbo AM5 - No Incluye Cooler"
+    },
+    "amd-r7-9700x": {
+      "cgId": 16037,
+      "file": "49136_Procesador_AMD_Ryzen_7_9700X_5.5GHz_Turbo_AM5_-_No_Incluye_Cooler_957690b1-grn.jpg",
+      "name": "Procesador AMD Ryzen 7 9700X 5.5GHz Turbo AM5 - No Incluye Cooler"
+    },
+    "amd-r7-7800x3d": {
+      "cgId": 14664,
+      "file": "36870_Procesador_AMD_Ryzen_7_7800X3D_5.0GHz_Turbo_AM5_-_No_incluye_cooler_ce1f39a0-grn.jpg",
+      "name": "Procesador AMD Ryzen 7 7800X3D 5.0GHz Turbo AM5 - No incluye cooler"
+    },
+    "amd-r7-9800x3d": {
+      "cgId": 16708,
+      "file": "49153_Procesador_AMD_Ryzen_7_9800X3D_5.2GHz_Turbo_AM5_-_No_Incluye_Cooler_a75181d2-grn.jpg",
+      "name": "Procesador AMD Ryzen 7 9800X3D 5.2GHz Turbo AM5 - No Incluye Cooler"
+    },
+    "amd-r9-9900x": {
+      "cgId": 16038,
+      "file": "40985_Procesador_AMD_Ryzen_9_9900X_5.6GHz_Turbo_AM5_-_No_Incluye_Cooler_805fed11-grn.jpg",
+      "name": "Procesador AMD Ryzen 9 9900X 5.6GHz Turbo AM5 - No Incluye Cooler"
+    },
+    "amd-r9-9950x": {
+      "cgId": 16100,
+      "file": "41014_Procesador_AMD_Ryzen_9_9950X_5.7GHz_Turbo_AM5_-_No_incluye_cooler_805fed11-grn.jpg",
+      "name": "Procesador AMD Ryzen 9 9950X 5.7GHz Turbo AM5 - No incluye cooler"
+    },
+    "amd-r9-9950x3d": {
+      "cgId": 17172,
+      "file": "44784_Procesador_AMD_Ryzen_9_9950X3D_5.7GHz_Turbo_AM5_-_No_Incluye_Cooler_275e9cc1-grn.jpg",
+      "name": "Procesador AMD Ryzen 9 9950X3D 5.7GHz Turbo AM5 - No Incluye Cooler"
+    },
+    "intel-i3-12100f": {
+      "cgId": 13369,
+      "file": "49125_Procesador_Intel_Core_i3_12100F_4.3GHz_Turbo_Socket_1700_Alder_Lake_3621db10-grn.jpg",
+      "name": "Procesador Intel Core i3 12100F 4.3GHz Turbo Socket 1700 Alder Lake"
+    },
+    "intel-i5-12400f": {
+      "cgId": 12798,
+      "file": "49120_Procesador_Intel_Core_i5_12400F_4.4GHz_Turbo_Socket_1700_Alder_Lake_d61e2fc4-grn.jpg",
+      "name": "Procesador Intel Core i5 12400F 4.4GHz Turbo Socket 1700 Alder Lake"
+    },
+    "intel-i5-12400": {
+      "cgId": 12797,
+      "file": "49119_Procesador_Intel_Core_i5_12400_4.4GHz_Turbo_Socket_1700_Alder_Lake_98f9c5af-grn.jpg",
+      "name": "Procesador Intel Core i5 12400 4.4GHz Turbo Socket 1700 Alder Lake"
+    },
+    "intel-i5-14400f": {
+      "cgId": 15241,
+      "file": "38616_Procesador_Intel_Core_i5_14400F_4.7GHz_Turbo_Socket_1700_Raptor_Lake_dc4cb792-grn.jpg",
+      "name": "Procesador Intel Core i5 14400F 4.7GHz Turbo Socket 1700 Raptor Lake"
+    },
+    "intel-i5-14600kf": {
+      "cgId": 15252,
+      "file": "38637_Procesador_Intel_Core_i5_14600KF_5.3GHz_Turbo_Socket_1700_Raptor_Lake_506c89a5-grn.jpg",
+      "name": "Procesador Intel Core i5 14600KF 5.3GHz Turbo Socket 1700 Raptor Lake"
+    },
+    "intel-i7-14700k": {
+      "cgId": 15235,
+      "file": "38614_Procesador_Intel_Core_i7_14700K_5.6GHz_Turbo_Socket_1700_Raptor_Lake_a742dfca-grn.jpg",
+      "name": "Procesador Intel Core i7 14700K 5.6GHz Turbo Socket 1700 Raptor Lake"
+    },
+    "intel-i9-14900k": {
+      "cgId": 15237,
+      "file": "38615_Procesador_Intel_Core_i9_14900K_6.0GHz_Turbo_Socket_1700_Raptor_Lake_82539926-grn.jpg",
+      "name": "Procesador Intel Core i9 14900K 6.0GHz Turbo Socket 1700 Raptor Lake"
+    },
+    "rtx-3050": {
+      "cgId": 15568,
+      "file": "39433_Placa_de_Video_MSI_GeForce_RTX_3050_6GB_GDDR6_Ventus_2X_OC_7bf735f0-grn.jpg",
+      "name": "Placa de Video MSI GeForce RTX 3050 6GB GDDR6 Ventus 2X OC"
+    },
+    "rtx-5050": {
+      "cgId": 18498,
+      "file": "48400_Placa_de_Video_ASUS_DUAL_GeForce_RTX_5050_8GB_GDDR6__OC_c7199741-grn.jpg",
+      "name": "Placa de Video ASUS DUAL GeForce RTX 5050 8GB GDDR6  OC"
+    },
+    "rtx-5060": {
+      "cgId": 18457,
+      "file": "48343_Placa_de_Video_MSI_GeForce_RTX_5060_8GB_SHADOW_2X_OC_6a1973f3-grn.jpg",
+      "name": "Placa de Video MSI GeForce RTX 5060 8GB SHADOW 2X OC"
+    },
+    "rtx-5070": {
+      "cgId": 17365,
+      "file": "45342_Placa_de_Video_MSI_GeForce_RTX_5070_12GB_GDDR7_GAMING_TRIO_OC_4d49abc3-grn.jpg",
+      "name": "Placa de Video MSI GeForce RTX 5070 12GB GDDR7 GAMING TRIO OC"
+    },
+    "rtx-5080": {
+      "cgId": 17090,
+      "file": "44299_Placa_de_Video_MSI_GeForce_RTX_5080_16GB_GDDR7_VENTUS_3X_OC_18feb062-grn.jpg",
+      "name": "Placa de Video MSI GeForce RTX 5080 16GB GDDR7 VENTUS 3X OC"
+    },
+    "rx-7600": {
+      "cgId": 14722,
+      "file": "37048_Placa_de_Video_Asrock_Radeon_RX_7600_8GB_GDDR6_Challenger_OC_200e0ed3-grn.jpg",
+      "name": "Placa de Video Asrock Radeon RX 7600 8GB GDDR6 Challenger OC"
+    },
+    "rx-9060": {
+      "cgId": 20341,
+      "file": "59557_Placa_de_Video_XFX_Radeon_RX_9060_8GB_GDDR6__SWIFT_Gaming_Edition_OC_Black_Box_e5fd0ce2-grn.jpg",
+      "name": "Placa de Video XFX Radeon RX 9060 8GB GDDR6  SWIFT Gaming Edition OC Black Box"
+    },
+    "rx-9070": {
+      "cgId": 21819,
+      "file": "57608_Placa_de_Video_Asrock_Radeon_RX_9070_16GB_GDDR6_Challenger_2ab6978a-grn.jpg",
+      "name": "Placa de Video Asrock Radeon RX 9070 16GB GDDR6 Challenger"
+    },
+    "arc-b570": {
+      "cgId": 16887,
+      "file": "43590_Placa_de_Video_Asrock_Intel_ARC_B570_10GB_GDDR6_Challenger_OC_7ebcb8bf-grn.jpg",
+      "name": "Placa de Video Asrock Intel ARC B570 10GB GDDR6 Challenger OC"
+    },
+    "arc-b580": {
+      "cgId": 16888,
+      "file": "43586_Placa_de_Video_Asrock_Intel_ARC_B580_12GB_GDDR6_Challenger_OC_db1005e8-grn.jpg",
+      "name": "Placa de Video Asrock Intel ARC B580 12GB GDDR6 Challenger OC"
+    },
+    "asus-prime-h810m-k": {
+      "cgId": 20153,
+      "file": "53099_Mother_ASUS_Prime_H810M-K_LGA1851_DDR5_3e9ddec6-grn.jpg",
+      "name": "Mother ASUS Prime H810M-K LGA1851 DDR5"
+    },
+    "asus-prime-b860m-a": {
+      "cgId": 16897,
+      "file": "43810_Mother_ASUS_PRIME_B860M-A_LGA1851_DDR5_ec1f54c8-grn.jpg",
+      "name": "Mother ASUS PRIME B860M-A LGA1851 DDR5"
+    },
+    "asrock-b860i-lightning": {
+      "cgId": 17616,
+      "file": "46039_Mother_Asrock_B860I_LIGHTNING_WIFI_LGA1851_DDR5_ITX_b227b73a-grn.jpg",
+      "name": "Mother Asrock B860I LIGHTNING WIFI LGA1851 DDR5 ITX"
+    },
+    "hyte-y70": {
+      "cgId": 17889,
+      "file": "49237_Gabinete_HYTE_Y70_Black_Cherry_Vidrio_Templado_Inc._Cable_Riser_PCIe_4x16_USB-C_3.2_29879d17-grn.jpg",
+      "name": "Gabinete HYTE Y70 Black Cherry Vidrio Templado Inc. Cable Riser PCIe 4x16 USB-C 3.2"
+    },
+    "rog-hyperion": {
+      "cgId": 15640,
+      "file": "39661_Gabinete_ASUS_ROG_Hyperion_GR701_E-ATX_Vidrio_Templado_4x140mm_ARGB_Fan_USB-C_Fast_Charge_Black_070795af-grn.jpg",
+      "name": "Gabinete ASUS ROG Hyperion GR701 E-ATX Vidrio Templado 4x140mm ARGB Fan USB-C Fast Charge Black"
+    },
+    "id-frozn-a410": {
+      "cgId": 15579,
+      "file": "39465_Cooler_CPU_ID-Cooling_FROZN_A410_Black_44152524-grn.jpg",
+      "name": "Cooler CPU ID-Cooling FROZN A410 Black"
+    },
+    "antec-luna-360": {
+      "cgId": 21778,
+      "file": "57626_Cooler_CPU_Antec_Luna_360_ARGB_Black_Water_Cooler_75eeb335-grn.jpg",
+      "name": "Cooler CPU Antec Luna 360 ARGB Black Water Cooler"
+    },
+    "intel-ultra5-225f": {
+      "cgId": 17085,
+      "file": "44282_Procesador_Intel_Core_Ultra_5_225F_4.9Ghz_Turbo_Socket_1851_Arrow_Lake_d9a45f87-grn.jpg",
+      "name": "Procesador Intel Core Ultra 5 225F 4.9Ghz Turbo Socket 1851 Arrow Lake"
+    },
+    "intel-ultra5-245k": {
+      "cgId": 16838,
+      "file": "48841_Procesador_Intel_Core_Ultra_5_245K_5.2Ghz_Turbo_Socket_1851_Arrow_Lake_41894ae6-grn.jpg",
+      "name": "Procesador Intel Core Ultra 5 245K 5.2Ghz Turbo Socket 1851 Arrow Lake"
+    },
+    "intel-ultra5-250k-plus": {
+      "cgId": 20126,
+      "file": "52919_Procesador_Intel_Core_Ultra_5_250K_PLUS_5.6GHz_Turbo_Socket_1851_Arrow_Lake_26c6da9d-grn.jpg",
+      "name": "Procesador Intel Core Ultra 5 250K PLUS 5.6GHz Turbo Socket 1851 Arrow Lake"
+    },
+    "intel-ultra7-265k": {
+      "cgId": 16836,
+      "file": "43459_Procesador_Intel_Core_Ultra_7_265K_5.5Ghz_Turbo_Socket_1851_Arrow_Lake_ffe6be11-grn.jpg",
+      "name": "Procesador Intel Core Ultra 7 265K 5.5Ghz Turbo Socket 1851 Arrow Lake"
+    },
+    "intel-ultra9-285k": {
+      "cgId": 16970,
+      "file": "48843_Procesador_Intel_Core_Ultra_9_285K_5.7Ghz_Turbo_Socket_1851_Arrow_Lake_1f63f427-grn.jpg",
+      "name": "Procesador Intel Core Ultra 9 285K 5.7Ghz Turbo Socket 1851 Arrow Lake"
+    },
+    "asrock-a520m-hdv": {
+      "cgId": 11626,
+      "file": "24392_Mother_Asrock_A520M-HDV_AM4_5c7ae4d7-grn.jpg",
+      "name": "Mother Asrock A520M-HDV AM4"
+    },
+    "asus-tuf-b550m-plus": {
+      "cgId": 10830,
+      "file": "21577_Mother_ASUS_TUF_B550M-PLUS_AM4_ca74f9ae-grn.jpg",
+      "name": "Mother ASUS TUF B550M-PLUS AM4"
+    },
+    "asrock-a620am-hvs": {
+      "cgId": 21580,
+      "file": "56521_Mother_AsRock_A620AM-HVS_AM5_159afd57-grn.jpg",
+      "name": "Mother AsRock A620AM-HVS AM5"
+    },
+    "asus-prime-b850-plus": {
+      "cgId": 18654,
+      "file": "48822_Mother_ASUS_PRIME_B850-PLUS_AM5_DDR5_2c3b626a-grn.jpg",
+      "name": "Mother ASUS PRIME B850-PLUS AM5 DDR5"
+    },
+    "rtx-5060-ti": {
+      "cgId": 17689,
+      "file": "47643_Placa_de_Video_INNO3D_GeForce_RTX_5060_Ti_8GB_GDDR7_Twin_X2_OC_c80d3c89-grn.jpg",
+      "name": "Placa de Video INNO3D GeForce RTX 5060 Ti 8GB GDDR7 Twin X2 OC"
+    },
+    "rtx-5060-ti-16": {
+      "cgId": 19106,
+      "file": "50016_Placa_de_Video_MSI_GeForce_RTX_5060_Ti_16GB_VENTUS_2X_OC_BLACK_PLUS_2700248d-grn.jpg",
+      "name": "Placa de Video MSI GeForce RTX 5060 Ti 16GB VENTUS 2X OC BLACK PLUS"
+    },
+    "rtx-5070-ti": {
+      "cgId": 17633,
+      "file": "47550_Placa_de_Video_ASUS_PRIME_GeForce_RTX_5070_Ti_16GB_GDDR7_OC_83150ee3-grn.jpg",
+      "name": "Placa de Video ASUS PRIME GeForce RTX 5070 Ti 16GB GDDR7 OC"
+    },
+    "rx-9060-xt": {
+      "cgId": 17848,
+      "file": "46716_Placa_de_Video_XFX_Radeon_RX_9060_XT_16GB_GDDR6_Swift_OC_Triple_Fan_Gaming_Edition_6291e4b3-grn.jpg",
+      "name": "Placa de Video XFX Radeon RX 9060 XT 16GB GDDR6 Swift OC Triple Fan Gaming Edition"
+    },
+    "rx-9070-gre": {
+      "cgId": 20345,
+      "file": "55269_Placa_de_Video_XFX_Radeon_RX_9070_GRE_12GB_GDDR6_Swift_Triple_Fan_Gaming_Edition_OC_6dc5a487-grn.jpg",
+      "name": "Placa de Video XFX Radeon RX 9070 GRE 12GB GDDR6 Swift Triple Fan Gaming Edition OC"
+    },
+    "rx-9070-xt": {
+      "cgId": 17048,
+      "file": "49159_Placa_de_Video_ASUS_PRIME_Radeon_RX_9070_XT_16GB_GDDR6_OC_5594074f-grn.jpg",
+      "name": "Placa de Video ASUS PRIME Radeon RX 9070 XT 16GB GDDR6 OC"
+    },
+    "nvme-1tb": {
+      "cgId": 16872,
+      "file": "43538_Disco_S__lido_SSD_M.2_Kingston_1TB_NV3_6000MB_s_NVMe_PCI-E_Gen4_x4_e612908d-grn.jpg",
+      "name": "Disco Sólido SSD M.2 Kingston 1TB NV3 6000MB/s NVMe PCI-E Gen4 x4"
+    },
+    "nvme-2tb": {
+      "cgId": 21427,
+      "file": "56277_Disco_S__lido_SSD_M.2_Kingston_2TB_NV3_6000MB_s_NVMe_PCI-E_Gen4_x4_BULK_e612908d-grn.jpg",
+      "name": "Disco Sólido SSD M.2 Kingston 2TB NV3 6000MB/s NVMe PCI-E Gen4 x4 BULK"
+    },
+    "nvme-4tb": {
+      "cgId": 21278,
+      "file": "55991_Disco_S__lido_SSD_M.2_Kingston_4TB_NV3_6000MB_s_NVMe_PCI-E_Gen4_x4_e612908d-grn.jpg",
+      "name": "Disco Sólido SSD M.2 Kingston 4TB NV3 6000MB/s NVMe PCI-E Gen4 x4"
+    },
+    "kb-k70-core": {
+      "cgId": 16385,
+      "file": "41923_Teclado_Mecanico_Corsair_K70_Core_Swtich_MLX_Red_Full_Size_RGB_ICUE_USB-C_074fe1ac-grn.jpg",
+      "name": "Teclado Mecanico Corsair K70 Core Swtich MLX Red Full Size RGB ICUE USB-C"
+    },
+    "cm-1050-gold": {
+      "cgId": 17319,
+      "file": "45085_Fuente_Cooler_Master_1050W_80_Plus_Gold_GX3_Full_Modular_ATX_3.0_12VHPWR_6743864c-grn.jpg",
+      "name": "Fuente Cooler Master 1050W 80 Plus Gold GX3 Full Modular ATX 3.0 12VHPWR"
+    },
+    "bequiet-900fx": {
+      "cgId": 17093,
+      "file": "44336_Gabinete_Be_Quiet__LIGHT_BASE_900FX_Black_ARGB_E-ATX_Vidrio_Templado_4x140mm_Light_Wings_ARGB_Fans_USB-C_3.2_Gen2_Inc._Controladora_aab21019-grn.jpg",
+      "name": "Gabinete Be Quiet! LIGHT BASE 900FX Black ARGB E-ATX Vidrio Templado 4x140mm Light Wings ARGB Fans USB-C 3.2 Gen2 Inc. Controladora"
+    },
+    "mon-27-4k-144": {
+      "cgId": 21583,
+      "file": "56526_Monitor_Gamer_ViewSonic_VX2730D-4K_27__4K_UHD_IPS_144Hz_Dual_Mode_FHD_288Hz_0.5ms_FreeSync_Premium_G-SYNC_173c3077-grn.jpg",
+      "name": "Monitor Gamer ViewSonic VX2730D-4K 27\" 4K UHD IPS 144Hz Dual Mode FHD 288Hz 0.5ms FreeSync Premium G-SYNC"
+    },
+    "asus-prime-a520m-k": {
+      "cgId": 10578,
+      "file": "20551_Mother_ASUS_PRIME_A520M-K_DDR4_AM4_f5d89e00-grn.jpg",
+      "name": "Mother ASUS PRIME A520M-K DDR4 AM4"
+    },
+    "msi-b550m-a-pro": {
+      "cgId": 12462,
+      "file": "28278_Mother_MSI_B550M-A_PRO_AM4_3ac3ab84-grn.jpg",
+      "name": "Mother MSI B550M-A PRO AM4"
+    },
+    "msi-pro-b650m-b": {
+      "cgId": 18056,
+      "file": "46908_Mother_MSI_PRO_B650M-B_AM5_b2044636-grn.jpg",
+      "name": "Mother MSI PRO B650M-B AM5"
+    },
+    "asus-prime-b850m-a": {
+      "cgId": 18650,
+      "file": "48927_Mother_ASUS_PRIME_B850M-A_WIFI_AM5_DDR5_8fd7bea3-grn.jpg",
+      "name": "Mother ASUS PRIME B850M-A WIFI AM5 DDR5"
+    },
+    "asus-prime-b760m-k-d4": {
+      "cgId": 14817,
+      "file": "37400_Mother_ASUS_PRIME_B760M-K_D4_12_13_14th_Gen_LGA1700_DDR4_38ebef21-grn.jpg",
+      "name": "Mother ASUS PRIME B760M-K D4 12/13/14th Gen LGA1700 DDR4"
+    },
+    "asus-prime-b760m-a-d4": {
+      "cgId": 15013,
+      "file": "37918_Mother_ASUS_PRIME_B760M-A_D4_12_13th_Gen_LGA1700_DDR4_8e429b77-grn.jpg",
+      "name": "Mother ASUS PRIME B760M-A D4 12/13th Gen LGA1700 DDR4"
+    },
+    "asus-tuf-z790-plus-wifi": {
+      "cgId": 14812,
+      "file": "37382_Mother_ASUS_TUF_GAMING_Z790-PLUS_WIFI_LGA1700_DDR5_2b2a87f6-grn.jpg",
+      "name": "Mother ASUS TUF GAMING Z790-PLUS WIFI LGA1700 DDR5"
+    },
+    "asrock-z890-pro-a": {
+      "cgId": 18937,
+      "file": "49537_Mother_Asrock_Z890_PRO-A_LGA1851_DDR5_5a379d1d-grn.jpg",
+      "name": "Mother Asrock Z890 PRO-A LGA1851 DDR5"
+    },
+    "asrock-b650i-lightning": {
+      "cgId": 16248,
+      "file": "41497_Mother_Asrock_B650I_Lightning_WIFI_AM5_DDR5_ITX_c1de498e-grn.jpg",
+      "name": "Mother Asrock B650I Lightning WIFI AM5 DDR5 ITX"
+    },
+    "asrock-z790i-lightning": {
+      "cgId": 15837,
+      "file": "40338_Mother_Asrock_Z790I_Lightning_WIFI_ITX_DDR5_S1700_80f7e73e-grn.jpg",
+      "name": "Mother Asrock Z790I Lightning WIFI ITX DDR5 S1700"
+    },
+    "cm-nr200p": {
+      "cgId": 13227,
+      "file": "31220_Gabinete_Cooler_Master_Masterbox_NR200P_Black_Mini_ITX_cd858704-grn.jpg",
+      "name": "Gabinete Cooler Master Masterbox NR200P Black Mini ITX"
+    },
+    "sata-480": {
+      "cgId": 7411,
+      "file": "59571_Disco_S__lido_SSD_Kingston_480GB_A400_SATA_500MB_s_3aad4b8e-grn.jpg",
+      "name": "Disco Sólido SSD Kingston 480GB A400 SATA 500MB/s"
+    },
+    "sata-960": {
+      "cgId": 7894,
+      "file": "59566_Disco_S__lido_SSD_Kingston_960GB_A400_SATA_500MB_s_3aad4b8e-grn.jpg",
+      "name": "Disco Sólido SSD Kingston 960GB A400 SATA 500MB/s"
+    },
+    "antec-1000-plat": {
+      "cgId": 18468,
+      "file": "48320_Fuente_Antec_1000W_80_Plus_Platinum_Full_Modular_ATX_3.1_PCIe_5.1_HCG1000_PRO_AR_708e6c14-grn.jpg",
+      "name": "Fuente Antec 1000W 80 Plus Platinum Full Modular ATX 3.1 PCIe 5.1 HCG1000 PRO AR"
+    },
+    "bequiet-501": {
+      "cgId": 17996,
+      "file": "47044_Gabinete_Be_Quiet__PURE_BASE_501_Airflow_Window_Black_2x140mm_Pure_Wings_3_Fans_USB-C_3ffdbb72-grn.jpg",
+      "name": "Gabinete Be Quiet! PURE BASE 501 Airflow Window Black 2x140mm Pure Wings 3 Fans USB-C"
+    },
+    "id-se214xt": {
+      "cgId": 13708,
+      "file": "33148_Cooler_CPU_ID-Cooling_SE-214-XT_ARGB_White_509e1021-grn.jpg",
+      "name": "Cooler CPU ID-Cooling SE-214-XT ARGB White"
+    },
+    "mon-24-fhd-180": {
+      "cgId": 17251,
+      "file": "45148_Monitor_Gamer_KTC_24GR680_24__FHD_Fast_IPS_180Hz_1ms_FreeSync_Premium_G-SYNC_Compatible_9ef1107a-grn.jpg",
+      "name": "Monitor Gamer KTC 24GR680 24\" FHD Fast IPS 180Hz 1ms FreeSync Premium G-SYNC Compatible"
+    },
+    "mon-27-qhd-144": {
+      "cgId": 21544,
+      "file": "56813_Monitor_Gamer_KTC_27DQ721_27__QHD_1440p_HVA_144Hz_FreeSync_Premium_G-SYNC_2acd3bb4-grn.jpg",
+      "name": "Monitor Gamer KTC 27DQ721 27\" QHD 1440p HVA 144Hz FreeSync Premium G-SYNC"
+    },
+    "mon-34-uwqhd-200": {
+      "cgId": 17821,
+      "file": "46617_Monitor_Gamer_Acer_Nitro_ED340CUR_34__WQHD_1440p_VA_200Hz_1ms_Freesync_6fa920a3-grn.jpg",
+      "name": "Monitor Gamer Acer Nitro ED340CUR 34\" WQHD 1440p VA 200Hz 1ms Freesync"
+    },
+    "extra-paste": {
+      "cgId": 15032,
+      "file": "38021_Pasta_Termica_ID-Cooling_Frost_X25_4g_1196b61e-grn.jpg",
+      "name": "Pasta Termica ID-Cooling Frost X25 4g"
+    },
+    "asus-prime-b550m-a-wifi": {
+      "cgId": 10422,
+      "file": "36632_Mother_ASUS_PRIME_B550M-A_AC_WIFI_AM4_729bafd9-grn.jpg",
+      "name": "Mother ASUS PRIME B550M-A AC WIFI AM4"
+    },
+    "asus-prime-b650m-a-ii": {
+      "cgId": 14799,
+      "file": "37335_Mother_ASUS_PRIME_B650M-A_II_AM5_DDR5_3d54c56a-grn.jpg",
+      "name": "Mother ASUS PRIME B650M-A II AM5 DDR5"
+    },
+    "asrock-b650-pro-rs-wifi": {
+      "cgId": 19444,
+      "file": "50487_Mother_Asrock_B650_PRO_RS_WIFI_AM5_DDR5_c18db381-grn.jpg",
+      "name": "Mother Asrock B650 PRO RS WIFI AM5 DDR5"
+    },
+    "asus-prime-z890-p-wifi": {
+      "cgId": 16899,
+      "file": "43634_Mother_ASUS_PRIME_Z890-P_WIFI_LGA1851_DDR5_828bc260-grn.jpg",
+      "name": "Mother ASUS PRIME Z890-P WIFI LGA1851 DDR5"
+    },
+    "corsair-titan-240": {
+      "cgId": 20985,
+      "file": "55442_Cooler_CPU_Corsair_ICUE_TITAN_LINK_240_RX_RGB_Water_Cooler_706c863f-grn.jpg",
+      "name": "Cooler CPU Corsair ICUE TITAN LINK 240 RX RGB Water Cooler"
+    },
+    "extra-wifi": {
+      "cgId": 9162,
+      "file": "15377_Placa_de_Red_Tp-Link_Archer_T4E_AC1200_WIFI_5_1200Mbps_PCIe_3c8ed866-grn.jpg",
+      "name": "Placa de Red Tp-Link Archer T4E AC1200 WIFI 5 1200Mbps PCIe"
+    },
+    "mon-32-qhd-170": {
+      "cgId": 19067,
+      "file": "50029_Monitor_Gamer_ASUS_TUF_VG32AQA1A-J_32__QHD_1440p_VA_170Hz_Max_FreeSync_Premium_G-Sync_Compatible_aa22e6d0-grn.jpg",
+      "name": "Monitor Gamer ASUS TUF VG32AQA1A-J 32\" QHD 1440p VA 170Hz Max FreeSync Premium G-Sync Compatible"
+    },
+    "nvme-500": {
+      "cgId": 20214,
+      "file": "53188_Disco_S__lido_SSD_M.2_Kingston_500GB_NV3_5000MB_s_NVMe_PCI-E_Gen4_x4_e612908d-grn.jpg",
+      "name": "Disco Sólido SSD M.2 Kingston 500GB NV3 5000MB/s NVMe PCI-E Gen4 x4"
+    },
+    "antec-sf850x": {
+      "cgId": 18470,
+      "file": "48311_Fuente_Antec_850W_80_Plus_Gold_Full_Modular_SFX_4.1_ATX_3.1_PCIe_5.1_SF850X_AR_ITX_67eacfcb-grn.jpg",
+      "name": "Fuente Antec 850W 80 Plus Gold Full Modular SFX 4.1 ATX 3.1 PCIe 5.1 SF850X AR ITX"
+    },
+    "corsair-sf850": {
+      "cgId": 18588,
+      "file": "48680_Fuente_Corsair_SFX_850W_80_Plus_Platinum_Full_Modular_SF850_ITX_ATX_3.1_PCIe_5.1_ee20331b-grn.jpg",
+      "name": "Fuente Corsair SFX 850W 80 Plus Platinum Full Modular SF850 ITX ATX 3.1 PCIe 5.1"
+    },
+    "id-frozn-a620": {
+      "cgId": 17206,
+      "file": "44698_Cooler_CPU_ID-Cooling_FROZN_A620_PRO_SE_ARGB_b53723c1-grn.jpg",
+      "name": "Cooler CPU ID-Cooling FROZN A620 PRO SE ARGB"
+    },
+    "deepcool-le720": {
+      "cgId": 15099,
+      "file": "38201_Cooler_CPU_DeepCool_LE720_360_ARGB_Black_Water_Cooler_46112826-grn.jpg",
+      "name": "Cooler CPU DeepCool LE720 360 ARGB Black Water Cooler"
+    },
+    "extra-webcam": {
+      "cgId": 10524,
+      "file": "20307_Webcam_Redragon_GW800_Hitman_FHD_1080p_30fps_USB_9a3e8f6e-grn.jpg",
+      "name": "Webcam Redragon GW800 Hitman FHD 1080p/30fps USB"
+    },
+    "stock-amd": {
+      "official": true,
+      "source": "https://www.amd.com/en/products/processors/ecosystem/cpu-cooler-solutions.html",
+      "image": "https://www.amd.com/content/dam/amd/en/images/products/4767000-cooling-wraith-stealth.png",
+      "name": "AMD Wraith Stealth Cooler",
+      "credit": "AMD"
+    },
+    "stock-intel": {
+      "official": true,
+      "source": "https://www.intel.com/content/www/us/en/support/articles/000089190.html",
+      "image": "https://www.intel.com/content/dam/support/us/en/images/processors/89190_image1.png",
+      "name": "Intel Laminar RM1 Cooler",
+      "credit": "Intel"
+    },
+    "extra-win11": {
+      "official": true,
+      "source": "https://www.microsoft.com/en-us/d/windows-11-home/dg7gmgf0krt0",
+      "image": "https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/PT_RGB_Windows11_Home_EN_1555x1555-1",
+      "name": "Windows 11 Home",
+      "credit": "Microsoft"
+    }
+  }
+}
