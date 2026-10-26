@@ -1,164 +1,89 @@
-# Armador de PC
+# 🖥️ Armador de PC
 
-Armador de PC completo, inspirado en la experiencia de [Compra Gamer](https://compragamer.com/armatupc) pero con validaciones más profundas, presets por gama, optimizador por presupuesto y exportación de la build.
+Armá tu PC pieza por pieza con validación de compatibilidad en tiempo real, o decile cuánto querés gastar y para qué la vas a usar: un optimizador te propone 2 o 3 builds completas que entran en tu presupuesto.
 
-- **Stack:** Vite + React 19 + TypeScript + Tailwind CSS 4
-- **Datos:** 100 % frontend, sin backend. La build se guarda en `localStorage` y en el hash de la URL.
-- **Precios:** referencia en ARS, relevados en octubre de 2026. No incluyen envío ni variaciones del mercado.
+**[▶ Ejecutar localmente](#correrlo-localmente)** · **[🖼️ Ver capturas](#capturas-del-proyecto)** · Precios de referencia en ARS (octubre 2026)
 
-## Funcionalidad
+![Demo del armador: propuestas por presupuesto y build aplicada](docs/demo.gif)
 
-- Catálogo de 149 componentes y periféricos para AMD (AM4/AM5) e Intel (LGA1700/LGA1851).
-- **Pantalla de inicio** con la build vacía: el usuario elige entre cargar una build preestablecida o empezar de cero. Si ya hay una build en el link o en `localStorage`, se abre directamente; **Limpiar** vuelve a la pantalla de inicio.
-- Flujo guiado por categorías: CPU, cooler, motherboard, RAM, GPU, almacenamiento, fuente, gabinete, monitor, teclado, mouse, auriculares y extras.
-- Filtro **Solo compatibles** activado por defecto, búsqueda, filtro por marca y orden por precio o rendimiento.
-- Ficha de detalle con foto, especificaciones, notas y compatibilidad con la build actual.
-- 12 presets completos: oficina, gama baja, media, alta, entusiasta, workstation y una compacta ITX.
-- **Armá por presupuesto**: elegí monto, uso y preferencia; el optimizador genera 2 o 3 builds completas y compatibles listas para aplicar.
-- **Optimizar mi build actual**: fijá las piezas de la torre que ya elegiste y dejá que el optimizador complete o ajuste el resto dentro del presupuesto.
-- Panel de build con progreso de esenciales, subtotales, total y acceso rápido a cada categoría.
-- **Mis builds guardadas**: guardá builds con nombre en el navegador, volvé a cargar cualquiera y compará opciones.
-- Resumen con presupuesto, consumo estimado, fuente recomendada, índices de gaming/productividad y avisos.
-- Compartir por link, exportar/importar JSON, copiar lista en texto y descargar archivo.
+![React](https://img.shields.io/badge/React_19-20232a?logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)
+![Tailwind](https://img.shields.io/badge/Tailwind_4-06B6D4?logo=tailwindcss&logoColor=white)
+![Vitest](https://img.shields.io/badge/Tested_with_Vitest-6E9F18?logo=vitest&logoColor=white)
 
-## Armá por presupuesto
+## ¿Por qué lo hice?
 
-El botón **Presupuesto** del header, el panel de build, el resumen y el estado vacío del catálogo abren el optimizador. Solo hay que elegir:
+Los armadores de PC de las tiendas validan lo básico (socket, formato), pero dejan pasar combinaciones problemáticas: fuentes justas, cuellos de botella, RAM en single channel, gabinetes donde la GPU no entra. Quise construir uno con validaciones más profundas y que, además de verificar, **sugiera** qué comprar según presupuesto y uso.
 
-- **Presupuesto para la torre:** cubre CPU, cooler, motherboard, RAM, GPU, almacenamiento, fuente y gabinete. No incluye monitor, teclado, mouse, auriculares ni envío.
-- **Uso:** gaming 1080p, gaming 1440p, edición, streaming u oficina.
-- **Preferencia:** máximo rendimiento, equilibrada o compacta y silenciosa.
+## Qué hace
 
-El motor combina los componentes con una búsqueda tipo beam search, descarta las builds incompletas o incompatibles y devuelve 2 o 3 propuestas:
+- **Armá por presupuesto:** elegís monto, uso (gaming 1080p/1440p, edición, streaming, oficina) y preferencia (rendimiento, equilibrada, compacta). Devuelve 2 o 3 builds completas, compatibles y sin advertencias.
+- **Optimizar mi build actual:** fijás las piezas que ya tenés y el motor completa o ajusta el resto dentro del presupuesto.
+- **Motor de compatibilidad:** más de 12 reglas cruzadas (socket, RAM, formato, largo de GPU, altura de cooler, radiador, consumo vs. fuente, M.2/PCIe, salida de video, cuello de botella, etc.).
+- **Catálogo de 149 piezas** AMD (AM4/AM5) e Intel (LGA1700/LGA1851) y **12 presets** por gama.
+- **Compartir sin backend:** link, JSON, texto o archivo. Las builds guardadas viven en el navegador.
 
-- **Máximo rendimiento:** la mayor potencia que entra en el presupuesto.
-- **Equilibrada:** el mejor balance entre rendimiento, calidad y precio.
-- **Mejor valor:** la opción más económica de las tres sin resignar lo esencial.
+## Capturas del proyecto
 
-Reglas que aplica el optimizador:
+![Pantalla de inicio del armador](docs/overview.png)
 
-- Todas las propuestas son builds completas, sin errores ni advertencias, y entran en el presupuesto.
-- Gaming, edición y streaming requieren GPU dedicada, RAM en dual channel y SSD NVMe. Edición, streaming y gaming 1440p piden al menos 32 GB de RAM.
-- Oficina usa únicamente gráficos integrados.
-- Con GPU dedicada se exige motherboard PCIe 4.0 y se descartan chipsets de entrada como H610 o A520.
-- Las configuraciones de gama alta exigen mothers de mejor gama, fuentes Gold/Platinum y gabinetes con buen flujo de aire.
-- La preferencia compacta prioriza Mini-ITX con fuente SFX. Si el presupuesto no permite al menos dos propuestas ITX, relaja el formato a gabinetes chicos y lo informa en el resultado.
-- Si el presupuesto no alcanza, muestra un mínimo orientativo y permite reintentar con un clic.
-- Aplicar una propuesta desde cero reemplaza la build actual, fija el presupuesto y cierra el diálogo.
+<p align="center">
+  <img src="docs/optimizer.png" alt="Tres propuestas compatibles generadas por el optimizador" width="49%" />
+  <img src="docs/build.png" alt="Build aplicada con componentes, precios y compatibilidad validada" width="49%" />
+</p>
 
-### Optimizar mi build actual
+## Cómo funciona por dentro
 
-Desde el resumen, el botón **Optimizar mi build actual** abre el optimizador con el interruptor **Mantener mis piezas actuales** activado. También podés activarlo a mano si ya hay piezas de torre cargadas.
+**Optimizador.** Combina componentes con una búsqueda tipo *beam search*, descarta las combinaciones incompletas o incompatibles y rankea las sobrevivientes en tres perfiles: máximo rendimiento, equilibrada y mejor valor. Aplica reglas según el uso (por ejemplo, edición y streaming exigen 32 GB en dual channel y NVMe; con GPU dedicada se descartan chipsets de entrada como H610 o A520). Si el presupuesto no alcanza, muestra un mínimo orientativo.
 
-- Las piezas de la torre que ya elegiste quedan fijas; el motor completa las categorías faltantes y elige el resto para mejorar el resultado.
-- Los precios de las piezas fijas se cuentan dentro del presupuesto. Los periféricos (monitor, teclado, mouse, auriculares y extras) no se tocan ni se suman.
-- Antes de buscar, valida que las piezas fijas cumplan el uso elegido: socket, RAM, NVMe, PCIe, eficiencia de fuente, flujo de aire y requisitos de gama alta.
-- Si hay un conflicto que solo se resolvería cambiando una pieza fija, no devuelve builds con advertencias: explica el conflicto y ofrece optimizar sin fijar piezas.
-- Si las piezas fijas ya superan el presupuesto, muestra cuánto suman y sugiere subir el presupuesto o destrabar alguna.
-- En preferencia compacta, si una pieza fija impide Mini-ITX, mantiene tus piezas y avisa que la propuesta no es Mini-ITX.
-- Cada propuesta marca las piezas fijas con **Fija**. Al aplicar, se conservan esas piezas y los periféricos; se reemplaza el resto de la torre.
+**Piezas fijas.** Antes de buscar, valida que las piezas que ya elegiste cumplan el uso pedido. Si un conflicto solo se resolvería cambiando una pieza fija, lo explica y ofrece optimizar sin fijar en lugar de devolver una build con advertencias.
 
-## Validaciones de compatibilidad
+**Estado en la URL.** La build se serializa en base64url dentro del hash (`#b=...`), así que un link es una build completa, sin servidor. Al importar se validan categorías, IDs y límites de cada slot, por lo que un link viejo o manipulado no rompe la app.
 
-- Socket CPU ↔ motherboard y tipo de RAM (DDR4/DDR5).
-- Cantidad de módulos de RAM ↔ slots de la motherboard.
-- Formato de motherboard ↔ gabinete (ATX, Micro-ATX, Mini-ITX).
-- Largo de GPU y altura de cooler ↔ espacio del gabinete.
-- Radiador de AIO ↔ soporte del gabinete.
-- Socket y TDP del cooler ↔ CPU; coolers de fábrica solo con CPUs que los incluyen.
-- Consumo estimado ↔ potencia de la fuente, con margen recomendado.
-- Formato de fuente (ATX/SFX) ↔ gabinete, incluyendo builds ITX.
-- Slots M.2 para unidades NVMe, velocidad PCIe y builds solo-HDD.
-- Salida de video (CPU sin iGPU y sin GPU dedicada).
-- Cuello de botella CPU/GPU y monitor por resolución/refresco.
-- Avisos por RAM insuficiente o single channel, fuente Bronze en gama alta y más.
+## Decisiones técnicas y aprendizajes
 
-## Comandos
+<!-- TODO: completá con tu experiencia real. Ideas de qué contar (2-3 líneas cada una): -->
+
+- **¿Por qué beam search y no fuerza bruta?** _(ej.: el espacio de combinaciones crece multiplicativamente con cada categoría; beam search lo acota y mantiene resultados buenos.)_
+- **¿Por qué 100 % frontend?** _(ej.: cero costos de hosting, el link es la build, y el catálogo es chico y curado.)_
+- **Lo más difícil:** _(ej.: que el optimizador y el motor de compatibilidad compartieran las mismas reglas sin duplicarlas.)_
+- **Qué haría distinto / próximos pasos:** _(ej.: precios automáticos, benchmarks reales en lugar de un índice orientativo.)_
+
+## Correrlo localmente
 
 ```bash
 npm install
 npm run dev      # http://localhost:5173
 npm run build    # chequeo de tipos + build de producción
-npm run preview  # servir el build
 npm run lint     # oxlint
-npm run test     # vitest (compatibilidad, optimizador, share e historial)
+npm run test     # vitest: compatibilidad, optimizador, share e historial
 ```
-
-Para refrescar las instantáneas de referencia del catálogo público de Compra Gamer:
-
-```bash
-node scripts/fetch-compragamer.mjs
-```
-
-Los archivos quedan en `data/cg-*.json` y se usan solo como referencia de precios; la app no los carga en runtime.
-
-## Imágenes
-
-Cada componente muestra una foto de referencia en la tarjeta del catálogo y en la ficha de detalle. Las 149 piezas tienen foto y se sirven localmente, sin hotlinks ni dependencia de un CDN.
-
-- **146 fotos** de componentes descargadas del catálogo público de Compra Gamer (`public/parts/<id>.jpg`, 450 × 402 px, ~2,9 MB).
-- **3 fotos oficiales** para los productos que no están en ese catálogo:
-  - **AMD Wraith Stealth**, desde [amd.com](https://www.amd.com/en/products/processors/ecosystem/cpu-cooler-solutions.html).
-  - **Intel Laminar RM1**, desde el [artículo de soporte de Intel](https://www.intel.com/content/www/us/en/support/articles/000089190.html).
-  - **Windows 11 Home**, arte oficial de [Microsoft Store](https://www.microsoft.com/en-us/d/windows-11-home/dg7gmgf0krt0).
-- Si una imagen falta o falla al cargar, `PartImage` muestra el icono de la categoría y la leyenda «Imagen referencial» sin dejar un ícono roto.
-
-El mapa `src/data/images.ts` relaciona cada pieza con su archivo, y `data/part-images.json` guarda la trazabilidad (ID y nombre del producto original, más la fuente de las fotos oficiales). Para volver a descargar las 146 fotos de Compra Gamer:
-
-```bash
-node scripts/fetch-part-images.mjs          # solo baja las que faltan
-node scripts/fetch-part-images.mjs --force  # vuelve a bajar las 146
-```
-
-Las 3 fotos oficiales ya están procesadas a 450 × 402 y se incluyen en el repo; el script solo verifica que existan. Las fotos pertenecen a sus marcas y a Compra Gamer; se usan únicamente como referencia visual de los productos.
 
 ## Estructura
 
 ```
 src/
-  App.tsx                 # shell, layout, modales y toasts
-  components/
-    Catalog.tsx           # tabs, filtros y grilla de componentes
-    PartCard.tsx          # tarjeta de componente
-    PartImage.tsx         # foto local con fallback por categoría
-    BuildPanel.tsx        # panel de build por slots
-    Summary.tsx           # total, presupuesto y compatibilidad
-    OptimizerDialog.tsx   # formulario y propuestas de "Armá por presupuesto"
-    Dialogs.tsx           # presets, compartir/importar y detalle
-    ui.tsx                # Modal, badges, progreso e iconos
-  data/
-    catalog.ts            # catálogo curado y builders tipados
-    presets.ts            # 12 builds de referencia
-    images.ts             # mapa id de pieza → /parts/<id>.jpg
+  components/   # Catalog, BuildPanel, Summary, OptimizerDialog, etc.
+  data/         # catálogo curado, presets e imágenes
   lib/
-    compat.ts             # motor de análisis y compatibilidad por pieza
-    optimizer.ts          # motor de builds por presupuesto (beam search)
-    optimizer.test.ts     # cobertura del optimizador
-    useBuild.ts           # estado, persistencia y acciones
-    history.ts            # builds guardadas con nombre (localStorage)
-    share.ts              # base64url, JSON, texto y portapapeles
-    cn.ts                 # utilidad de clases
-    format.ts             # moneda y utilidades
-  types.ts                # tipos de dominio
-scripts/
-  fetch-compragamer.mjs   # descarga el catálogo de referencia
-  fetch-part-images.mjs   # descarga las fotos de Compra Gamer y verifica las oficiales
-public/
-  parts/                  # 149 fotos locales de componentes
+    compat.ts       # motor de compatibilidad
+    optimizer.ts    # builds por presupuesto (beam search)
+    share.ts        # serialización base64url / JSON / texto
+    useBuild.ts     # estado y persistencia
+scripts/        # utilidades para refrescar datos de referencia
 ```
 
-## Formato del link
+## Limitaciones
 
-La build se serializa en base64url dentro del hash:
+- Precios e índice de rendimiento son **orientativos**: no son FPS medidos ni stock real, y no incluyen envío.
+- El catálogo prioriza piezas verificables sobre volumen; agregar modelos es sencillo desde `src/data/catalog.ts`.
+- Windows 11 figura como licencia de referencia; también se puede usar Linux o Windows sin licencia.
 
-```
-https://tu-dominio/#b=eyJ2IjoxLCJiIjpudWxsLCJzIjp7ImNwdSI6WyJ...
-```
+## Créditos
 
-Payload: `{ v: 1, b: presupuesto | null, s: selecciones }`. Al importar se validan las categorías, los IDs y los límites de cada slot, así que un link viejo o manipulado no rompe la app.
+Inspirado en el [armador de Compra Gamer](https://compragamer.com/armatupc). Las fotos de productos pertenecen a sus marcas y se usan solo como referencia visual.
 
-## Notas
+---
 
-- Los precios y el índice de rendimiento son orientativos; no representan FPS medidos ni stock real.
-- Windows 11 es una licencia de referencia: también se puede usar Windows sin licencia o Linux.
-- El catálogo prioriza piezas verificables antes que volumen: es fácil agregar más modelos en `src/data/catalog.ts` usando los builders existentes.
+Hecho por [@alobarros8](https://github.com/alobarros8) ·[ link a LinkedIn ](https://www.linkedin.com/in/alejandro-barros-57933a257/)
