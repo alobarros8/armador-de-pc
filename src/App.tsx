@@ -13,7 +13,8 @@ import { CATEGORIES, CATEGORY_BY_ID } from './data/catalog'
 import type { Preset } from './types'
 import type { SavedBuild } from './lib/history'
 import { partCompatibility } from './lib/compat'
-import { money } from './lib/format'
+import { formatDateDMY, isOlderThan, money } from './lib/format'
+import { PRICES_UPDATED_AT } from './data/catalog'
 import type { OptimizerProposal } from './lib/optimizer'
 import { buildLink, buildToText, copyText, downloadBuild, type BuildSnapshot } from './lib/share'
 import { useBuild } from './lib/useBuild'
@@ -23,6 +24,9 @@ type Toast = { id: number; message: string; tone: 'success' | 'error' | 'info' }
 
 const CURRENT_YEAR = new Date().getFullYear()
 
+/** Compone la aplicación, coordina sus diálogos y conecta la interfaz con el estado de la build.
+ * @returns La interfaz principal de armado de PC.
+ */
 export default function App() {
   const build = useBuild()
   const { analysis, selections, budget, setBudget, activeCategory, setActiveCategory } = build
@@ -41,6 +45,9 @@ export default function App() {
   // Si el usuario ya tiene una build (o la importa), va directo al armador.
   const showStartScreen = !started && analysis.partCount === 0
 
+  /** Publica un mensaje temporal en la interfaz con el tono indicado.
+   * @returns No devuelve valor.
+   */
   const notify = useCallback((message: string, tone: Toast['tone'] = 'success') => {
     setToast({ id: Date.now(), message, tone })
   }, [])
@@ -51,11 +58,17 @@ export default function App() {
     return () => window.clearTimeout(timer)
   }, [toast])
 
+  /** Abre el optimizador y define si debe conservar las piezas actuales.
+   * @returns No devuelve valor.
+   */
   const openOptimizer = useCallback((keepCurrent = false) => {
     setOptimizerKeepCurrent(keepCurrent)
     setOptimizerOpen(true)
   }, [])
 
+  /** Alterna una pieza y notifica si se alcanzó el máximo permitido para su categoría.
+   * @returns El resultado de la operación: pieza agregada, quitada o límite alcanzado.
+   */
   const handleToggle = (category: Category, id: string) => {
     const result = build.togglePart(category, id)
     if (result === 'limit') {
@@ -65,12 +78,18 @@ export default function App() {
     return result
   }
 
+  /** Cambia la categoría activa y vuelve al inicio de la página.
+   * @returns No devuelve valor.
+   */
   const jumpTo = (category: Category) => {
     setActiveCategory(category)
     setSummaryOpen(false)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
+  /** Carga las selecciones de un preset y notifica que fue aplicado.
+   * @returns No devuelve valor.
+   */
   const applyPreset = (preset: Preset) => {
     setStarted(true)
     build.replaceSelections(preset.selections)
@@ -79,6 +98,9 @@ export default function App() {
     notify(`Preset "${preset.name}" aplicado`, 'success')
   }
 
+  /** Aplica una propuesta del optimizador, conservando periféricos cuando hay piezas fijas.
+   * @returns No devuelve valor.
+   */
   const applyOptimizerProposal = (proposal: OptimizerProposal) => {
     // En modo "mantener piezas" el optimizador decide solo la torre: conservamos
     // monitor, periféricos y extras. Desde cero, la propuesta reemplaza la build.
@@ -106,22 +128,34 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
+  /** Reemplaza la build y el presupuesto con una instantánea importada.
+   * @returns No devuelve valor.
+   */
   const importBuild = (snapshot: BuildSnapshot) => {
     setStarted(true)
     build.replaceSelections(snapshot.selections)
     setBudget(snapshot.budget)
   }
 
+  /** Carga una build guardada en el estado actual y cierra su diálogo.
+   * @returns No devuelve valor.
+   */
   const applySaved = (item: SavedBuild) => {
     importBuild(item.snapshot)
     setSavedOpen(false)
   }
 
+  /** Descarga la build actual como archivo JSON y muestra una notificación.
+   * @returns No devuelve valor.
+   */
   const exportBuild = () => {
     downloadBuild(build.snapshot)
     notify('Archivo JSON descargado', 'success')
   }
 
+  /** Copia al portapapeles el resumen textual y el enlace de la build actual.
+   * @returns Una promesa que se resuelve cuando termina la copia y notificación.
+   */
   const copyList = async () => {
     if (analysis.partCount === 0) {
       notify('La build está vacía: agregá componentes primero', 'info')
@@ -136,6 +170,9 @@ export default function App() {
     notify(ok ? 'Lista copiada al portapapeles' : 'No se pudo copiar', ok ? 'success' : 'error')
   }
 
+  /** Solicita confirmación y, si se acepta, vacía la build y su presupuesto.
+   * @returns No devuelve valor.
+   */
   const clearBuild = () => {
     if (analysis.partCount === 0) return
     if (window.confirm('¿Vaciar la build y el presupuesto?')) {
@@ -145,6 +182,9 @@ export default function App() {
     }
   }
 
+  /** Inicia el armado desde cero y enfoca la categoría de procesador.
+   * @returns No devuelve valor.
+   */
   const startFromScratch = () => {
     setStarted(true)
     setActiveCategory('cpu')
@@ -320,7 +360,11 @@ export default function App() {
         <div className="mx-auto flex max-w-[1800px] flex-col gap-2 text-caption leading-5 text-slate-400 sm:flex-row sm:items-center sm:justify-between">
           <p>
             Armador de PC · {CURRENT_YEAR} · Precios de referencia en ARS, no incluyen envío
-            ni variaciones del mercado.
+            ni variaciones del mercado. Precios actualizados el{' '}
+            {formatDateDMY(PRICES_UPDATED_AT)}.
+            {isOlderThan(PRICES_UPDATED_AT, 30)
+              ? ' Aviso: los precios pueden estar desactualizados.'
+              : ''}
           </p>
           <p>
             Inspirado en el armador de{' '}

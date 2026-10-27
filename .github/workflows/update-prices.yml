@@ -1,0 +1,66 @@
+name: Update prices
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+    inputs:
+      create_pr:
+        description: 'Abrir Pull Request en lugar de commit directo'
+        required: false
+        default: 'true'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  update-prices:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Update prices
+        run: node scripts/update-prices.mjs
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm run test
+
+      - name: Build
+        run: npm run build
+
+      - name: Create Pull Request
+        if: ${{ github.event.inputs.create_pr != 'false' }}
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'chore: actualizar precios semanales'
+          title: 'chore: actualizar precios semanales'
+          body: |
+            Actualización automática de precios desde Compra Gamer.
+            Revisar variaciones excesivas en el log del workflow.
+          branch: update-prices
+          delete-branch: true
+
+      - name: Commit and push (directo)
+        if: ${{ github.event.inputs.create_pr == 'false' }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/data/prices.json
+          if git diff --cached --quiet; then echo "Sin cambios"; exit 0; fi
+          git commit -m "chore: actualizar precios semanales"
+          git push

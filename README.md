@@ -2,7 +2,7 @@
 
 Armá tu PC pieza por pieza con validación de compatibilidad en tiempo real, o decile cuánto querés gastar y para qué la vas a usar: un optimizador te propone 2 o 3 builds completas que entran en tu presupuesto.
 
-**[▶ Ejecutar localmente](#correrlo-localmente)** · **[🖼️ Ver capturas](#capturas-del-proyecto)** · Precios de referencia en ARS (octubre 2026)
+**[▶ Ejecutar localmente](#correrlo-localmente)** · **[🖼️ Ver capturas](#capturas-del-proyecto)** · Precios de referencia en ARS
 
 ![Demo del armador: propuestas por presupuesto y build aplicada](docs/demo.gif)
 
@@ -11,6 +11,7 @@ Armá tu PC pieza por pieza con validación de compatibilidad en tiempo real, o 
 ![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)
 ![Tailwind](https://img.shields.io/badge/Tailwind_4-06B6D4?logo=tailwindcss&logoColor=white)
 ![Vitest](https://img.shields.io/badge/Tested_with_Vitest-6E9F18?logo=vitest&logoColor=white)
+![Update prices](https://github.com/OWNER/armador-de-pc/actions/workflows/update-prices.yml/badge.svg)
 
 ## ¿Por qué lo hice?
 
@@ -73,6 +74,14 @@ src/
     useBuild.ts     # estado y persistencia
 scripts/        # utilidades para refrescar datos de referencia
 ```
+
+## Actualización de precios
+
+Los precios viven en `src/data/prices.json` (`updatedAt` + `prices`). El catálogo (`src/data/catalog.ts`) toma el precio de ahí y usa el valor embebido como fallback.
+
+- Automática: GitHub Action `update-prices` (cron semanal + `workflow_dispatch`) descarga el catálogo público de Compra Gamer, mapea por ID, valida cobertura (≥80 %) y variaciones (±40 %) y abre un Pull Request con el resumen.
+- Manual: `node scripts/update-prices.mjs` (usá `--dry-run` para ver cambios sin escribir).
+- Disparar el workflow: pestaña Actions → Update prices → Run workflow.
 
 ## Limitaciones
 

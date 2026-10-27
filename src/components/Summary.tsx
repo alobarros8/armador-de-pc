@@ -18,6 +18,9 @@ import type { Category } from '../types'
 import { Progress } from './ui'
 import { cn } from '../lib/cn'
 
+/** Presenta una métrica con su valor, descripción opcional e indicador visual opcional.
+ * @returns El bloque visual de una estadística.
+ */
 function Stat({
   label,
   value,
@@ -39,6 +42,9 @@ function Stat({
   )
 }
 
+/** Resume costos, presupuesto, rendimiento y problemas de compatibilidad de la build.
+ * @returns El panel de resumen con acciones para compartir y exportar.
+ */
 export function Summary({
   analysis,
   budget,
@@ -318,7 +324,7 @@ export function Summary({
       <div className="flex items-start gap-1.5 rounded-xl border border-white/[0.05] px-2.5 py-2">
         <Zap className="mt-0.5 size-3.5 shrink-0 text-slate-600" aria-hidden />
         <p className="text-micro leading-4 text-slate-400">
-          Consumo y fuente recomendada son estimaciones. Precios de referencia en ARS (octubre 2026).
+          Consumo y fuente recomendada son estimaciones. Precios de referencia en ARS.
         </p>
       </div>
     </div>

@@ -7,7 +7,16 @@ import type {
   RamType,
   Socket,
 } from '../types'
+import pricesJson from './prices.json'
 
+interface PricesFile {
+  updatedAt: string
+  prices: Record<string, number>
+}
+
+const PRICES_DATA = pricesJson as PricesFile
+
+export const PRICES_UPDATED_AT = PRICES_DATA.updatedAt
 export const CATEGORIES: CategoryMeta[] = [
   { id: 'cpu', label: 'Procesador', short: 'CPU', group: 'esencial', multi: false, required: true },
   { id: 'cooler', label: 'Refrigeración', short: 'Cooler', group: 'esencial', multi: false, required: false },
@@ -49,6 +58,9 @@ interface CpuInput {
   note?: string
 }
 
+/** Construye un procesador y deriva sus especificaciones y destacados visibles.
+ * @returns La pieza de categoría CPU normalizada para el catálogo.
+ */
 const cpu = (p: CpuInput): Part => ({
   ...p,
   category: 'cpu',
@@ -83,6 +95,9 @@ interface MoboInput {
   note?: string
 }
 
+/** Construye una motherboard con sus datos técnicos preparados para mostrar.
+ * @returns La pieza de categoría motherboard normalizada para el catálogo.
+ */
 const mobo = (p: MoboInput): Part => ({
   ...p,
   category: 'motherboard',
@@ -110,6 +125,9 @@ interface RamInput {
   note?: string
 }
 
+/** Construye un módulo o kit de RAM y calcula sus datos destacados por módulo.
+ * @returns La pieza de categoría RAM normalizada para el catálogo.
+ */
 const ram = (p: RamInput): Part => {
   const perModule = p.capacityGb / p.modules
   return {
@@ -145,6 +163,9 @@ interface GpuInput {
   note?: string
 }
 
+/** Construye una GPU y deriva sus especificaciones y datos destacados.
+ * @returns La pieza de categoría GPU normalizada para el catálogo.
+ */
 const gpu = (p: GpuInput): Part => ({
   ...p,
   category: 'gpu',
@@ -171,6 +192,9 @@ interface StorageInput {
   note?: string
 }
 
+/** Construye una unidad de almacenamiento con capacidad, interfaz y velocidad.
+ * @returns La pieza de categoría almacenamiento normalizada para el catálogo.
+ */
 const storage = (p: StorageInput): Part => ({
   ...p,
   category: 'storage',
@@ -195,6 +219,9 @@ interface PsuInput {
   note?: string
 }
 
+/** Construye una fuente y completa su formato cuando no se especifica.
+ * @returns La pieza de categoría fuente normalizada para el catálogo.
+ */
 const psu = (p: PsuInput): Part => {
   const psuForm = p.psuForm ?? 'ATX'
   return {
@@ -225,6 +252,9 @@ interface CaseInput {
   note?: string
 }
 
+/** Construye un gabinete y deriva sus límites de tamaño y compatibilidad.
+ * @returns La pieza de categoría gabinete normalizada para el catálogo.
+ */
 const pcCase = (p: CaseInput): Part => {
   const psuFormSupport = p.psuFormSupport ?? 'ATX'
   return {
@@ -264,6 +294,9 @@ interface CoolerInput {
   note?: string
 }
 
+/** Construye un sistema de refrigeración con los sockets y capacidad térmica soportados.
+ * @returns La pieza de categoría cooler normalizada para el catálogo.
+ */
 const cooler = (p: CoolerInput): Part => ({
   ...p,
   category: 'cooler',
@@ -293,6 +326,9 @@ interface MonitorInput {
   note?: string
 }
 
+/** Construye un monitor con sus datos de pantalla listos para mostrar.
+ * @returns La pieza de categoría monitor normalizada para el catálogo.
+ */
 const monitor = (p: MonitorInput): Part => ({
   ...p,
   category: 'monitor',
@@ -317,6 +353,9 @@ interface PeripheralInput {
   note?: string
 }
 
+/** Construye una pieza de periférico o accesorio con sus especificaciones visibles.
+ * @returns La pieza periférica normalizada para el catálogo.
+ */
 const peripheral = (p: PeripheralInput): Part => ({
   ...p,
   specs: [
@@ -2118,6 +2157,12 @@ const PERIPHERALS: Part[] = [
   }),
 ]
 
+/** Aplica el precio vigente desde prices.json, conservando el valor del catálogo como fallback. */
+function applyPrice(part: Part): Part {
+  const price = PRICES_DATA.prices[part.id]
+  return typeof price === 'number' ? { ...part, price } : part
+}
+
 export const PARTS: Part[] = [
   ...CPUS,
   ...MOBOS,
@@ -2129,7 +2174,7 @@ export const PARTS: Part[] = [
   ...COOLERS,
   ...MONITORS,
   ...PERIPHERALS,
-]
+].map(applyPrice)
 
 export const PART_BY_ID: Record<string, Part> = Object.fromEntries(
   PARTS.map((part) => [part.id, part]),
@@ -2147,6 +2192,9 @@ export const BRANDS = Array.from(new Set(PARTS.map((p) => p.brand))).sort((a, b)
   a.localeCompare(b),
 )
 
+/** Busca una pieza del catálogo por su identificador.
+ * @returns La pieza encontrada o undefined si el identificador falta o no existe.
+ */
 export function getPart(id: string | undefined): Part | undefined {
   return id ? PART_BY_ID[id] : undefined
 }
