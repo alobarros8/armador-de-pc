@@ -256,6 +256,9 @@ const MIN_PRICE: Record<Category, number> = {
   extra: 7_650,
 }
 
+/** Crea una clave determinista para identificar selecciones de la torre.
+ * @returns La clave de categorías e IDs ordenados.
+ */
 function selectionKey(selections: Selections): string {
   return CATEGORY_ORDER.map((category) => `${category}:${(selections[category] ?? []).join(',')}`).join('|')
 }
@@ -264,6 +267,9 @@ function selectionKey(selections: Selections): string {
 /* Build actual como base                                             */
 /* ------------------------------------------------------------------ */
 
+/** Resuelve los IDs seleccionados a piezas válidas, agrupadas por categoría.
+ * @returns Las piezas existentes seleccionadas para la torre.
+ */
 function partsFromSelections(
   selections: Selections,
 ): Partial<Record<Category, Part[]>> {
@@ -277,6 +283,9 @@ function partsFromSelections(
   return parts
 }
 
+/** Suma los precios de las piezas válidas incluidas en una selección.
+ * @returns El costo total de las selecciones.
+ */
 function selectionsTotal(selections: Selections): number {
   return Object.values(partsFromSelections(selections))
     .flat()
@@ -286,6 +295,7 @@ function selectionsTotal(selections: Selections): number {
 /**
  * Deja solo piezas válidas de la torre, respeta el máximo de cada categoría y
  * descarta periféricos: el presupuesto del optimizador cubre únicamente la torre.
+ * @returns Las selecciones de torre normalizadas o undefined si no hay piezas válidas.
  */
 function normalizeLocked(selections: Selections | undefined): Selections | undefined {
   if (!selections) return undefined
@@ -303,10 +313,9 @@ function normalizeLocked(selections: Selections | undefined): Selections | undef
   return Object.keys(locked).length > 0 ? locked : undefined
 }
 
-/**
- * La preferencia compacta exige Mini-ITX y fuente SFX. Si alguna pieza fija
- * no encaja en ese formato, relajamos el requisito y lo avisamos en el
- * resultado en lugar de descartar la build del usuario.
+/** Comprueba si las piezas fijas permiten exigir el formato compacto estricto.
+ * Si no encajan, el optimizador relaja el requisito y lo explica en el resultado.
+ * @returns true si las restricciones Mini-ITX/SFX pueden aplicarse sin conflicto.
  */
 function effectiveStrictCompact(
   input: OptimizerInput,
@@ -337,6 +346,9 @@ function effectiveStrictCompact(
   return true
 }
 
+/** Resume cantidad, costo y categorías de las selecciones que se conservarán.
+ * @returns El resumen de piezas fijas.
+ */
 function lockedSummary(locked: Selections | undefined): {
   count: number
   total: number
@@ -360,6 +372,9 @@ function lockedSummary(locked: Selections | undefined): {
  * Conflictos que no se pueden resolver agregando piezas: incompatibilidades
  * entre piezas fijas, requisitos del uso que ya incumplen y avisos que solo
  * se arreglarían reemplazando una pieza bloqueada.
+ */
+/** Detecta conflictos de piezas fijas que el optimizador no puede resolver.
+ * @returns Mensajes únicos que explican las incompatibilidades encontradas.
  */
 function lockedIssues(input: OptimizerInput, locked: Selections): string[] {
   const analysis = analyze(locked)
@@ -462,6 +477,9 @@ function lockedIssues(input: OptimizerInput, locked: Selections): string[] {
   return [...new Set(issues)]
 }
 
+/** Convierte la capacidad textual de una unidad a gigabytes.
+ * @returns La capacidad en GB o cero si falta o no se puede interpretar.
+ */
 function storageCapacityGb(part: Part | undefined): number {
   if (!part?.capacity) return 0
   const value = Number.parseFloat(part.capacity)
@@ -469,6 +487,9 @@ function storageCapacityGb(part: Part | undefined): number {
   return part.capacity.toUpperCase().includes('TB') ? value * 1000 : value
 }
 
+/** Filtra motherboards compatibles con el socket del CPU y el tamaño exigido.
+ * @returns Las motherboards que cumplen los criterios.
+ */
 function compatibleMotherboards(cpu: Part, strictCompact: boolean): Part[] {
   return (PARTS_BY_CATEGORY.motherboard ?? []).filter(
     (mobo) =>
@@ -477,6 +498,9 @@ function compatibleMotherboards(cpu: Part, strictCompact: boolean): Part[] {
   )
 }
 
+/** Elige kits de RAM compatibles con la motherboard y los requisitos del uso.
+ * @returns Los kits que cumplen tipo de memoria, capacidad y canal requeridos.
+ */
 function compatibleRam(mobo: Part, useCase: UseCase): Part[] {
   const config = USE_CASES[useCase]
   const requireDualChannel = useCase !== 'office'
@@ -489,6 +513,9 @@ function compatibleRam(mobo: Part, useCase: UseCase): Part[] {
   )
 }
 
+/** Busca gabinetes aptos para la motherboard y el perfil compacto solicitado.
+ * @returns Los gabinetes que cumplen las restricciones del perfil.
+ */
 function compatibleCases(
   mobo: Part,
   gpu: Part | undefined,
@@ -502,6 +529,9 @@ function compatibleCases(
   )
 }
 
+/** Busca coolers compatibles con CPU, socket y límites físicos del gabinete.
+ * @returns Los sistemas de refrigeración que pueden instalarse en la build.
+ */
 function compatibleCoolers(cpu: Part, pcCase: Part): Part[] {
   return (PARTS_BY_CATEGORY.cooler ?? []).filter((cooler) => {
     if (!(cooler.supportedSockets ?? []).includes(cpu.socket ?? 'AM4')) return false
@@ -514,6 +544,9 @@ function compatibleCoolers(cpu: Part, pcCase: Part): Part[] {
   })
 }
 
+/** Selecciona unidades compatibles con las ranuras de almacenamiento de una motherboard.
+ * @returns Las unidades de almacenamiento que puede alojar la motherboard.
+ */
 function compatibleStorage(mobo: Part): Part[] {
   return (PARTS_BY_CATEGORY.storage ?? []).filter(
     (drive) =>
@@ -522,11 +555,17 @@ function compatibleStorage(mobo: Part): Part[] {
   )
 }
 
+/** Calcula la potencia de fuente recomendada para las selecciones actuales.
+ * @returns La potencia recomendada en watts.
+ */
 function recommendedPsuFor(selections: Selections): number {
   const watts = estimateWatts(selections)
   return Math.max(450, Math.ceil((watts * 1.35) / 50) * 50)
 }
 
+/** Filtra fuentes según consumo, margen recomendado y formato aceptado por el gabinete.
+ * @returns Las fuentes que satisfacen los requisitos eléctricos y físicos.
+ */
 function compatiblePsus(selections: Selections, pcCase: Part): Part[] {
   const recommended = recommendedPsuFor(selections)
   return (PARTS_BY_CATEGORY.psu ?? []).filter(
@@ -540,6 +579,9 @@ function compatiblePsus(selections: Selections, pcCase: Part): Part[] {
 /* Puntajes                                                           */
 /* ------------------------------------------------------------------ */
 
+/** Puntúa el procesador según el rendimiento y las necesidades del uso elegido.
+ * @returns La puntuación normalizada del CPU.
+ */
 function cpuPerfScore(part: Part, useCase: UseCase): number {
   const perf = part.perf ?? 0
   if (useCase === 'editing' || useCase === 'streaming') {
@@ -548,6 +590,9 @@ function cpuPerfScore(part: Part, useCase: UseCase): number {
   return perf
 }
 
+/** Puntúa la GPU en función del rendimiento y del caso de uso.
+ * @returns La puntuación normalizada de la GPU.
+ */
 function gpuPerfScore(part: Part, useCase: UseCase): number {
   const perf = part.perf ?? 0
   const vram = part.vram ?? 0
@@ -563,6 +608,9 @@ function gpuPerfScore(part: Part, useCase: UseCase): number {
   return perf
 }
 
+/** Puntúa la memoria según capacidad, módulos y requisitos del caso de uso.
+ * @returns La puntuación normalizada de la RAM.
+ */
 function ramPerfScore(part: Part, useCase: UseCase): number {
   const target =
     useCase === 'editing' || useCase === 'streaming'
@@ -576,6 +624,9 @@ function ramPerfScore(part: Part, useCase: UseCase): number {
   return clamp(capacity * 0.85 + speed + dual, 0, 100)
 }
 
+/** Puntúa el almacenamiento según capacidad y tipo para el uso elegido.
+ * @returns La puntuación normalizada del almacenamiento.
+ */
 function storagePerfScore(part: Part, useCase: UseCase): number {
   const config = USE_CASES[useCase]
   const gb = storageCapacityGb(part)
@@ -585,7 +636,10 @@ function storagePerfScore(part: Part, useCase: UseCase): number {
   return clamp(capacity * 0.9 + nvme + preferred, 0, 100)
 }
 
-function performanceScore(
+/** Combina las puntuaciones de las piezas con los pesos del perfil de uso.
+ * @returns La puntuación de rendimiento estimado de la build.
+ */
+export function performanceScore(
   parts: Partial<Record<Category, Part[]>>,
   useCase: UseCase,
 ): number {
@@ -622,6 +676,9 @@ function performanceScore(
   return clamp(result, 0, 100)
 }
 
+/** Estima la calidad de una motherboard a partir de sus características.
+ * @returns Una puntuación de calidad de 0 a 100.
+ */
 function motherboardQuality(part: Part | undefined): number {
   if (!part) return 50
   const name = part.name.toLowerCase()
@@ -645,11 +702,17 @@ const CASE_TIERS: Record<string, number> = {
   'rog-hyperion': 95,
 }
 
+/** Estima la calidad térmica y constructiva de un gabinete.
+ * @returns Una puntuación de calidad de 0 a 100.
+ */
 function caseQuality(part: Part | undefined): number {
   if (!part) return 50
   return CASE_TIERS[part.id] ?? 55
 }
 
+/** Estima si la refrigeración es adecuada para el procesador seleccionado.
+ * @returns Una puntuación de calidad del cooler de 0 a 100.
+ */
 function coolerQuality(part: Part | undefined, cpu: Part | undefined): number {
   if (!part) return 50
   if (part.included) return 55
@@ -663,6 +726,9 @@ function coolerQuality(part: Part | undefined, cpu: Part | undefined): number {
   return clamp(thermal * 0.85 + type + price, 0, 100)
 }
 
+/** Puntúa la calidad y el margen de potencia de una fuente.
+ * @returns Una puntuación de calidad de fuente de 0 a 100.
+ */
 function psuQuality(part: Part | undefined, recommended: number): number {
   if (!part) return 50
   const efficiency = part.efficiency?.includes('Platinum')
@@ -680,6 +746,9 @@ function psuQuality(part: Part | undefined, recommended: number): number {
   return clamp(efficiency * 0.55 + headroom * 0.45, 0, 100)
 }
 
+/** Combina la calidad de placa, gabinete, refrigeración, fuente y memoria.
+ * @returns La puntuación general de calidad de la build.
+ */
 function buildQuality(
   parts: Partial<Record<Category, Part[]>>,
   useCase: UseCase,
@@ -754,6 +823,9 @@ function buildQuality(
   return weight > 0 ? clamp(score / weight - penalty, 0, 100) : 50
 }
 
+/** Puntúa el tamaño y los componentes asociados a una build compacta.
+ * @returns La puntuación de adecuación compacta de la build.
+ */
 function compactScore(parts: Partial<Record<Category, Part[]>>): number {
   const pcCase = parts.case?.[0]
   const mobo = parts.motherboard?.[0]
@@ -764,6 +836,9 @@ function compactScore(parts: Partial<Record<Category, Part[]>>): number {
   return 30
 }
 
+/** Estima qué tan silenciosa puede ser una build según refrigeración y componentes.
+ * @returns La puntuación estimada de silencio.
+ */
 function quietScore(parts: Partial<Record<Category, Part[]>>): number {
   const pcCase = parts.case?.[0]
   const cooler = parts.cooler?.[0]
@@ -780,6 +855,9 @@ function quietScore(parts: Partial<Record<Category, Part[]>>): number {
   return clamp(score, 0, 100)
 }
 
+/** Relaciona el rendimiento estimado con el costo de una build.
+ * @returns La puntuación de rendimiento por precio.
+ */
 function valueScore(performance: number, total: number): number {
   if (total <= 0) return 0
   return clamp((performance / (total / 1_000_000)) * 1.5, 0, 100)
@@ -915,6 +993,9 @@ interface BeamState {
   score: number
 }
 
+/** Estima el costo mínimo de completar las categorías esenciales pendientes.
+ * @returns El costo mínimo estimado restante en la búsqueda.
+ */
 function minRemainingCost(
   category: Category,
   selections: Selections,
@@ -943,14 +1024,23 @@ function minRemainingCost(
   return total
 }
 
+/** Determina si un procesador alcanza el umbral de gama alta del optimizador.
+ * @returns true si el CPU se considera de gama alta.
+ */
 function isHighEndCpu(part: Part | undefined): boolean {
   return Boolean(part && ((part.tdp ?? 0) >= 105 || (part.perf ?? 0) >= 75))
 }
 
+/** Determina si una GPU alcanza el umbral de gama alta del optimizador.
+ * @returns true si la GPU se considera de gama alta.
+ */
 function isHighEndGpu(part: Part | undefined): boolean {
   return Boolean(part && (part.perf ?? 0) >= 50)
 }
 
+/** Genera los componentes posibles para la categoría de un estado parcial de búsqueda.
+ * @returns Las piezas candidatas que respetan compatibilidad, uso y presupuesto.
+ */
 function optionsFor(
   category: Category,
   state: BeamState,
@@ -1137,6 +1227,9 @@ function optionsFor(
   return []
 }
 
+/** Calcula la prioridad heurística de un estado parcial para el beam search.
+ * @returns La puntuación usada para ordenar y recortar estados de búsqueda.
+ */
 function heuristicScore(
   state: BeamState,
   budget: number,
@@ -1164,6 +1257,9 @@ function heuristicScore(
   return score
 }
 
+/** Explora combinaciones de componentes con búsqueda beam y descarta builds inviables.
+ * @returns Los candidatos completos encontrados dentro de las restricciones.
+ */
 function beamSearch(
   input: OptimizerInput,
   profile: SearchProfile,
@@ -1244,6 +1340,9 @@ interface Candidate {
   quiet: number
 }
 
+/** Comprueba que el análisis no tenga piezas esenciales faltantes ni problemas bloqueantes.
+ * @returns true cuando la build está completa y no contiene errores o avisos.
+ */
 function isCompleteBuild(analysis: Analysis): boolean {
   return (
     REQUIRED_CATEGORIES.every((category) => (analysis.selected[category]?.length ?? 0) > 0) &&
@@ -1253,6 +1352,9 @@ function isCompleteBuild(analysis: Analysis): boolean {
   )
 }
 
+/** Convierte un estado de búsqueda en candidato si forma una build válida y completa.
+ * @returns El candidato evaluado o null cuando el estado no sirve.
+ */
 function toCandidate(state: BeamState, useCase: UseCase): Candidate | null {
   const analysis = analyze(state.selections)
   if (!isCompleteBuild(analysis)) return null
@@ -1271,6 +1373,9 @@ function toCandidate(state: BeamState, useCase: UseCase): Candidate | null {
   }
 }
 
+/** Ejecuta perfiles de búsqueda y reúne candidatos únicos para el optimizador.
+ * @returns Los candidatos completos descubiertos.
+ */
 function collectCandidates(
   input: OptimizerInput,
   profiles: SearchProfile[],
@@ -1289,7 +1394,13 @@ function collectCandidates(
   return [...candidates.values()]
 }
 
+/** Construye los perfiles de búsqueda según preferencia, uso y restricciones fijas.
+ * @returns Los perfiles con sus objetivos y pesos de evaluación.
+ */
 function profilesFor(input: OptimizerInput): SearchProfile[] {
+  /** Añade alternativas de plataforma a los perfiles para ampliar diversidad de resultados.
+   * @returns Los perfiles de búsqueda extendidos con sus variantes.
+   */
   const withPlatforms = (profiles: SearchProfile[]) =>
     profiles.flatMap((profile) => [
       { ...profile, platform: 'AMD' as const },
@@ -1302,6 +1413,9 @@ function profilesFor(input: OptimizerInput): SearchProfile[] {
   return withPlatforms(BASE_PROFILES)
 }
 
+/** Selecciona candidatos que mantengan diferencias relevantes entre propuestas.
+ * @returns Los candidatos ordenados con diversidad suficiente.
+ */
 function diversity(
   a: Candidate,
   b: Candidate,
@@ -1374,6 +1488,9 @@ interface SelectedProposal {
   archetype: Archetype
 }
 
+/** Elige y rankea las propuestas finales para los perfiles del optimizador.
+ * @returns Las propuestas seleccionadas, con variedad y recomendación marcada.
+ */
 function selectProposals(
   candidates: Candidate[],
   input: OptimizerInput,
@@ -1486,6 +1603,9 @@ function selectProposals(
           ),
       )
       .sort((a, b) => {
+        /** Puntúa un candidato para el perfil activo de selección.
+         * @returns El valor numérico con el que se ordena el candidato.
+         */
         const score = (candidate: Candidate) =>
           candidate.performance +
           candidate.quality * 0.4 +
@@ -1501,10 +1621,16 @@ function selectProposals(
   return chosen
 }
 
+/** Obtiene el nombre de la primera pieza de una categoría para generar textos.
+ * @returns El nombre encontrado o una cadena vacía si no hay pieza.
+ */
 function partName(parts: Partial<Record<Category, Part[]>>, category: Category): string {
   return parts[category]?.[0]?.name ?? '—'
 }
 
+/** Construye etiquetas breves que describen plataforma y atributos del candidato.
+ * @returns Las etiquetas visuales de la propuesta.
+ */
 function badgesFor(candidate: Candidate): string[] {
   const cpu = candidate.parts.cpu?.[0]
   const gpu = candidate.parts.gpu?.[0]
@@ -1527,6 +1653,9 @@ function badgesFor(candidate: Candidate): string[] {
   return badges.slice(0, 6)
 }
 
+/** Resume las ventajas relevantes de una propuesta para mostrar al usuario.
+ * @returns La lista de aspectos destacados del candidato.
+ */
 function highlightsFor(candidate: Candidate): string[] {
   const cpu = candidate.parts.cpu?.[0]
   const gpu = candidate.parts.gpu?.[0]
@@ -1562,6 +1691,9 @@ function highlightsFor(candidate: Candidate): string[] {
   return highlights
 }
 
+/** Convierte un candidato en la estructura pública de propuesta del optimizador.
+ * @returns La propuesta con costo, métricas, piezas y metadatos de presentación.
+ */
 function toProposal(
   candidate: Candidate,
   archetype: (typeof ARCHETYPES)[number],
@@ -1610,6 +1742,9 @@ function toProposal(
 /* Búsqueda de mínimo y API pública                                   */
 /* ------------------------------------------------------------------ */
 
+/** Busca la build completa de menor costo que cumple los criterios indicados.
+ * @returns El candidato más económico o null si no existe uno válido.
+ */
 function cheapestFor(input: OptimizerInput, budget: number): Candidate | null {
   const states = beamSearch(
     input,
@@ -1625,6 +1760,9 @@ function cheapestFor(input: OptimizerInput, budget: number): Candidate | null {
   return cheapest
 }
 
+/** Estima el presupuesto mínimo necesario para generar una build completa válida.
+ * @returns El mínimo estimado o null si no se puede construir una propuesta.
+ */
 function minimumBudgetFor(input: OptimizerInput): number | null {
   // Para la preferencia compacta el mínimo relevante es el de la build más
   // económica con gabinete chico (aunque no sea Mini-ITX), porque el motor
@@ -1633,6 +1771,9 @@ function minimumBudgetFor(input: OptimizerInput): number | null {
   return cheapestFor(effective, HUGE_BUDGET)?.total ?? null
 }
 
+/** Redacta una explicación para los resultados vacíos del optimizador.
+ * @returns El mensaje orientativo según el presupuesto mínimo disponible.
+ */
 function fallbackMessage(input: OptimizerInput, minimum: number | null): string {
   const config = USE_CASES[input.useCase]
   const locked = Boolean(input.locked)
@@ -1648,6 +1789,9 @@ function fallbackMessage(input: OptimizerInput, minimum: number | null): string 
   return `No encontramos ${base} y compatible con ese presupuesto.`
 }
 
+/** Formatea una cifra de presupuesto sin decimales para mensajes del optimizador.
+ * @returns El monto localizado como pesos argentinos.
+ */
 function formatBudget(value: number): string {
   return new Intl.NumberFormat('es-AR', {
     style: 'currency',
@@ -1656,6 +1800,9 @@ function formatBudget(value: number): string {
   }).format(value)
 }
 
+/** Busca builds compatibles y las rankea según presupuesto, uso y preferencia.
+ * @returns Las propuestas ordenadas o el motivo y orientación si no hay resultados.
+ */
 export function optimizeBuild(input: OptimizerInput): OptimizerResult {
   const budget = Math.round(input.budget)
   const locked = normalizeLocked(input.locked)

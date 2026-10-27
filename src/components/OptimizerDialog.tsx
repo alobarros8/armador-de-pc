@@ -26,6 +26,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { CATEGORIES, CATEGORY_BY_ID, getPart } from '../data/catalog'
 import { cn } from '../lib/cn'
 import { money, moneyShort } from '../lib/format'
+import { explainBuild } from '../lib/advisor'
 import {
   PREFERENCE_OPTIONS,
   USE_CASE_OPTIONS,
@@ -67,16 +68,25 @@ const QUICK_BUDGETS = [800_000, 1_200_000, 1_800_000, 2_500_000, 3_500_000]
 
 const budgetFormatter = new Intl.NumberFormat('es-AR', { maximumFractionDigits: 0 })
 
+/** Busca el nombre visible de un caso de uso del optimizador.
+ * @returns La etiqueta del caso de uso o su identificador si no existe.
+ */
 function getUseCaseLabel(id: UseCase): string {
   return USE_CASE_OPTIONS.find((option) => option.id === id)?.label ?? id
 }
 
+/** Busca el nombre visible de una preferencia del optimizador.
+ * @returns La etiqueta de la preferencia o su identificador si no existe.
+ */
 function getPreferenceLabel(id: Preference): string {
   return PREFERENCE_OPTIONS.find((option) => option.id === id)?.label ?? id
 }
 
 type TowerEntry = { category: Category; part: Part }
 
+/** Resuelve las selecciones de categorías esenciales a piezas de la torre.
+ * @returns Las piezas existentes junto con su categoría.
+ */
 function towerPartsOf(selections: Selections): TowerEntry[] {
   return CATEGORIES.filter((meta) => meta.group === 'esencial').flatMap((meta) =>
     (selections[meta.id] ?? [])
@@ -86,6 +96,9 @@ function towerPartsOf(selections: Selections): TowerEntry[] {
   )
 }
 
+/** Muestra una métrica numérica junto a su barra de progreso.
+ * @returns El bloque de métrica con valor e indicador.
+ */
 function Metric({
   label,
   value,
@@ -106,11 +119,16 @@ function Metric({
   )
 }
 
+/** Presenta una propuesta completa del optimizador y permite aplicarla.
+ * @returns La tarjeta con métricas, piezas y acción de aplicación.
+ */
 function ProposalCard({
   proposal,
+  useCase,
   onApply,
 }: {
   proposal: OptimizerProposal
+  useCase: UseCase
   onApply: (proposal: OptimizerProposal) => void
 }) {
   const rows = PROPOSAL_CATEGORIES.map((category) => ({
@@ -213,6 +231,22 @@ function ProposalCard({
         ))}
       </ul>
 
+      <details className="mt-3 rounded-xl border border-white/[0.06] bg-white/[0.02] px-3 py-2">
+        <summary className="cursor-pointer text-caption font-semibold text-slate-300">
+          ¿Por qué esta build?
+        </summary>
+        <ul className="mt-2 space-y-1">
+          {explainBuild(proposal.selections, useCase, proposal.budget).map((reason, index) => (
+            <li key={index} className="text-caption leading-4 text-slate-400">
+              {reason}
+            </li>
+          ))}
+        </ul>
+        <p className="mt-2 text-micro text-slate-500">
+          El índice de rendimiento es orientativo, no FPS medidos.
+        </p>
+      </details>
+
       <div className="mt-3 flex-1 border-t border-white/[0.06] pt-2.5">
         <p className="label mb-1.5">Componentes</p>
         <ul className="space-y-1">
@@ -247,6 +281,9 @@ function ProposalCard({
   )
 }
 
+/** Configura el optimizador, muestra resultados y permite aplicar o ajustar propuestas.
+ * @returns El diálogo de configuración y resultados del optimizador.
+ */
 export function OptimizerDialog({
   open,
   onClose,
@@ -299,6 +336,9 @@ export function OptimizerDialog({
     }
   }, [budgetValue, lockedSelections, phase, preference, useCase])
 
+  /** Valida el presupuesto y comienza la generación de propuestas.
+   * @returns No devuelve valor.
+   */
   const start = () => {
     if (!budgetValue || budgetValue <= 0) {
       setFormError('Ingresá un presupuesto para la torre.')
@@ -309,11 +349,17 @@ export function OptimizerDialog({
     setPhase('loading')
   }
 
+  /** Vuelve al formulario y descarta el resultado mostrado.
+   * @returns No devuelve valor.
+   */
   const backToForm = () => {
     setPhase('form')
     setResult(null)
   }
 
+  /** Ajusta el presupuesto al mínimo sugerido y vuelve a ejecutar la búsqueda.
+   * @returns No devuelve valor.
+   */
   const retryWithMinimum = (minimum: number) => {
     setBudgetValue(Math.ceil(minimum / 10_000) * 10_000)
     setFormError(null)
@@ -321,6 +367,9 @@ export function OptimizerDialog({
     setPhase('loading')
   }
 
+  /** Desactiva las piezas fijas y repite la búsqueda desde cero.
+   * @returns No devuelve valor.
+   */
   const retryWithoutLocks = () => {
     setKeepCurrent(false)
     setFormError(null)
@@ -429,7 +478,7 @@ export function OptimizerDialog({
 
             <div className="grid items-stretch gap-3 sm:grid-cols-2 xl:grid-cols-3">
               {result.proposals.map((proposal) => (
-                <ProposalCard key={proposal.id} proposal={proposal} onApply={onApply} />
+                <ProposalCard key={proposal.id} proposal={proposal} useCase={useCase} onApply={onApply} />
               ))}
             </div>
 
