@@ -10,6 +10,9 @@ export interface BuildSnapshot {
 
 export const EMPTY_SELECTIONS: Selections = {}
 
+/** Codifica texto UTF-8 como base64url apto para incluir en un enlace.
+ * @returns El texto codificado sin caracteres reservados de URL ni padding.
+ */
 function toBase64Url(text: string): string {
   const bytes = new TextEncoder().encode(text)
   let binary = ''
@@ -17,6 +20,9 @@ function toBase64Url(text: string): string {
   return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
 }
 
+/** Decodifica una cadena base64url y reconstruye su texto UTF-8.
+ * @returns El texto original decodificado.
+ */
 function fromBase64Url(code: string): string {
   const base64 = code.replace(/-/g, '+').replace(/_/g, '/')
   const padded = base64 + '='.repeat((4 - (base64.length % 4)) % 4)
@@ -25,6 +31,9 @@ function fromBase64Url(code: string): string {
   return new TextDecoder().decode(bytes)
 }
 
+/** Filtra categorías, IDs y cantidades para dejar solo selecciones válidas del catálogo.
+ * @returns Las selecciones normalizadas y limitadas por categoría.
+ */
 export function sanitizeSelections(input: unknown): Selections {
   if (!input || typeof input !== 'object') return {}
   const raw = input as Record<string, unknown>
@@ -43,6 +52,9 @@ export function sanitizeSelections(input: unknown): Selections {
   return result
 }
 
+/** Serializa y codifica una build para almacenarla en un hash de URL.
+ * @returns El código base64url de la instantánea.
+ */
 export function encodeBuild(snapshot: BuildSnapshot): string {
   return toBase64Url(
     JSON.stringify({
@@ -53,6 +65,9 @@ export function encodeBuild(snapshot: BuildSnapshot): string {
   )
 }
 
+/** Decodifica un código compartido y valida su versión, presupuesto y selecciones.
+ * @returns La instantánea validada o null si el código es inválido o ilegible.
+ */
 export function decodeBuild(code: string): BuildSnapshot | null {
   try {
     const parsed = JSON.parse(fromBase64Url(code)) as {
@@ -71,7 +86,16 @@ export function decodeBuild(code: string): BuildSnapshot | null {
   }
 }
 
+/** Lee y decodifica el parámetro de build del hash de la URL actual.
+ * @returns La instantánea del enlace o null si no hay un código válido.
+ */
 export function readBuildFromLocation(): BuildSnapshot | null {
+  // Nuevo formato: query param ?b=
+  const searchParams = new URLSearchParams(window.location.search)
+  const queryCode = searchParams.get('b')
+  if (queryCode) return decodeBuild(queryCode)
+
+  // Compatibilidad con links viejos: #b=
   const hash = window.location.hash.replace(/^#/, '')
   if (!hash) return null
   const params = new URLSearchParams(hash)
@@ -79,17 +103,26 @@ export function readBuildFromLocation(): BuildSnapshot | null {
   return code ? decodeBuild(code) : null
 }
 
+/** Reemplaza la URL actual por el código de la build indicada en query param.
+ * @returns No devuelve valor.
+ */
 export function writeBuildToLocation(snapshot: BuildSnapshot): void {
   const code = encodeBuild(snapshot)
-  const url = `${window.location.pathname}${window.location.search}#b=${code}`
+  const url = `${window.location.pathname}?b=${code}`
   window.history.replaceState(null, '', url)
 }
 
+/** Construye un enlace absoluto que contiene la build en query param.
+ * @returns La URL compartible de la instantánea.
+ */
 export function buildLink(snapshot: BuildSnapshot): string {
   const code = encodeBuild(snapshot)
-  return `${window.location.origin}${window.location.pathname}#b=${code}`
+  return `${window.location.origin}${window.location.pathname}?b=${code}`
 }
 
+/** Genera una lista legible de componentes, costos, consumo y enlace para compartir.
+ * @returns El resumen textual completo de la build.
+ */
 export function buildToText(
   snapshot: BuildSnapshot,
   extra: { total: number; watts: number; link?: string },
@@ -109,6 +142,9 @@ export function buildToText(
   return lines.join('\n')
 }
 
+/** Copia texto usando Clipboard API y recurre al mecanismo clásico del navegador si falla.
+ * @returns Una promesa con true si el texto se copió y false si no fue posible.
+ */
 export async function copyText(text: string): Promise<boolean> {
   try {
     await navigator.clipboard.writeText(text)
@@ -126,6 +162,9 @@ export async function copyText(text: string): Promise<boolean> {
   }
 }
 
+/** Genera y descarga un archivo JSON con la instantánea de la build.
+ * @returns No devuelve valor.
+ */
 export function downloadBuild(snapshot: BuildSnapshot): void {
   const blob = new Blob([JSON.stringify(snapshot, null, 2)], { type: 'application/json' })
   const url = URL.createObjectURL(blob)
@@ -138,6 +177,9 @@ export function downloadBuild(snapshot: BuildSnapshot): void {
   URL.revokeObjectURL(url)
 }
 
+/** Lee un archivo JSON de build y normaliza sus campos y selecciones.
+ * @returns Una promesa con la instantánea válida o null si el archivo no se puede leer.
+ */
 export function readBuildFile(file: File): Promise<BuildSnapshot | null> {
   return new Promise((resolve) => {
     const reader = new FileReader()
@@ -167,6 +209,9 @@ export function readBuildFile(file: File): Promise<BuildSnapshot | null> {
   })
 }
 
+/** Cuenta cuántas piezas están seleccionadas en una categoría.
+ * @returns La cantidad de IDs guardados para esa categoría.
+ */
 export function categoryItemCount(selections: Selections, category: Category): number {
   return selections[category]?.length ?? 0
 }
