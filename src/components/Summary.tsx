@@ -3,6 +3,7 @@ import {
   Download,
   Info,
   Lock,
+  MessageCircle,
   Share2,
   TriangleAlert,
   Wallet,
@@ -55,6 +56,7 @@ export function Summary({
   onOpenShare,
   onExport,
   onCopyList,
+  whatsappUrl,
   compact,
 }: {
   analysis: Analysis
@@ -66,6 +68,7 @@ export function Summary({
   onOpenShare: () => void
   onExport: () => void
   onCopyList: () => void
+  whatsappUrl: string
   compact?: boolean
 }) {
   const [expanded, setExpanded] = useState(false)
@@ -308,6 +311,26 @@ export function Summary({
           </button>
         ) : null}
       </div>
+
+      {analysis.isComplete ? (
+        <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/[0.06] p-3">
+          <p className="text-sm font-semibold text-emerald-200">
+            ¡Tu build está lista y es compatible!
+          </p>
+          <p className="mt-1 text-caption leading-4 text-slate-300">
+            Consultá por WhatsApp el mejor precio y las opciones de armado. Te enviamos la lista
+            completa de componentes.
+          </p>
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="btn mt-2.5 w-full bg-emerald-500 text-xs text-ink-950 hover:bg-emerald-400"
+          >
+            <MessageCircle className="size-3.5" aria-hidden /> Consultar mejor precio por WhatsApp
+          </a>
+        </div>
+      ) : null}
 
       <div className="grid grid-cols-2 gap-2">
         <button type="button" onClick={onOpenShare} className="btn btn-primary text-xs">

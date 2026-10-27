@@ -1,6 +1,8 @@
+// @vitest-environment happy-dom
 import { describe, expect, it } from 'vitest'
 import {
   buildToText,
+  buildWhatsAppLink,
   decodeBuild,
   encodeBuild,
   sanitizeSelections,
@@ -123,5 +125,28 @@ describe('buildToText()', () => {
       { total: 0, watts: 22 },
     )
     expect((empty.match(/^- /g) ?? []).length).toBe(0)
+  })
+})
+
+describe('buildWhatsAppLink()', () => {
+  it('prepara una consulta con teléfono, lista de piezas, total y enlace de la build', () => {
+    const textBuild: BuildSnapshot = {
+      version: 1,
+      budget: null,
+      selections: {
+        cpu: ['amd-r5-5500'],
+        motherboard: ['msi-b550m-a-pro'],
+      },
+    }
+
+    const url = new URL(buildWhatsAppLink(textBuild, { total: 310_600, watts: 180 }))
+    const message = url.searchParams.get('text') ?? ''
+
+    expect(url.origin + url.pathname).toBe('https://wa.me/5491170637971')
+    expect(message).toContain('consultar el mejor precio disponible')
+    expect(message).toContain('AMD Ryzen 5 5500')
+    expect(message).toContain('Total:')
+    expect(message).toContain('180 W')
+    expect(message).toContain('http://localhost:3000/?b=')
   })
 })

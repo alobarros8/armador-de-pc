@@ -10,6 +10,8 @@ export interface BuildSnapshot {
 
 export const EMPTY_SELECTIONS: Selections = {}
 
+const WHATSAPP_PHONE = '5491170637971'
+
 /** Codifica texto UTF-8 como base64url apto para incluir en un enlace.
  * @returns El texto codificado sin caracteres reservados de URL ni padding.
  */
@@ -140,6 +142,25 @@ export function buildToText(
   lines.push('', `Total: ${money(extra.total)}`, `Consumo estimado: ${extra.watts} W`)
   if (extra.link) lines.push('', extra.link)
   return lines.join('\n')
+}
+
+/** Crea un enlace de WhatsApp con el pedido de cotización y la lista de piezas.
+ * @returns La URL de WhatsApp con el mensaje de consulta precompletado.
+ */
+export function buildWhatsAppLink(
+  snapshot: BuildSnapshot,
+  extra: { total: number; watts: number },
+): string {
+  const buildText = buildToText(snapshot, {
+    ...extra,
+    link: buildLink(snapshot),
+  })
+  const message = [
+    'Hola, armé esta PC en Armador de PC y quisiera consultar el mejor precio disponible y el costo de armado. ¿Me pueden pasar una cotización?',
+    buildText,
+  ].join('\n\n')
+
+  return `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`
 }
 
 /** Copia texto usando Clipboard API y recurre al mecanismo clásico del navegador si falla.

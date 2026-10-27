@@ -5,7 +5,9 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { Modal } from './ui'
 import { CompareView } from './CompareView'
 import { SavedDialog } from './SavedDialog'
+import { Summary } from './Summary'
 import type { SavedBuild } from '../lib/history'
+import { analyze } from '../lib/compat'
 
 afterEach(() => {
   cleanup()
@@ -66,6 +68,40 @@ describe('<Modal>', () => {
     dos.focus()
     await userEvent.tab()
     expect(document.activeElement).toBe(cerrar)
+  })
+})
+
+describe('<Summary> cotización por WhatsApp', () => {
+  const summaryProps = {
+    analysis: analyze({}),
+    budget: null,
+    onBudget: vi.fn(),
+    onSelectCategory: vi.fn(),
+    onOpenOptimizer: vi.fn(),
+    onOptimizeCurrent: vi.fn(),
+    onOpenShare: vi.fn(),
+    onExport: vi.fn(),
+    onCopyList: vi.fn(),
+    whatsappUrl: 'https://wa.me/5491170637971?text=test',
+  }
+
+  it('muestra la consulta por WhatsApp solo al completar una build compatible', () => {
+    render(
+      <Summary
+        {...summaryProps}
+        analysis={{ ...summaryProps.analysis, isComplete: true }}
+      />,
+    )
+
+    const link = screen.getByRole('link', { name: /Consultar mejor precio por WhatsApp/ })
+    expect(link.getAttribute('href')).toBe(summaryProps.whatsappUrl)
+    expect(screen.getByText(/lista completa de componentes/)).toBeTruthy()
+  })
+
+  it('oculta la consulta por WhatsApp si la build no está completa', () => {
+    render(<Summary {...summaryProps} />)
+
+    expect(screen.queryByRole('link', { name: /Consultar mejor precio por WhatsApp/ })).toBeNull()
   })
 })
 

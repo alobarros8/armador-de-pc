@@ -16,7 +16,14 @@ import { partCompatibility } from './lib/compat'
 import { formatDateDMY, isOlderThan, money } from './lib/format'
 import { PRICES_UPDATED_AT } from './data/catalog'
 import type { OptimizerProposal } from './lib/optimizer'
-import { buildLink, buildToText, copyText, downloadBuild, type BuildSnapshot } from './lib/share'
+import {
+  buildLink,
+  buildToText,
+  buildWhatsAppLink,
+  copyText,
+  downloadBuild,
+  type BuildSnapshot,
+} from './lib/share'
 import { useBuild } from './lib/useBuild'
 import type { Category, Part, Selections } from './types'
 
@@ -217,6 +224,10 @@ export default function App() {
     },
     onExport: exportBuild,
     onCopyList: copyList,
+    whatsappUrl: buildWhatsAppLink(build.snapshot, {
+      total: analysis.total,
+      watts: analysis.watts,
+    }),
   }
 
   return (
@@ -376,7 +387,7 @@ export default function App() {
             >
               Compra Gamer
             </a>
-            . Hecho con React, Vite y Tailwind.
+            . Hecho por Alejandro Barros · Desarrollado con React, Vite y Tailwind.
           </p>
         </div>
       </footer>
