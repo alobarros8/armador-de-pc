@@ -47,6 +47,7 @@ Los armadores de PC de las tiendas validan lo básico (socket, formato), pero de
 <!-- TODO: completá con tu experiencia real. Ideas de qué contar (2-3 líneas cada una): -->
 
 - **¿Por qué beam search y no fuerza bruta?** _(ej.: el espacio de combinaciones crece multiplicativamente con cada categoría; beam search lo acota y mantiene resultados buenos.)_
+- **¿Por qué separar precios en `prices.json`?** Para actualizar precios automáticamente (GitHub Action semanal) sin tocar el catálogo ni romper builds guardadas/links/presets; el catálogo usa el valor embebido como fallback si falta una pieza, y la app muestra la fecha de última actualización. Las variaciones >±40% se marcan y no se aplican, y se prefiere PR sobre commit directo para revisar.
 - **¿Por qué 100 % frontend?** _(ej.: cero costos de hosting, el link es la build, y el catálogo es chico y curado.)_
 - **Lo más difícil:** _(ej.: que el optimizador y el motor de compatibilidad compartieran las mismas reglas sin duplicarlas.)_
 - **Qué haría distinto / próximos pasos:** _(ej.: precios automáticos, benchmarks reales en lugar de un índice orientativo.)_
