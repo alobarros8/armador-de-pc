@@ -155,6 +155,9 @@ export const PART_IMAGES: Record<string, string> = {
   'extra-win11': '/parts/extra-win11.jpg',
 }
 
+/** Busca la ruta de imagen local asociada a una pieza del catálogo.
+ * @returns La ruta pública de la imagen o undefined si no tiene una asignada.
+ */
 export function partImage(id: string): string | undefined {
   return PART_IMAGES[id]
 }

@@ -38,6 +38,9 @@ const CATEGORY_ICONS: Record<Category, LucideIcon> = {
   extra: Puzzle,
 }
 
+/** Selecciona y renderiza el icono asociado a una categoría del catálogo.
+ * @returns El icono decorativo de la categoría.
+ */
 export function CategoryIcon({
   category,
   className = 'size-4',
@@ -49,6 +52,9 @@ export function CategoryIcon({
   return <Icon className={className} aria-hidden />
 }
 
+/** Renderiza un diálogo accesible con cierre por teclado, fondo y foco contenidos.
+ * @returns El diálogo cuando está abierto; en caso contrario, no renderiza contenido.
+ */
 export function Modal({
   open,
   onClose,
@@ -75,6 +81,9 @@ export function Modal({
     // Llevamos el foco al panel del modal para teclado y lectores de pantalla.
     dialog?.focus()
 
+    /** Cierra el diálogo con Escape y mantiene el foco dentro al tabular.
+     * @returns No devuelve valor.
+     */
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         event.stopPropagation()
@@ -166,6 +175,9 @@ const BRAND_TONES: Record<string, string> = {
   GeForce: 'border-emerald-400/25 bg-emerald-500/10 text-emerald-300',
 }
 
+/** Muestra la marca del componente con el color asociado a ella.
+ * @returns La etiqueta visual de marca o fabricante.
+ */
 export function BrandBadge({ part }: { part: Part }) {
   const label = part.category === 'gpu' && part.chip ? part.chip : part.brand
   return (
@@ -180,6 +192,9 @@ export function BrandBadge({ part }: { part: Part }) {
   )
 }
 
+/** Muestra la plataforma seleccionada con un estilo distintivo.
+ * @returns La etiqueta visual de plataforma.
+ */
 export function PlatformBadge({ platform }: { platform: string }) {
   const tone =
     platform === 'AMD'
@@ -199,6 +214,9 @@ export function PlatformBadge({ platform }: { platform: string }) {
   )
 }
 
+/** Representa visualmente el nivel de compatibilidad o si el componente ya está seleccionado.
+ * @returns La etiqueta de estado de compatibilidad.
+ */
 export function CompatBadge({
   level,
   reason,
@@ -247,6 +265,9 @@ export function CompatBadge({
   )
 }
 
+/** Dibuja una barra de progreso acotada entre 0 y 100, con tono y marcas opcionales.
+ * @returns La barra de progreso accesible como elemento visual.
+ */
 export function Progress({
   value,
   tone = 'brand',

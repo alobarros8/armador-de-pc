@@ -21,6 +21,9 @@ const COLORS = {
 const FONT = "Inter, 'Segoe UI', system-ui, sans-serif"
 const MONO = "'JetBrains Mono', ui-monospace, monospace"
 
+/** Recorta texto hasta que quepa en el ancho disponible del canvas.
+ * @returns El texto original o una versión abreviada con puntos suspensivos.
+ */
 function truncate(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string {
   if (ctx.measureText(text).width <= maxWidth) return text
   let result = text
@@ -30,6 +33,9 @@ function truncate(ctx: CanvasRenderingContext2D, text: string, maxWidth: number)
   return `${result}…`
 }
 
+/** Formatea un importe para incluirlo en la tarjeta de build.
+ * @returns El importe localizado en pesos argentinos.
+ */
 function money(value: number): string {
   return new Intl.NumberFormat('es-AR', {
     style: 'currency',
@@ -38,7 +44,9 @@ function money(value: number): string {
   }).format(value)
 }
 
-/** Genera la imagen de resumen de la build (PNG, ~1200 ancho, 2x nitidez). */
+/** Dibuja una tarjeta PNG de 1200 px con componentes, total y metadatos de la build.
+ * @returns Una promesa con la imagen generada como Blob PNG.
+ */
 export async function createBuildCardBlob(
   snapshot: BuildSnapshot,
   meta: BuildCardOptions,
@@ -184,6 +192,9 @@ export async function createBuildCardBlob(
   })
 }
 
+/** Descarga un Blob en el navegador usando el nombre de archivo indicado.
+ * @returns No devuelve valor.
+ */
 export function downloadBlob(blob: Blob, filename: string): void {
   const url = URL.createObjectURL(blob)
   const anchor = document.createElement('a')

@@ -1,6 +1,9 @@
 import { ArrowRight, Check, Sparkles, Wrench } from 'lucide-react'
 import { PRESETS } from '../data/presets'
 
+/** Renderiza un punto de una lista de características con un icono de confirmación.
+ * @returns Un elemento de lista con el texto recibido.
+ */
 function OptionPoint({ children }: { children: string }) {
   return (
     <li className="flex items-start gap-2 text-xs leading-5 text-slate-400">
@@ -10,6 +13,9 @@ function OptionPoint({ children }: { children: string }) {
   )
 }
 
+/** Ofrece iniciar con un preset o comenzar el armado desde cero.
+ * @returns La pantalla inicial con las dos opciones de armado.
+ */
 export function StartScreen({
   onLoadPreset,
   onStartFromScratch,

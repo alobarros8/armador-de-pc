@@ -6,6 +6,9 @@ import type { Category, Selections } from '../types'
 import { CategoryIcon, Progress } from './ui'
 import { cn } from '../lib/cn'
 
+/** Muestra una categoría de componentes, sus selecciones y acciones para cambiarla o vaciarla.
+ * @returns El bloque visual de una categoría del panel de build.
+ */
 function Slot({
   category,
   selectedParts,
@@ -90,6 +93,9 @@ function Slot({
   )
 }
 
+/** Resume el avance de la build y permite navegar categorías, usar presets, optimizar o limpiar.
+ * @returns El panel lateral con categorías seleccionadas y acciones de armado.
+ */
 export function BuildPanel({
   selections,
   analysis,

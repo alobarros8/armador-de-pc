@@ -26,12 +26,18 @@ type Notify = (message: string, tone?: 'success' | 'error' | 'info') => void
 /* Presets                                                            */
 /* ------------------------------------------------------------------ */
 
+/** Suma el precio de todas las piezas incluidas en un preset.
+ * @returns El costo total de referencia del preset.
+ */
 function presetTotal(preset: Preset): number {
   return Object.values(preset.selections)
     .flat()
     .reduce((total, id) => total + (getPart(id)?.price ?? 0), 0)
 }
 
+/** Lista los presets disponibles y permite aplicar uno.
+ * @returns El diálogo de selección de builds preestablecidas.
+ */
 export function PresetsDialog({
   open,
   onClose,
@@ -91,6 +97,9 @@ export function PresetsDialog({
 /* Share / import                                                     */
 /* ------------------------------------------------------------------ */
 
+/** Interpreta un JSON, enlace o código compartido y valida sus selecciones.
+ * @returns La instantánea normalizada o null si el contenido no se puede leer.
+ */
 function parseImport(input: string): BuildSnapshot | null {
   const trimmed = input.trim()
   if (!trimmed) return null
@@ -124,6 +133,9 @@ function parseImport(input: string): BuildSnapshot | null {
   return decodeBuild(trimmed.replace(/^#?b=/, ''))
 }
 
+/** Permite compartir, exportar e importar una build mediante enlace, texto, JSON o imagen.
+ * @returns El diálogo de compartir e importar builds.
+ */
 export function ShareDialog({
   open,
   onClose,
@@ -145,11 +157,17 @@ export function ShareDialog({
   const link = buildLink(snapshot)
   const json = JSON.stringify(snapshot, null, 2)
 
+  /** Copia texto y muestra una notificación según el resultado.
+   * @returns Una promesa que se resuelve al completar la copia y la notificación.
+   */
   const copy = async (text: string, message: string) => {
     const ok = await copyText(text)
     notify(ok ? message : 'No se pudo copiar al portapapeles', ok ? 'success' : 'error')
   }
 
+  /** Valida el resultado importado y lo aplica o comunica un error de lectura.
+   * @returns No devuelve valor.
+   */
   const applySnapshot = (next: BuildSnapshot | null) => {
     if (!next) {
       setError('No pudimos leer ese código. Revisá que sea un link o JSON válido.')
@@ -166,6 +184,9 @@ export function ShareDialog({
     link,
   })
 
+  /** Genera y descarga la tarjeta PNG de la build, notificando éxito o fallo.
+   * @returns Una promesa que se resuelve al finalizar la generación y descarga.
+   */
   const downloadCard = async () => {
     setCardBusy(true)
     try {
@@ -320,6 +341,9 @@ export function ShareDialog({
 /* Part detail                                                        */
 /* ------------------------------------------------------------------ */
 
+/** Muestra los datos técnicos, compatibilidad y acciones de una pieza del catálogo.
+ * @returns El diálogo de detalle si hay una pieza seleccionada.
+ */
 export function PartDetailDialog({
   part,
   selected,

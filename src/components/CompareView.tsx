@@ -7,6 +7,9 @@ import type { Category } from '../types'
 import { CategoryIcon } from './ui'
 import { cn } from '../lib/cn'
 
+/** Formatea una marca de tiempo para mostrarla junto a una build guardada.
+ * @returns La fecha y hora localizadas para Argentina.
+ */
 function itemDate(timestamp: number): string {
   return new Date(timestamp).toLocaleDateString('es-AR', {
     day: '2-digit',
@@ -24,6 +27,9 @@ interface ComparisonRow {
   same: boolean
 }
 
+/** Presenta el total, estado de compatibilidad y métricas de una build comparada.
+ * @returns La tarjeta de resumen de una build.
+ */
 function SideCard({ title, item }: { title: string; item: SavedBuild }) {
   const analysis = analyze(item.snapshot.selections)
 
@@ -74,6 +80,9 @@ function SideCard({ title, item }: { title: string; item: SavedBuild }) {
   )
 }
 
+/** Muestra el componente de una build para una categoría y destaca el menor precio.
+ * @returns La celda de comparación de una selección.
+ */
 function SideCell({
   name,
   total,
@@ -106,6 +115,9 @@ function SideCell({
   )
 }
 
+/** Compara dos builds guardadas por categoría, precio y compatibilidad.
+ * @returns La vista comparativa con diferencias entre ambas builds.
+ */
 export function CompareView({
   a,
   b,

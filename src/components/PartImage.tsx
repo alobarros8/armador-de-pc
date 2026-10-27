@@ -4,10 +4,8 @@ import type { Part } from '../types'
 import { CategoryIcon } from './ui'
 import { cn } from '../lib/cn'
 
-/**
- * Foto del producto con fallback gráfico. Las imágenes locales viven en
- * public/parts y se sirven desde el mismo origen, así que no dependen de
- * conexión ni de hotlinks.
+/** Muestra la foto local del producto y reemplaza imágenes ausentes por un fallback gráfico.
+ * @returns La imagen del componente o su representación alternativa.
  */
 export function PartImage({
   part,

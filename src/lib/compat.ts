@@ -26,12 +26,18 @@ const RAM_BY_RESOLUTION: Array<{ minPerf: number; resolution: string; label: str
   { minPerf: 25, resolution: '1080p', label: '1080p 144 Hz' },
 ]
 
+/** Extrae el ancho en píxeles del formato de resolución del catálogo.
+ * @returns El ancho numérico o cero cuando no puede determinarse.
+ */
 function resolutionWidth(resolution?: string): number {
   if (!resolution) return 0
   const width = Number(resolution.split('×')[0])
   return Number.isFinite(width) ? width : 0
 }
 
+/** Convierte una resolución en una etiqueta habitual para pantallas.
+ * @returns La etiqueta 4K, UWQHD, 1440p, 1080p o el valor recibido.
+ */
 function resolutionLabel(resolution?: string): string {
   const width = resolutionWidth(resolution)
   if (width >= 3840) return '4K'
@@ -41,7 +47,9 @@ function resolutionLabel(resolution?: string): string {
   return resolution ?? '—'
 }
 
-/** Consumo estimado de la build en watts: CPU + GPU + overhead de placa/cooler + storage. */
+/** Estima el consumo de CPU, GPU, placa, refrigeración y unidades de almacenamiento.
+ * @returns El consumo total estimado de la build en watts.
+ */
 export function estimateWatts(selections: Selections): number {
   const cpu = getPart(selections.cpu?.[0])
   const gpu = getPart(selections.gpu?.[0])
@@ -58,6 +66,9 @@ export function estimateWatts(selections: Selections): number {
   )
 }
 
+/** Analiza costos, consumo, rendimiento y reglas de compatibilidad de una build.
+ * @returns El análisis completo con métricas, piezas y advertencias.
+ */
 export function analyze(selections: Selections): Analysis {
   const selected: Partial<Record<Category, Part[]>> = {}
   for (const category of CATEGORIES) {
@@ -77,6 +88,9 @@ export function analyze(selections: Selections): Analysis {
   const monitorPart = selected.monitor?.[0]
 
   const issues: Issue[] = []
+  /** Agrega una incidencia detectada al resultado del análisis.
+   * @returns El nuevo largo del arreglo de incidencias.
+   */
   const add = (issue: Issue) => issues.push(issue)
 
   const partCount = Object.values(selected).reduce((acc, list) => acc + (list?.length ?? 0), 0)
@@ -459,6 +473,9 @@ export function analyze(selections: Selections): Analysis {
   }
 }
 
+/** Evalúa cómo encaja una pieza candidata con las selecciones actuales.
+ * @returns El nivel de compatibilidad y una explicación si hay un conflicto o aviso.
+ */
 export function partCompatibility(part: Part, selections: Selections): {
   level: 'ok' | 'warn' | 'bad'
   reason: string

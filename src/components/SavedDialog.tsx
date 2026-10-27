@@ -10,6 +10,9 @@ import { CompareView } from './CompareView'
 
 type Notify = (message: string, tone?: 'success' | 'error' | 'info') => void
 
+/** Calcula cuántas piezas y cuánto cuestan las selecciones de una instantánea.
+ * @returns La cantidad de piezas y su precio acumulado.
+ */
 function buildDetails(snapshot: BuildSnapshot): { count: number; total: number } {
   const parts = Object.values(snapshot.selections)
     .flat()
@@ -20,6 +23,9 @@ function buildDetails(snapshot: BuildSnapshot): { count: number; total: number }
   }
 }
 
+/** Formatea la fecha de guardado para mostrarla en la lista.
+ * @returns La fecha y hora localizadas para Argentina.
+ */
 function itemDate(item: SavedBuild): string {
   return new Date(item.createdAt).toLocaleDateString('es-AR', {
     day: '2-digit',
@@ -29,6 +35,9 @@ function itemDate(item: SavedBuild): string {
   })
 }
 
+/** Permite guardar, cargar, eliminar y comparar builds persistidas en el navegador.
+ * @returns El diálogo de administración de builds guardadas.
+ */
 export function SavedDialog({
   open,
   onClose,
@@ -56,18 +65,27 @@ export function SavedDialog({
   // Picks vigentes: descartamos ids que ya no existen (por ejemplo, tras eliminar).
   const picks = compareIds.filter((id) => items.some((item) => item.id === id))
 
+  /** Añade o quita una build de la selección, manteniendo como máximo dos.
+   * @returns No devuelve valor.
+   */
   const togglePick = (id: string) => {
     setCompareIds((current) =>
       current.includes(id) ? current.filter((entry) => entry !== id) : [...current, id].slice(-2),
     )
   }
 
+  /** Abre la comparación cuando hay exactamente dos builds seleccionadas.
+   * @returns No devuelve valor.
+   */
   const startCompare = () => {
     const pair = items.filter((item) => picks.includes(item.id)) as [SavedBuild, SavedBuild]
     if (pair.length !== 2 || pair.some((entry) => !entry)) return
     setComparePair(pair)
   }
 
+  /** Guarda la build actual tras validar que contenga al menos una pieza.
+   * @returns No devuelve valor.
+   */
   const save = () => {
     if (!hasParts) {
       notify('La build está vacía: agregá componentes primero', 'info')

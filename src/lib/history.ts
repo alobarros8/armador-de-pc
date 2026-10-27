@@ -10,6 +10,9 @@ export interface SavedBuild {
 const KEY = 'armador-pc:saved:v1'
 const MAX_SAVED = 20
 
+/** Genera un identificador corto para una build guardada.
+ * @returns Un identificador aleatorio o basado en la hora actual.
+ */
 function newId(): string {
   if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
     return crypto.randomUUID().slice(0, 8)
@@ -17,6 +20,9 @@ function newId(): string {
   return Date.now().toString(36)
 }
 
+/** Valida y normaliza una instantánea cargada desde el almacenamiento.
+ * @returns La instantánea segura o null si el dato no es un objeto válido.
+ */
 function sanitizeSnapshot(input: unknown): BuildSnapshot | null {
   if (!input || typeof input !== 'object') return null
   const raw = input as { budget?: unknown; selections?: unknown }
@@ -27,7 +33,9 @@ function sanitizeSnapshot(input: unknown): BuildSnapshot | null {
   }
 }
 
-/** Lee la lista de builds guardadas. Un item corrupto no rompe las demás. */
+/** Lee builds guardadas, omite entradas inválidas y conserva las demás.
+ * @returns Las builds válidas ordenadas de más nueva a más antigua.
+ */
 export function loadSaved(storage: Storage = window.localStorage): SavedBuild[] {
   try {
     const raw = storage.getItem(KEY)
@@ -50,6 +58,9 @@ export function loadSaved(storage: Storage = window.localStorage): SavedBuild[] 
 }
 
 /** Agrega (o reemplaza por nombre) y devuelve la lista nueva, limitada a las más recientes. */
+/** Guarda una instantánea, reemplaza una existente con el mismo nombre y limita el historial.
+ * @returns La lista actualizada de builds ordenada de más nueva a más antigua.
+ */
 export function saveSaved(
   name: string,
   snapshot: BuildSnapshot,
@@ -65,6 +76,9 @@ export function saveSaved(
   return next
 }
 
+/** Elimina una build identificada y persiste la lista resultante.
+ * @returns La lista actualizada de builds guardadas.
+ */
 export function removeSaved(
   id: string,
   storage: Storage = window.localStorage,
@@ -74,6 +88,9 @@ export function removeSaved(
   return next
 }
 
+/** Serializa la lista de builds en el almacenamiento indicado.
+ * @returns No devuelve valor.
+ */
 function persist(items: SavedBuild[], storage: Storage): void {
   try {
     storage.setItem(KEY, JSON.stringify(items))

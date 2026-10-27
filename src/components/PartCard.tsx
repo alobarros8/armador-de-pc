@@ -6,6 +6,9 @@ import { BrandBadge, CompatBadge } from './ui'
 import { PartImage } from './PartImage'
 import { cn } from '../lib/cn'
 
+/** Muestra un componente del catálogo con precio, compatibilidad y acciones de selección/detalle.
+ * @returns La tarjeta interactiva del componente.
+ */
 export function PartCard({
   part,
   selected,
@@ -30,6 +33,9 @@ export function PartCard({
     return () => window.clearTimeout(timer)
   }, [confirming])
 
+  /** Alterna la selección y activa la confirmación visual cuando se agrega correctamente.
+   * @returns No devuelve valor.
+   */
   const handleToggle = () => {
     if (confirming) return
     if (selected) {

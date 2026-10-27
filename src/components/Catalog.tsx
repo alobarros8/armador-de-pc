@@ -28,6 +28,9 @@ type SortKey = 'recomendado' | 'precio-asc' | 'precio-desc' | 'rendimiento'
 
 const EMPTY_SELECTION: string[] = []
 
+/** Filtra, ordena y presenta el catálogo de la categoría activa con datos de compatibilidad.
+ * @returns La navegación por categorías y las tarjetas de componentes disponibles.
+ */
 export function Catalog({
   activeCategory,
   selections,
@@ -100,6 +103,9 @@ export function Catalog({
       return `${part.name} ${part.brand} ${part.highlights.join(' ')}`.toLowerCase().includes(term)
     })
 
+    /** Convierte el nivel de compatibilidad en un orden numérico para ordenar resultados.
+     * @returns La prioridad de orden (compatible, aviso o incompatible).
+     */
     const rank = (level: 'ok' | 'warn' | 'bad') => (level === 'ok' ? 0 : level === 'warn' ? 1 : 2)
 
     return filtered.sort((a, b) => {
