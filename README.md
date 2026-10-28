@@ -44,13 +44,11 @@ Los armadores de PC de las tiendas validan lo básico (socket, formato), pero de
 
 ## Decisiones técnicas y aprendizajes
 
-<!-- TODO: completá con tu experiencia real. Ideas de qué contar (2-3 líneas cada una): -->
-
-- **¿Por qué beam search y no fuerza bruta?** _(ej.: el espacio de combinaciones crece multiplicativamente con cada categoría; beam search lo acota y mantiene resultados buenos.)_
-- **¿Por qué separar precios en `prices.json`?** Para actualizar precios automáticamente (GitHub Action semanal) sin tocar el catálogo ni romper builds guardadas/links/presets; el catálogo usa el valor embebido como fallback si falta una pieza, y la app muestra la fecha de última actualización. Las variaciones >±40% se marcan y no se aplican, y se prefiere PR sobre commit directo para revisar.
-- **¿Por qué 100 % frontend?** _(ej.: cero costos de hosting, el link es la build, y el catálogo es chico y curado.)_
-- **Lo más difícil:** _(ej.: que el optimizador y el motor de compatibilidad compartieran las mismas reglas sin duplicarlas.)_
-- **Qué haría distinto / próximos pasos:** _(ej.: precios automáticos, benchmarks reales en lugar de un índice orientativo.)_
+- **¿Por qué beam search y no fuerza bruta?** El espacio de combinaciones de componentes de PC crece multiplicativamente con cada categoría, haciendo inviable la fuerza bruta. Beam search permite acotar el espacio de búsqueda manteniendo en cada paso solo a los mejores candidatos, lo que garantiza resultados óptimos y tiempos de respuesta muy rápidos sin bloquear la interfaz.
+- **¿Por qué separar precios en `prices.json`?** Para actualizar precios automáticamente (GitHub Action semanal) sin tocar el catálogo ni romper builds guardadas, links o presets; el catálogo usa el valor embebido como fallback si falta una pieza, y la app muestra la fecha de última actualización. Las variaciones >±40% se marcan y no se aplican, y se prefiere PR sobre commit directo para revisar.
+- **¿Por qué 100 % frontend?** Una arquitectura estática permite cero costos de hosting y un despliegue instantáneo. Al almacenar el estado de la build directamente en la URL (como base64), el link es la build misma, eliminando la necesidad de una base de datos centralizada.
+- **Lo más difícil:** Lograr que el optimizador (beam search) y el motor de validación de compatibilidad compartieran la misma base de reglas sin duplicar la lógica de negocio, lo que permite que cualquier nueva regla aplique automáticamente a ambos flujos.
+- **Qué haría distinto / próximos pasos:** A futuro, se podrían incorporar integraciones con benchmarks reales para ofrecer un índice de rendimiento más preciso, e integrar la aplicación en forma de PWA (Progressive Web App) con soporte offline robusto, así como pruebas End-to-End más completas.
 
 ## Correrlo localmente
 
