@@ -63,7 +63,8 @@ describe('buildCard', () => {
       })
 
       const snapshot: BuildSnapshot = {
-        id: 'test-build',
+        version: 1,
+        budget: null,
         selections: {
           cpu: ['amd-ryzen-5-5600g'],
         }
@@ -106,7 +107,8 @@ describe('buildCard', () => {
       })
 
       const snapshot: BuildSnapshot = {
-        id: 'test-build',
+        version: 1,
+        budget: null,
         selections: {}
       }
 
@@ -146,7 +148,8 @@ describe('buildCard', () => {
       })
 
       const snapshot: BuildSnapshot = {
-        id: 'test-build',
+        version: 1,
+        budget: null,
         selections: {}
       }
       const meta = { total: 0, watts: 0 }
@@ -162,7 +165,7 @@ describe('buildCard', () => {
         configurable: true
       })
 
-      const snapshot: BuildSnapshot = { id: 't', selections: {} }
+      const snapshot: BuildSnapshot = { version: 1, budget: null, selections: {} }
       const meta = { total: 0, watts: 0 }
 
       await expect(createBuildCardBlob(snapshot, meta)).rejects.toThrow('La tarjeta solo se genera en el navegador.')
@@ -184,7 +187,7 @@ describe('buildCard', () => {
         return originalCreateElement(tag)
       })
 
-      const snapshot: BuildSnapshot = { id: 't', selections: {} }
+      const snapshot: BuildSnapshot = { version: 1, budget: null, selections: {} }
       const meta = { total: 0, watts: 0 }
 
       await expect(createBuildCardBlob(snapshot, meta)).rejects.toThrow('No se pudo crear el canvas.')
@@ -224,7 +227,8 @@ describe('buildCard', () => {
       })
 
       const snapshot: BuildSnapshot = {
-        id: 'test-build',
+        version: 1,
+        budget: null,
         selections: {
           cpu: ['long-name-part'],
         }
