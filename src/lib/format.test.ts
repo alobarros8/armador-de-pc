@@ -16,6 +16,12 @@ describe('format', () => {
       expect(money(1234567).replace(/\s/g, ' ')).toBe('$ 1.234.567')
     })
 
+    it('formatea ceros adecuadamente', () => {
+      expect(money(0).replace(/\s/g, ' ')).toBe('$ 0')
+      // NodeJS 18+ Intl formatter produces '-$ 0' for -0, we reflect the exact behavior
+      expect(money(-0).replace(/\s/g, ' ')).toBe('-$ 0')
+    })
+
     it('redondea los decimales correctamente', () => {
       expect(money(1234.4).replace(/\s/g, ' ')).toBe('$ 1.234')
       expect(money(1234.6).replace(/\s/g, ' ')).toBe('$ 1.235')
@@ -33,6 +39,16 @@ describe('format', () => {
       expect(percent(100)).toBe('100%')
       expect(percent(0)).toBe('0%')
     })
+
+    it('redondea .5 hacia arriba', () => {
+      expect(percent(0.5)).toBe('1%')
+      expect(percent(50.5)).toBe('51%')
+    })
+
+    it('formatea porcentajes negativos', () => {
+      expect(percent(-50.4)).toBe('-50%')
+      expect(percent(-50.6)).toBe('-51%')
+    })
   })
 
   describe('clamp()', () => {
@@ -41,6 +57,23 @@ describe('format', () => {
       expect(clamp(-5, 0, 10)).toBe(0)
       expect(clamp(15, 0, 10)).toBe(10)
     })
+
+    it('maneja rangos negativos', () => {
+      expect(clamp(-7, -10, -5)).toBe(-7)
+      expect(clamp(-15, -10, -5)).toBe(-10)
+      expect(clamp(0, -10, -5)).toBe(-5)
+    })
+
+    it('devuelve el valor correcto cuando está en los límites exactos', () => {
+      expect(clamp(0, 0, 10)).toBe(0)
+      expect(clamp(10, 0, 10)).toBe(10)
+    })
+
+    it('maneja min y max idénticos', () => {
+      expect(clamp(5, 5, 5)).toBe(5)
+      expect(clamp(0, 5, 5)).toBe(5)
+      expect(clamp(10, 5, 5)).toBe(5)
+    })
   })
 
   describe('formatDateDMY()', () => {
@@ -48,11 +81,23 @@ describe('format', () => {
       expect(formatDateDMY('2023-12-01T10:00:00Z')).toBe('01/12/2023')
       expect(formatDateDMY('2024-01-15T00:00:00')).toBe('15/01/2024')
     })
+
+    it('rellena con ceros los meses y días de un dígito', () => {
+      expect(formatDateDMY('2024-05-05T00:00:00')).toBe('05/05/2024')
+    })
+
+    it('devuelve NaN/NaN/NaN si la fecha es inválida', () => {
+      expect(formatDateDMY('fecha-invalida')).toBe('NaN/NaN/NaN')
+    })
   })
 
   describe('moneyShort()', () => {
     it('no abrevia números menores a 1000', () => {
       expect(moneyShort(999).replace(/\s/g, ' ')).toBe('$ 999')
+    })
+
+    it('formatea ceros adecuadamente', () => {
+      expect(moneyShort(0).replace(/\s/g, ' ')).toBe('$ 0')
     })
 
     it('abrevia números entre 1.000 y 999.999 con "k"', () => {
