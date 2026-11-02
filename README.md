@@ -44,13 +44,11 @@ Los armadores de PC de las tiendas validan lo básico (socket, formato), pero de
 
 ## Decisiones técnicas y aprendizajes
 
-<!-- TODO: completá con tu experiencia real. Ideas de qué contar (2-3 líneas cada una): -->
-
-- **¿Por qué beam search y no fuerza bruta?** _(ej.: el espacio de combinaciones crece multiplicativamente con cada categoría; beam search lo acota y mantiene resultados buenos.)_
+- **¿Por qué beam search y no fuerza bruta?** El espacio de combinaciones crece de forma multiplicativa al sumar categorías de componentes. La fuerza bruta se vuelve inmanejable en el navegador. Implementar *beam search* permite acotar el número de combinaciones evaluadas, descartando rápido las peores ramas y manteniendo resultados muy buenos de forma eficiente.
 - **¿Por qué separar precios en `prices.json`?** Para actualizar precios automáticamente (GitHub Action semanal) sin tocar el catálogo ni romper builds guardadas/links/presets; el catálogo usa el valor embebido como fallback si falta una pieza, y la app muestra la fecha de última actualización. Las variaciones >±40% se marcan y no se aplican, y se prefiere PR sobre commit directo para revisar.
-- **¿Por qué 100 % frontend?** _(ej.: cero costos de hosting, el link es la build, y el catálogo es chico y curado.)_
-- **Lo más difícil:** _(ej.: que el optimizador y el motor de compatibilidad compartieran las mismas reglas sin duplicarlas.)_
-- **Qué haría distinto / próximos pasos:** _(ej.: precios automáticos, benchmarks reales en lugar de un índice orientativo.)_
+- **¿Por qué 100 % frontend?** Permite eliminar los costos de hosting, ya que se puede alojar como un sitio estático. Además, el estado completo de la build se guarda en la URL, lo que significa que el link *es* la build, sin necesidad de base de datos. Como el catálogo de piezas es chico y curado, manejar esto en el lado del cliente funciona perfecto.
+- **Lo más difícil:** El mayor desafío técnico fue lograr que el optimizador y el motor de compatibilidad compartieran las mismas reglas (sockets, tamaños, fuentes, etc.) sin duplicar código y manteniendo una ejecución lo suficientemente rápida para correr en tiempo real en el navegador de los usuarios.
+- **Qué haría distinto / próximos pasos:** A futuro, me gustaría integrar benchmarks reales de componentes en lugar de depender de un índice orientativo. También buscaría automatizar la extracción de precios de más de una tienda, para ofrecer mejores comparativas.
 
 ## Correrlo localmente
 
