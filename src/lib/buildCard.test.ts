@@ -13,6 +13,9 @@ vi.mock('../data/catalog', async (importOriginal) => {
       if (id === 'long-name-part') {
         return { name: 'A Very Long Processor Name That Should Definitely Be Truncated By The Function In Order To Fit In Canvas Width', price: 50000 }
       }
+      if (id === 'free-part') {
+        return { name: 'Free Part', price: 0 }
+      }
       return actual.getPart(id)
     }
   }
@@ -191,6 +194,51 @@ describe('buildCard', () => {
       const meta = { total: 0, watts: 0 }
 
       await expect(createBuildCardBlob(snapshot, meta)).rejects.toThrow('No se pudo crear el canvas.')
+    })
+
+    it('displays "incluido" for parts with total price 0', async () => {
+      const mockContext = {
+        scale: vi.fn(),
+        fillRect: vi.fn(),
+        createLinearGradient: vi.fn().mockReturnValue({
+          addColorStop: vi.fn()
+        }),
+        fillText: vi.fn(),
+        measureText: vi.fn().mockReturnValue({ width: 50 }),
+        beginPath: vi.fn(),
+        moveTo: vi.fn(),
+        lineTo: vi.fn(),
+        stroke: vi.fn(),
+      }
+
+      const mockCanvas = document.createElement('canvas')
+      vi.spyOn(mockCanvas, 'getContext').mockReturnValue(mockContext as any)
+
+      const dummyBlob = new Blob(['dummy'], { type: 'image/png' })
+      mockCanvas.toBlob = vi.fn().mockImplementation((cb) => {
+        cb(dummyBlob)
+      })
+
+      const originalCreateElement = document.createElement.bind(document)
+      vi.spyOn(document, 'createElement').mockImplementation((tag) => {
+        if (tag === 'canvas') return mockCanvas
+        return originalCreateElement(tag)
+      })
+
+      const snapshot: BuildSnapshot = {
+        version: 1,
+        budget: null,
+        selections: {
+          cpu: ['free-part'],
+        }
+      }
+
+      const meta = { total: 0, watts: 65 }
+
+      const blob = await createBuildCardBlob(snapshot, meta)
+      expect(blob).toBe(dummyBlob)
+      // Verify that 'incluido' is displayed for the free part
+      expect(mockContext.fillText).toHaveBeenCalledWith('incluido', expect.any(Number), expect.any(Number))
     })
 
     it('truncates long text', async () => {
