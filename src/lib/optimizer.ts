@@ -232,7 +232,7 @@ const REQUIRED_CATEGORIES: Category[] = [
   'case',
 ]
 
-const BEAM_WIDTH = 320
+const BEAM_WIDTH = 480
 const MIN_SENSIBLE_BUDGET = 300_000
 const HUGE_BUDGET = 50_000_000
 

@@ -117,6 +117,15 @@ describe('removeSaved()', () => {
     saveSaved('A', snapshot, storage)
     expect(removeSaved('fantasma', storage)).toHaveLength(1)
   })
+
+  it('eliminar el único elemento resulta en una lista vacía', () => {
+    const storage = fakeStorage()
+    saveSaved('A', snapshot, storage)
+    const id = loadSaved(storage)[0].id
+    const remaining = removeSaved(id, storage)
+    expect(remaining).toHaveLength(0)
+    expect(loadSaved(storage)).toHaveLength(0)
+  })
 })
 
 describe('storage que falla', () => {
@@ -135,5 +144,19 @@ describe('storage que falla', () => {
     }
     const items = saveSaved('Irrecuperable', snapshot, storage)
     expect(items.map((item) => item.name)).toEqual(['Irrecuperable'])
+  })
+
+  it('removeSaved devuelve la lista reducida aunque no pueda persistir', () => {
+    const storage = fakeStorage()
+    saveSaved('A', snapshot, storage)
+    const id = loadSaved(storage)[0].id
+
+    // Rompemos el setItem para simular fallo al intentar guardar la nueva lista (sin 'A')
+    storage.setItem = () => {
+      throw new Error('quota exceeded')
+    }
+
+    const remaining = removeSaved(id, storage)
+    expect(remaining).toHaveLength(0)
   })
 })
