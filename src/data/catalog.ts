@@ -8,6 +8,7 @@ import type {
   Socket,
 } from '../types'
 import pricesJson from './prices.json'
+import { CG_PARTS } from './catalog-cg'
 
 interface PricesFile {
   updatedAt: string
@@ -2174,6 +2175,7 @@ export const PARTS: Part[] = [
   ...COOLERS,
   ...MONITORS,
   ...PERIPHERALS,
+  ...CG_PARTS,
 ].map(applyPrice)
 
 export const PART_BY_ID: Record<string, Part> = Object.fromEntries(

@@ -240,20 +240,118 @@ const HUGE_BUDGET = 50_000_000
 /* Precios y compatibilidad                                           */
 /* ------------------------------------------------------------------ */
 
-const MIN_PRICE: Record<Category, number> = {
-  cpu: 111_193,
-  cooler: 0,
-  motherboard: 81_407,
-  ram: 221_300,
-  gpu: 515_600,
-  storage: 136_750,
-  psu: 74_252,
-  case: 60_600,
-  monitor: 208_750,
-  keyboard: 31_200,
-  mouse: 11_050,
-  headset: 26_250,
-  extra: 7_650,
+const PRICE_FLOOR_CACHE = new Map<string, number>()
+
+/**
+ * Calcula el precio más bajo del catálogo para una categoría, teniendo en
+ * cuenta el uso y las piezas ya elegidas. Es una cota inferior para estimar
+ * lo que falta gastar: nunca descarta una build que realmente pueda existir.
+ * @returns El precio mínimo disponible, o cero si no hay piezas válidas.
+ */
+function priceFloor(
+  category: Category,
+  useCase: UseCase,
+  selections: Selections = {},
+): number {
+  const config = USE_CASES[useCase]
+  const cpu = getPart(selections.cpu?.[0])
+  const mobo = getPart(selections.motherboard?.[0])
+  const gpu = getPart(selections.gpu?.[0])
+  const pcCase = getPart(selections.case?.[0])
+
+  const cacheKey = [
+    category,
+    useCase,
+    cpu?.socket ?? '',
+    cpu?.tdp ?? '',
+    cpu?.perf ?? '',
+    gpu?.perf ?? '',
+    gpu?.wattage ?? '',
+    mobo?.socket ?? '',
+    mobo?.ramType ?? '',
+    mobo?.ramSlots ?? '',
+    mobo?.formFactor ?? '',
+    mobo?.m2Slots ?? '',
+    gpu?.gpuLength ?? '',
+    pcCase?.psuFormSupport ?? '',
+    pcCase?.maxGpuLength ?? '',
+    pcCase?.maxCoolerHeight ?? '',
+    (pcCase?.radiatorSupport ?? []).join('-'),
+  ].join('|')
+  const cached = PRICE_FLOOR_CACHE.get(cacheKey)
+  if (cached !== undefined) return cached
+
+  const parts = (PARTS_BY_CATEGORY[category] ?? []).filter((part) => {
+    if (category === 'cpu') {
+      if ((part.perf ?? 0) < config.minCpuPerf) return false
+      if (!config.requiresGpu && !part.igpu) return false
+      if (mobo && part.socket !== mobo.socket) return false
+    }
+    if (category === 'motherboard') {
+      if (config.requiresGpu) {
+        if ((part.pcieGen ?? 0) < 4) return false
+        if (/h610|a520/i.test(part.id) || /H610|A520/i.test(part.name)) return false
+      }
+      if (cpu && part.socket !== cpu.socket) return false
+    }
+    if (category === 'ram') {
+      if ((part.capacityGb ?? 0) < config.minRamGb) return false
+      if (config.requiresGpu && (part.modules ?? 1) < 2) return false
+      if (mobo) {
+        if (part.ramType !== mobo.ramType) return false
+        if ((part.modules ?? 1) > (mobo.ramSlots ?? 2)) return false
+      }
+    }
+    if (category === 'gpu' && pcCase) {
+      if ((part.gpuLength ?? 0) > (pcCase.maxGpuLength ?? 0)) return false
+    }
+    if (category === 'case') {
+      if (mobo && !(part.supportedFormFactors ?? []).includes(mobo.formFactor ?? 'ATX')) {
+        return false
+      }
+      if (gpu && (gpu.gpuLength ?? 0) > (part.maxGpuLength ?? 0)) return false
+    }
+    if (category === 'cooler') {
+      if (cpu && !(part.supportedSockets ?? []).includes(cpu.socket ?? 'AM4')) return false
+      if (pcCase) {
+        if (part.coolerType === 'aio') {
+          if (!(pcCase.radiatorSupport ?? []).includes(part.radiator ?? 0)) return false
+        } else if ((part.coolerHeight ?? 0) > (pcCase.maxCoolerHeight ?? 0)) {
+          return false
+        }
+      }
+    }
+    if (category === 'storage') {
+      if (part.storageType !== 'SSD') return false
+      if (config.requiresGpu && !part.interface?.includes('NVMe')) return false
+      if (mobo && part.interface?.includes('NVMe') && (mobo.m2Slots ?? 0) === 0) {
+        return false
+      }
+    }
+    if (category === 'psu') {
+      if (pcCase) {
+        if (pcCase.psuFormSupport === 'SFX' ? part.psuForm !== 'SFX' : part.psuForm === 'SFX') {
+          return false
+        }
+      }
+      if ((part.wattage ?? 0) < recommendedPsuFor(selections)) return false
+      if (
+        (isHighEndCpu(cpu) || isHighEndGpu(gpu) || useCase === 'gaming-1440') &&
+        !/Gold|Platinum/i.test(part.efficiency ?? '')
+      ) {
+        return false
+      }
+    }
+    return true
+  })
+
+  const value = parts.reduce(
+    (min, part) => Math.min(min, part.price),
+    Number.POSITIVE_INFINITY,
+  )
+  const floor = Number.isFinite(value) ? value : 0
+  PRICE_FLOOR_CACHE.set(cacheKey, floor)
+  return floor
 }
 
 /** Crea una clave determinista para identificar selecciones de la torre.
@@ -1007,7 +1105,7 @@ function minRemainingCost(
     const next = CATEGORY_ORDER[i]
     if (selections[next]?.length) continue
     if (next === 'gpu') {
-      if (USE_CASES[useCase].requiresGpu) total += MIN_PRICE.gpu
+      if (USE_CASES[useCase].requiresGpu) total += priceFloor('gpu', useCase, selections)
       continue
     }
     if (next === 'cooler') {
@@ -1016,10 +1114,10 @@ function minRemainingCost(
         const cpuPart = PARTS_BY_CATEGORY.cpu.find((part) => part.id === cpu)
         if (cpuPart?.stockCooler) continue
       }
-      total += 12_350
+      total += priceFloor('cooler', useCase, selections)
       continue
     }
-    total += MIN_PRICE[next]
+    total += priceFloor(next, useCase, selections)
   }
   return total
 }
@@ -1217,7 +1315,7 @@ function optionsFor(
   if (category === 'psu') {
     if (!pcCase) return []
     const psus = compatiblePsus(state.selections, pcCase)
-    return isHighEndCpu(cpu) || isHighEndGpu(gpu)
+    return isHighEndCpu(cpu) || isHighEndGpu(gpu) || input.useCase === 'gaming-1440'
       ? psus.filter((psuOption) =>
           /Gold|Platinum/i.test(psuOption.efficiency ?? ''),
         )
@@ -1560,32 +1658,6 @@ function selectProposals(
     }
   }
 
-  // La propuesta de máximo rendimiento debe ser la de mayor rendimiento de
-  // las tres; si la diversidad invirtió el orden, intercambiamos los
-  // candidatos conservando las etiquetas.
-  if (chosen.length >= 2) {
-    const maxEntry = chosen.find((entry) => entry.archetype.id === 'max')
-    const balancedEntry = chosen.find((entry) => entry.archetype.id === 'balanced')
-    if (
-      maxEntry &&
-      balancedEntry &&
-      maxEntry.candidate.performance < balancedEntry.candidate.performance
-    ) {
-      const stronger = balancedEntry.candidate
-      balancedEntry.candidate = maxEntry.candidate
-      maxEntry.candidate = stronger
-    }
-  }
-
-  // La propuesta de mejor valor debe ser la más económica de las tres;
-  // si el azar de la diversidad invirtió el orden, intercambiamos los
-  // candidatos pero conservamos las etiquetas.
-  if (chosen.length === 3 && chosen[2].candidate.total > chosen[1].candidate.total) {
-    const cheaper = chosen[1].candidate
-    chosen[1].candidate = chosen[2].candidate
-    chosen[2].candidate = cheaper
-  }
-
   // Si la diversidad dejó una sola propuesta, sumamos la mejor alternativa
   // restante para cumplir con el mínimo de dos.
   if (chosen.length < 2) {
@@ -1615,6 +1687,66 @@ function selectProposals(
       })
     if (remaining[0]) {
       chosen.push({ candidate: remaining[0], archetype: missingArchetype })
+    }
+  }
+
+  // Normaliza las etiquetas finales: "max" debe ser el candidato de mayor
+  // rendimiento y "value" el más económico, sin importar el orden en que los
+  // eligió la diversidad. Así cada propuesta conserva su significado.
+  if (chosen.length >= 2) {
+    const maxEntry = chosen.find((entry) => entry.archetype.id === 'max')
+    const valueEntry = chosen.find((entry) => entry.archetype.id === 'value')
+    const balancedEntry = chosen.find((entry) => entry.archetype.id === 'balanced')
+    const candidatesByPerformance = chosen
+      .map((entry) => entry.candidate)
+      .sort(
+        (a, b) =>
+          b.performance - a.performance || b.total - a.total,
+      )
+    const candidatesByPrice = chosen
+      .map((entry) => entry.candidate)
+      .sort((a, b) => a.total - b.total)
+    const used = new Set<Candidate>()
+
+    if (maxEntry) {
+      maxEntry.candidate = candidatesByPerformance[0]
+      used.add(maxEntry.candidate)
+    }
+    if (valueEntry) {
+      const cheapest = candidatesByPrice.find((candidate) => !used.has(candidate)) ??
+        candidatesByPrice[0]
+      valueEntry.candidate = cheapest
+      used.add(valueEntry.candidate)
+    }
+    if (balancedEntry && used.has(balancedEntry.candidate)) {
+      const remaining = candidatesByPerformance.find((candidate) => !used.has(candidate))
+      if (remaining) balancedEntry.candidate = remaining
+    }
+
+    // Si el candidato más potente también es el más barato, "value" quedaría
+    // más caro que "max". Buscamos otra build igual de potente pero más cara
+    // para que cada etiqueta conserve su significado.
+    if (
+      maxEntry &&
+      valueEntry &&
+      maxEntry.candidate.total < valueEntry.candidate.total
+    ) {
+      const current = maxEntry.candidate
+      const usedKeys = new Set(
+        chosen.map((entry) => selectionKey(entry.candidate.selections)),
+      )
+      const alternative = candidates
+        .filter(
+          (candidate) =>
+            !usedKeys.has(selectionKey(candidate.selections)) &&
+            candidate.performance >= current.performance &&
+            candidate.total >= valueEntry.candidate.total,
+        )
+        .sort(
+          (a, b) =>
+            b.performance - a.performance || b.total - a.total,
+        )[0]
+      if (alternative) maxEntry.candidate = alternative
     }
   }
 

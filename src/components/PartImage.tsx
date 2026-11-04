@@ -18,7 +18,7 @@ export function PartImage({
   imageClassName?: string
   fallbackLabel?: boolean
 }) {
-  const src = partImage(part.id)
+  const src = partImage(part.id) ?? part.image
   const [failedId, setFailedId] = useState<string | null>(null)
   const failed = failedId === part.id
 

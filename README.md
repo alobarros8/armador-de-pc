@@ -22,7 +22,7 @@ Los armadores de PC de las tiendas validan lo básico (socket, formato), pero de
 - **Armá por presupuesto:** elegís monto, uso (gaming 1080p/1440p, edición, streaming, oficina) y preferencia (rendimiento, equilibrada, compacta). Devuelve 2 o 3 builds completas, compatibles y sin advertencias.
 - **Optimizar mi build actual:** fijás las piezas que ya tenés y el motor completa o ajusta el resto dentro del presupuesto.
 - **Motor de compatibilidad:** más de 12 reglas cruzadas (socket, RAM, formato, largo de GPU, altura de cooler, radiador, consumo vs. fuente, M.2/PCIe, salida de video, cuello de botella, etc.).
-- **Catálogo de 149 piezas** AMD (AM4/AM5) e Intel (LGA1700/LGA1851) y **12 presets** por gama.
+- **Catálogo de 1.233 piezas** (149 curadas + 1.084 importadas del feed de Compra Gamer) para AMD (AM4/AM5) e Intel (LGA1700/LGA1851), periféricos y accesorios, más **12 presets** por gama.
 - **Compartir sin backend:** link, JSON, texto o archivo. Las builds guardadas viven en el navegador.
 
 ## Capturas del proyecto
@@ -65,7 +65,7 @@ npm run test     # vitest: compatibilidad, optimizador, share e historial
 ```
 src/
   components/   # Catalog, BuildPanel, Summary, OptimizerDialog, etc.
-  data/         # catálogo curado, presets e imágenes
+  data/         # catálogo curado, catálogo generado, presets e imágenes
   lib/
     compat.ts       # motor de compatibilidad
     optimizer.ts    # builds por presupuesto (beam search)
@@ -73,6 +73,15 @@ src/
     useBuild.ts     # estado y persistencia
 scripts/        # utilidades para refrescar datos de referencia
 ```
+
+## Catálogo de Compra Gamer
+
+Además de las 149 piezas curadas, la app suma 1.084 productos del feed público de Compra Gamer (componentes, periféricos y accesorios). El catálogo vive en `src/data/catalog-cg.json`, se integra en `PARTS` y participa del motor de compatibilidad y del optimizador con el mismo formato que las piezas curadas.
+
+- Generar el catálogo: `npm run catalog:cg` (lee `data/cg-productos.json` y `data/cg-caracteristicas.json`).
+- Regenerar el catálogo liviano para links/OG: `npm run catalog:lite` (escribe `api/catalog-lite.ts`).
+- Los datos faltantes no se inventan: si una spec no está en la ficha, la regla que depende de ella no se aplica.
+- Las imágenes se resuelven por hotlink al CDN de Compra Gamer; si el feed no trae foto, se usa el placeholder gráfico.
 
 ## Actualización de precios
 

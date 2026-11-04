@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const PART_IMAGES_PATH = resolve(ROOT, 'data', 'part-images.json')
+const CG_PARTS_PATH = resolve(ROOT, 'data', 'cg-parts.json')
 const PRICES_PATH = resolve(ROOT, 'src', 'data', 'prices.json')
 const CG_PRODUCTOS_URL = 'https://static.compragamer.com/productos'
 const USER_AGENT = 'ArmadorDePC-PriceUpdater/1.0 (+https://github.com/armador-de-pc)'
@@ -42,8 +43,20 @@ async function fetchWithRetry(url) {
 
 async function main() {
   const partImages = JSON.parse(await readFile(PART_IMAGES_PATH, 'utf8'))
-  const mapping = partImages.images ?? {}
-  const mappedIds = Object.keys(mapping)
+  const curatedMapping = partImages.images ?? {}
+  const cgParts = JSON.parse(await readFile(CG_PARTS_PATH, 'utf8')).parts ?? {}
+
+  // Une las piezas curadas (mapeadas por imagen) con las generadas desde el
+  // feed de Compra Gamer. Ambos formatos terminan en partId -> cgId.
+  const cgIdByPart = new Map()
+  for (const [partId, image] of Object.entries(curatedMapping)) {
+    if (typeof image?.cgId === 'number') cgIdByPart.set(partId, image.cgId)
+  }
+  for (const [partId, cgId] of Object.entries(cgParts)) {
+    const id = typeof cgId === 'number' ? cgId : cgId?.cgId
+    if (typeof id === 'number') cgIdByPart.set(partId, id)
+  }
+  const mappedIds = [...cgIdByPart.keys()]
 
   const currentPrices = JSON.parse(await readFile(PRICES_PATH, 'utf8'))
   const prices = { ...(currentPrices.prices ?? {}) }
@@ -67,7 +80,7 @@ async function main() {
   let validCount = 0
 
   for (const partId of mappedIds) {
-    const cgId = mapping[partId].cgId
+    const cgId = cgIdByPart.get(partId)
     const product = byId.get(cgId)
 
     if (!product) {

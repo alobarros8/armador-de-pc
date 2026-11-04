@@ -13,9 +13,25 @@ export type Category =
   | 'headset'
   | 'extra'
 
-export type Socket = 'AM4' | 'AM5' | 'LGA1700' | 'LGA1851'
+export type Socket =
+  | 'AM4'
+  | 'AM5'
+  | 'LGA1700'
+  | 'LGA1851'
+  | 'LGA1200'
+  | 'LGA1151'
+  | 'LGA1150'
+  | 'LGA1155'
+  | 'LGA1156'
+  | 'LGA2011'
+  | 'LGA2066'
+  | 'TR4'
+  | 'TRX4'
+  | 'AM3'
+  | 'FM2'
+  | 'FM1'
 export type RamType = 'DDR4' | 'DDR5'
-export type FormFactor = 'ATX' | 'Micro-ATX' | 'Mini-ITX'
+export type FormFactor = 'ATX' | 'Micro-ATX' | 'Mini-ITX' | 'E-ATX'
 export type CoolerType = 'air' | 'aio'
 
 export interface Spec {
@@ -33,6 +49,10 @@ export interface Part {
   highlights: string[]
   /** Notas libres que se muestran en el detalle. */
   note?: string
+  /** ID del producto en Compra Gamer, cuando la pieza viene de ese catálogo. */
+  cgId?: number
+  /** Foto remota (CDN de Compra Gamer) para piezas sin imagen local. */
+  image?: string
 
   // CPU
   socket?: Socket
@@ -50,11 +70,13 @@ export interface Part {
   formFactor?: FormFactor
   pcieGen?: number
   m2Slots?: number
+  chipset?: string
 
   // RAM
   modules?: number
   capacityGb?: number
   speed?: number
+  latency?: string
 
   // GPU
   chip?: 'AMD' | 'NVIDIA' | 'Intel'
@@ -71,6 +93,7 @@ export interface Part {
   // PSU
   efficiency?: string
   psuForm?: 'ATX' | 'SFX'
+  modular?: string
 
   // Case
   supportedFormFactors?: FormFactor[]
@@ -91,6 +114,7 @@ export interface Part {
   sizeIn?: number
   resolution?: string
   refresh?: number
+  panel?: string
 
   // Periféricos / extras
   kind?: string

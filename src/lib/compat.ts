@@ -121,7 +121,7 @@ export function analyze(selections: Selections): Analysis {
 
   /* ---------------- CPU + motherboard ---------------- */
   if (cpu && mobo) {
-    if (cpu.socket !== mobo.socket) {
+    if (cpu.socket && mobo.socket && cpu.socket !== mobo.socket) {
       add({
         id: 'socket-mismatch',
         severity: 'error',
@@ -134,7 +134,7 @@ export function analyze(selections: Selections): Analysis {
 
   /* ---------------- RAM ---------------- */
   if (ram && mobo) {
-    if (ram.ramType !== mobo.ramType) {
+    if (ram.ramType && mobo.ramType && ram.ramType !== mobo.ramType) {
       add({
         id: 'ram-type',
         severity: 'error',
@@ -143,12 +143,16 @@ export function analyze(selections: Selections): Analysis {
         categories: ['ram', 'motherboard'],
       })
     }
-    if ((ram.modules ?? 1) > (mobo.ramSlots ?? 2)) {
+    if (
+      ram.modules !== undefined &&
+      mobo.ramSlots !== undefined &&
+      ram.modules > mobo.ramSlots
+    ) {
       add({
         id: 'ram-slots',
         severity: 'error',
         title: 'No hay suficientes slots de RAM',
-        detail: `El kit usa ${ram.modules ?? 1} módulos y la motherboard tiene ${mobo.ramSlots ?? 2} slots.`,
+        detail: `El kit usa ${ram.modules} módulos y la motherboard tiene ${mobo.ramSlots} slots.`,
         categories: ['ram', 'motherboard'],
       })
     }
@@ -164,7 +168,7 @@ export function analyze(selections: Selections): Analysis {
   }
 
   if (ram) {
-    if ((ram.capacityGb ?? 0) < 16) {
+    if (ram.capacityGb !== undefined && ram.capacityGb < 16) {
       add({
         id: 'ram-low',
         severity: 'warning',
@@ -186,19 +190,27 @@ export function analyze(selections: Selections): Analysis {
 
   /* ---------------- Gabinete ---------------- */
   if (mobo && pcCase) {
-    if (!pcCase.supportedFormFactors?.includes(mobo.formFactor ?? 'ATX')) {
+    if (
+      mobo.formFactor &&
+      pcCase.supportedFormFactors?.length &&
+      !pcCase.supportedFormFactors.includes(mobo.formFactor)
+    ) {
       add({
         id: 'form-factor',
         severity: 'error',
         title: 'La motherboard no entra en el gabinete',
-        detail: `La motherboard es ${mobo.formFactor} y el gabinete soporta ${pcCase.supportedFormFactors?.join(', ')}.`,
+        detail: `La motherboard es ${mobo.formFactor} y el gabinete soporta ${pcCase.supportedFormFactors.join(', ')}.`,
         categories: ['motherboard', 'case'],
       })
     }
   }
 
   if (gpuPart && pcCase) {
-    if ((gpuPart.gpuLength ?? 0) > (pcCase.maxGpuLength ?? 0)) {
+    if (
+      gpuPart.gpuLength !== undefined &&
+      pcCase.maxGpuLength !== undefined &&
+      gpuPart.gpuLength > pcCase.maxGpuLength
+    ) {
       add({
         id: 'gpu-length',
         severity: 'error',
@@ -209,7 +221,7 @@ export function analyze(selections: Selections): Analysis {
     }
   }
 
-  if (psuPart && pcCase && pcCase.psuFormSupport === 'SFX' && psuPart.psuForm !== 'SFX') {
+  if (psuPart && pcCase && pcCase.psuFormSupport === 'SFX' && psuPart.psuForm && psuPart.psuForm !== 'SFX') {
     add({
       id: 'psu-form-factor',
       severity: 'error',
@@ -220,7 +232,7 @@ export function analyze(selections: Selections): Analysis {
   }
 
   /* ---------------- Cooler ---------------- */
-  if (cpu && !cooler && !cpu.stockCooler) {
+  if (cpu && !cooler && cpu.stockCooler === false) {
     add({
       id: 'missing-cooler',
       severity: 'warning',
@@ -231,7 +243,11 @@ export function analyze(selections: Selections): Analysis {
   }
 
   if (cooler && cpu) {
-    if (cooler.supportedSockets && !cooler.supportedSockets.includes(cpu.socket ?? 'AM4')) {
+    if (
+      cooler.supportedSockets?.length &&
+      cpu.socket &&
+      !cooler.supportedSockets.includes(cpu.socket)
+    ) {
       add({
         id: 'cooler-socket',
         severity: 'error',
@@ -240,7 +256,7 @@ export function analyze(selections: Selections): Analysis {
         categories: ['cooler', 'cpu'],
       })
     }
-    if (cooler.included && !cpu.stockCooler) {
+    if (cooler.included && cpu.stockCooler === false) {
       add({
         id: 'cooler-not-included',
         severity: 'error',
@@ -249,7 +265,11 @@ export function analyze(selections: Selections): Analysis {
         categories: ['cooler', 'cpu'],
       })
     }
-    if ((cooler.coolerTdp ?? 0) < (cpu.tdp ?? 0)) {
+    if (
+      cooler.coolerTdp !== undefined &&
+      cpu.tdp !== undefined &&
+      cooler.coolerTdp < cpu.tdp
+    ) {
       add({
         id: 'cooler-tdp',
         severity: 'warning',
@@ -257,7 +277,11 @@ export function analyze(selections: Selections): Analysis {
         detail: `El cooler disipa hasta ${cooler.coolerTdp} W y el CPU declara ${cpu.tdp} W. Puede calentar de más y bajar frecuencias.`,
         categories: ['cooler', 'cpu'],
       })
-    } else if ((cooler.coolerTdp ?? 0) < (cpu.tdp ?? 0) * 1.15) {
+    } else if (
+      cooler.coolerTdp !== undefined &&
+      cpu.tdp !== undefined &&
+      cooler.coolerTdp < cpu.tdp * 1.15
+    ) {
       add({
         id: 'cooler-tight',
         severity: 'info',
@@ -269,7 +293,12 @@ export function analyze(selections: Selections): Analysis {
   }
 
   if (cooler && pcCase) {
-    if (cooler.coolerType === 'air' && (cooler.coolerHeight ?? 0) > (pcCase.maxCoolerHeight ?? 0)) {
+    if (
+      cooler.coolerType === 'air' &&
+      cooler.coolerHeight !== undefined &&
+      pcCase.maxCoolerHeight !== undefined &&
+      cooler.coolerHeight > pcCase.maxCoolerHeight
+    ) {
       add({
         id: 'cooler-height',
         severity: 'error',
@@ -280,7 +309,9 @@ export function analyze(selections: Selections): Analysis {
     }
     if (
       cooler.coolerType === 'aio' &&
-      !(pcCase.radiatorSupport ?? []).includes(cooler.radiator ?? 0)
+      cooler.radiator !== undefined &&
+      pcCase.radiatorSupport?.length &&
+      !pcCase.radiatorSupport.includes(cooler.radiator)
     ) {
       add({
         id: 'cooler-radiator',
@@ -293,7 +324,7 @@ export function analyze(selections: Selections): Analysis {
   }
 
   /* ---------------- GPU / video ---------------- */
-  if (!gpuPart && cpu && !cpu.igpu) {
+  if (!gpuPart && cpu && cpu.igpu === false) {
     add({
       id: 'no-video',
       severity: 'error',
@@ -325,8 +356,8 @@ export function analyze(selections: Selections): Analysis {
 
   /* ---------------- Fuente ---------------- */
   if (psuPart) {
-    const psuWatts = psuPart.wattage ?? 0
-    if (psuWatts < watts) {
+    const psuWatts = psuPart.wattage
+    if (psuWatts !== undefined && psuWatts < watts) {
       add({
         id: 'psu-low',
         severity: 'error',
@@ -334,7 +365,7 @@ export function analyze(selections: Selections): Analysis {
         detail: `El consumo estimado es ${watts} W y la fuente entrega ${psuWatts} W. Riesgo de apagados y daño a componentes.`,
         categories: ['psu'],
       })
-    } else if (psuWatts < recommendedPsu) {
+    } else if (psuWatts !== undefined && psuWatts < recommendedPsu) {
       add({
         id: 'psu-tight',
         severity: 'warning',
@@ -356,7 +387,11 @@ export function analyze(selections: Selections): Analysis {
 
   /* ---------------- Almacenamiento ---------------- */
   const nvmeParts = storageParts.filter((part) => part.interface?.includes('NVMe'))
-  if (mobo && nvmeParts.length > (mobo.m2Slots ?? 0)) {
+  if (
+    mobo &&
+    mobo.m2Slots !== undefined &&
+    nvmeParts.length > mobo.m2Slots
+  ) {
     add({
       id: 'm2-slots',
       severity: 'warning',
@@ -366,7 +401,11 @@ export function analyze(selections: Selections): Analysis {
     })
   }
   for (const drive of storageParts) {
-    if (drive.interface?.includes('5.0') && (mobo?.pcieGen ?? 0) < 5) {
+    if (
+      drive.interface?.includes('5.0') &&
+      mobo?.pcieGen !== undefined &&
+      mobo.pcieGen < 5
+    ) {
       add({
         id: `gen5-${drive.id}`,
         severity: 'info',
@@ -485,48 +524,75 @@ export function partCompatibility(part: Part, selections: Selections): {
   const pcCase = getPart(selections.case?.[0])
   const psu = getPart(selections.psu?.[0])
 
-  if (part.category === 'cpu' && mobo && part.socket !== mobo.socket) {
+  if (part.category === 'cpu' && mobo && part.socket && mobo.socket && part.socket !== mobo.socket) {
     return { level: 'bad', reason: `Socket ${part.socket} ≠ ${mobo.socket}` }
   }
-  if (part.category === 'motherboard' && cpu && part.socket !== cpu.socket) {
+  if (part.category === 'motherboard' && cpu && part.socket && cpu.socket && part.socket !== cpu.socket) {
     return { level: 'bad', reason: `Socket ${part.socket} ≠ ${cpu.socket}` }
   }
-  if (part.category === 'motherboard' && pcCase && !pcCase.supportedFormFactors?.includes(part.formFactor ?? 'ATX')) {
+  if (
+    part.category === 'motherboard' &&
+    pcCase &&
+    part.formFactor &&
+    pcCase.supportedFormFactors?.length &&
+    !pcCase.supportedFormFactors.includes(part.formFactor)
+  ) {
     return { level: 'bad', reason: `No entra en el gabinete (${part.formFactor})` }
   }
-  if (part.category === 'ram' && mobo && part.ramType !== mobo.ramType) {
+  if (part.category === 'ram' && mobo && part.ramType && mobo.ramType && part.ramType !== mobo.ramType) {
     return { level: 'bad', reason: `Necesitás ${mobo.ramType}` }
   }
-  if (part.category === 'ram' && mobo && (part.modules ?? 1) > (mobo.ramSlots ?? 4)) {
+  if (
+    part.category === 'ram' &&
+    mobo &&
+    part.modules !== undefined &&
+    mobo.ramSlots !== undefined &&
+    part.modules > mobo.ramSlots
+  ) {
     return { level: 'bad', reason: `La mother tiene ${mobo.ramSlots} slots` }
   }
-  if (part.category === 'gpu' && pcCase && (part.gpuLength ?? 0) > (pcCase.maxGpuLength ?? 0)) {
+  if (
+    part.category === 'gpu' &&
+    pcCase &&
+    part.gpuLength !== undefined &&
+    pcCase.maxGpuLength !== undefined &&
+    part.gpuLength > pcCase.maxGpuLength
+  ) {
     return { level: 'bad', reason: `Mide ${part.gpuLength} mm, entran ${pcCase.maxGpuLength} mm` }
   }
-  if (part.category === 'case' && mobo && !part.supportedFormFactors?.includes(mobo.formFactor ?? 'ATX')) {
+  if (
+    part.category === 'case' &&
+    mobo &&
+    mobo.formFactor &&
+    part.supportedFormFactors?.length &&
+    !part.supportedFormFactors.includes(mobo.formFactor)
+  ) {
     return { level: 'bad', reason: `No soporta ${mobo.formFactor}` }
   }
-  if (part.category === 'case' && psu && part.psuFormSupport === 'SFX' && psu.psuForm !== 'SFX') {
-    return { level: 'bad', reason: `Necesita fuente SFX (elegiste ${psu.psuForm ?? 'ATX'})` }
+  if (part.category === 'case' && psu && part.psuFormSupport === 'SFX' && psu.psuForm && psu.psuForm !== 'SFX') {
+    return { level: 'bad', reason: `Necesita fuente SFX (elegiste ${psu.psuForm})` }
   }
-  if (part.category === 'psu' && pcCase && pcCase.psuFormSupport === 'SFX' && part.psuForm !== 'SFX') {
+  if (part.category === 'psu' && pcCase && pcCase.psuFormSupport === 'SFX' && part.psuForm && part.psuForm !== 'SFX') {
     return { level: 'bad', reason: `El ${pcCase.name} usa fuente SFX` }
   }
   if (
     part.category === 'cooler' &&
     cpu &&
-    part.supportedSockets &&
-    !part.supportedSockets.includes(cpu.socket ?? 'AM4')
+    part.supportedSockets?.length &&
+    cpu.socket &&
+    !part.supportedSockets.includes(cpu.socket)
   ) {
     return { level: 'bad', reason: `No soporta ${cpu.socket}` }
   }
-  if (part.category === 'cooler' && part.included && cpu && !cpu.stockCooler) {
+  if (part.category === 'cooler' && part.included && cpu && cpu.stockCooler === false) {
     return { level: 'bad', reason: 'No viene incluido con este CPU' }
   }
   if (
     part.category === 'cooler' &&
     cpu &&
-    (part.coolerTdp ?? 0) < (cpu.tdp ?? 0)
+    part.coolerTdp !== undefined &&
+    cpu.tdp !== undefined &&
+    part.coolerTdp < cpu.tdp
   ) {
     return { level: 'warn', reason: 'Puede quedar corto para este CPU' }
   }
@@ -534,7 +600,9 @@ export function partCompatibility(part: Part, selections: Selections): {
     part.category === 'cooler' &&
     pcCase &&
     part.coolerType === 'air' &&
-    (part.coolerHeight ?? 0) > (pcCase.maxCoolerHeight ?? 0)
+    part.coolerHeight !== undefined &&
+    pcCase.maxCoolerHeight !== undefined &&
+    part.coolerHeight > pcCase.maxCoolerHeight
   ) {
     return { level: 'bad', reason: `Alto ${part.coolerHeight} mm, entran ${pcCase.maxCoolerHeight} mm` }
   }
@@ -542,17 +610,19 @@ export function partCompatibility(part: Part, selections: Selections): {
     part.category === 'cooler' &&
     pcCase &&
     part.coolerType === 'aio' &&
-    !(pcCase.radiatorSupport ?? []).includes(part.radiator ?? 0)
+    part.radiator !== undefined &&
+    pcCase.radiatorSupport?.length &&
+    !pcCase.radiatorSupport.includes(part.radiator)
   ) {
     return { level: 'bad', reason: `Radiador ${part.radiator} mm no soportado` }
   }
   if (part.category === 'psu' && cpu) {
     const needed = estimateWatts(selections)
     const recommended = Math.max(450, Math.ceil((needed * 1.35) / 50) * 50)
-    if ((part.wattage ?? 0) < needed) {
+    if (part.wattage !== undefined && part.wattage < needed) {
       return { level: 'bad', reason: `Consumo estimado ${needed} W` }
     }
-    if ((part.wattage ?? 0) < recommended) {
+    if (part.wattage !== undefined && part.wattage < recommended) {
       return { level: 'warn', reason: `Recomendado ${recommended} W` }
     }
   }
@@ -560,7 +630,11 @@ export function partCompatibility(part: Part, selections: Selections): {
     const nvme = (selections.storage ?? []).filter((id) =>
       getPart(id)?.interface?.includes('NVMe'),
     ).length
-    if (part.interface?.includes('NVMe') && nvme >= (mobo.m2Slots ?? 0)) {
+    if (
+      part.interface?.includes('NVMe') &&
+      mobo.m2Slots !== undefined &&
+      nvme >= mobo.m2Slots
+    ) {
       return { level: 'warn', reason: 'Sin slots M.2 libres' }
     }
   }

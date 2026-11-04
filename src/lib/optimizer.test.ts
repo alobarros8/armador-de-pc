@@ -301,7 +301,7 @@ describe('optimizeBuild', () => {
 
   it('explica el presupuesto mínimo cuando no alcanza', () => {
     const result = optimizeBuild({
-      budget: 1_200_000,
+      budget: 900_000,
       useCase: 'gaming-1080',
       preference: 'balanced',
     })
